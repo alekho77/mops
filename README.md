@@ -1,42 +1,42 @@
 # MOPS
 
-**MOPS** — персональный local-first ИИ-слой над цифровой жизнью пользователя.
+**MOPS** is a personal local-first AI layer for a user's digital life.
 
-Это индивидуальный продукт для одного человека и его личных устройств. Не командная платформа, не корпоративная база знаний и не облачный сервис как главный источник истины.
+It is an individual product for one person and their personal devices. It is not a team platform, not an enterprise knowledge base, and not a cloud service where the server is the primary source of truth.
 
-Главная идея: создать личного «мопса» — персонального ИИ-агента, который постепенно накапливает, структурирует и переиспользует смысловую память пользователя.
+The core idea is to create a personal “Mops” — an AI agent that gradually accumulates, structures, and reuses the user's semantic memory.
 
-## Цель проекта
+## Project goal
 
-MOPS помогает пользователю:
+MOPS helps the user:
 
-- быстро фиксировать мысли, заметки и голосовые фрагменты;
-- искать по личному контексту семантически, а не только по ключевым словам;
-- связывать заметки, документы, проекты, ссылки и идеи;
-- восстанавливать контекст прошлых решений;
-- автоматически выделять проекты, темы, задачи и смысловые кластеры;
-- работать с собственной памятью локально и приватно.
+- capture thoughts, notes, and voice fragments quickly;
+- search personal context semantically, not only by keywords;
+- connect notes, documents, projects, links, and ideas;
+- restore the context of past decisions;
+- automatically extract projects, topics, tasks, and semantic clusters;
+- work with personal memory locally and privately.
 
-## Базовый принцип
+## Core principle
 
-MOPS не хранит полные документы внутри векторной базы.
+MOPS does not store full documents inside the vector database.
 
-В semantic DB хранятся только:
+The semantic DB stores only:
 
-- короткие смысловые фрагменты;
-- summary;
+- short semantic fragments;
+- summaries;
 - embeddings;
 - metadata;
 - entities;
 - semantic tags;
-- связи между фрагментами;
-- ссылки на исходные документы;
+- relations between fragments;
+- links to source documents;
 - device/path references;
-- fingerprints и hashes для восстановления источников.
+- fingerprints and hashes for source recovery.
 
-Исходные файлы остаются там, где они уже лежат: на телефоне, ноутбуке, десктопе, внешнем диске или в облачной папке пользователя.
+The original files stay where they already are: on the phone, laptop, desktop, external drive, or in the user's cloud folder.
 
-## Архитектура
+## Architecture
 
 ```text
 Device A
@@ -58,21 +58,21 @@ Cloud Drive
   Backups
 ```
 
-## Local-first модель
+## Local-first model
 
-Каждое устройство хранит полную копию semantic DB.
+Each device stores a full copy of the semantic DB.
 
-Облако используется не как главный backend, а как зашифрованный транспорт синхронизации и резервных копий.
+Cloud storage is used not as the primary backend, but as an encrypted transport for synchronization and backups.
 
-Подходящие варианты:
+Suitable options include:
 
 - Google Drive;
 - OneDrive;
 - Dropbox;
 - iCloud Drive;
-- WebDAV/S3-compatible storage в будущем.
+- WebDAV/S3-compatible storage in the future.
 
-## Что синхронизируется
+## What is synchronized
 
 - semantic chunks;
 - summaries;
@@ -86,22 +86,22 @@ Cloud Drive
 - encrypted snapshots;
 - append-only changelog.
 
-## Что не синхронизируется как source of truth
+## What is not synchronized as source of truth
 
 - live `db.sqlite`;
 - SQLite WAL files;
 - ANN/HNSW/Faiss indexes;
 - temporary caches;
 - raw documents by default;
-- photos, videos, audio and large binary files by default.
+- photos, videos, audio, and large binary files by default.
 
-Vector index считается производным локальным кэшем. Его можно пересобрать на каждом устройстве из semantic DB.
+The vector index is treated as a derived local cache. It can be rebuilt on each device from the semantic DB.
 
 ## Source Resolver
 
-Отдельный слой отвечает за восстановление ссылок на исходные документы.
+A separate layer is responsible for restoring links to original documents.
 
-Он отслеживает:
+It tracks:
 
 - `document_id`;
 - `device_id`;
@@ -113,35 +113,35 @@ Vector index считается производным локальным кэш
 - `last_seen_at`;
 - `availability`.
 
-Если файл переехал, был переименован или временно недоступен, semantic memory не ломается. Ломается только доступ к первоисточнику, который можно восстановить позднее.
+If a file is moved, renamed, or temporarily unavailable, semantic memory does not break. Only access to the original source is affected, and it can be restored later.
 
 ## MVP
 
-Первый реалистичный MVP:
+The first realistic MVP:
 
-1. Mobile-first приложение.
+1. Mobile-first application.
 2. Local SQLite semantic DB.
-3. Локальный vector search.
-4. Ручные заметки, голосовые заметки, ссылки и выбранные документы.
-5. Короткие semantic chunks вместо полного хранения документов.
-6. Зашифрованная синхронизация через личную cloud folder.
-7. Source Resolver для проверки и восстановления ссылок.
-8. Простая semantic cleanup-механика.
+3. Local vector search.
+4. Manual notes, voice notes, links, and selected documents.
+5. Short semantic chunks instead of full document storage.
+6. Encrypted synchronization through the user's personal cloud folder.
+7. Source Resolver for link checking and recovery.
+8. Basic semantic cleanup mechanism.
 
-## Почему mobile-first
+## Why mobile-first
 
-Телефон — естественный центр MOPS:
+The phone is the natural center of MOPS:
 
-- всегда рядом;
-- содержит голос, камеру, заметки, ссылки, файлы и уведомления;
-- подходит для быстрой фиксации мыслей;
-- становится постоянным интерфейсом к личной памяти.
+- it is always nearby;
+- it contains voice, camera, notes, links, files, and notifications;
+- it is well suited for quickly capturing thoughts;
+- it becomes the persistent interface to personal memory.
 
-Десктоп и домашний сервер могут использоваться для тяжёлой индексации, batch processing и работы с большими архивами.
+Desktop machines and home servers can be used for heavy indexing, batch processing, and large archives.
 
-## Хранение данных
+## Data storage
 
-Ориентир для MVP:
+MVP target:
 
 ```text
 100 semantic chunks/day
@@ -150,7 +150,7 @@ FP32 or INT8 vectors
 short text + summary + metadata
 ```
 
-Примерная оценка на 5 лет:
+Estimated size for 5 years:
 
 ```text
 100 chunks/day × 365 × 5 = 182,500 chunks
@@ -161,26 +161,26 @@ short text + summary + metadata
 Full semantic DB with metadata ≈ hundreds of MB to ~1–2 GB
 ```
 
-Это делает возможным многолетнюю персональную semantic memory даже в рамках небольшого личного облачного хранилища.
+This makes multi-year personal semantic memory possible even within a small personal cloud storage quota.
 
-## Важные ограничения
+## Important constraints
 
-MOPS не должен превращаться в бездумный индексатор всего подряд.
+MOPS should not become a blind indexer of everything.
 
-Главные риски:
+Main risks:
 
-- слишком много низкокачественных chunks;
-- дубликаты;
-- устаревшие связи;
-- несовместимые embedding models;
-- сломанные пути к файлам;
-- переиндексация после смены модели;
-- ограничения мобильных ОС на фоновые задачи;
-- рост changelog без compact/snapshot механики.
+- too many low-quality chunks;
+- duplicates;
+- stale relations;
+- incompatible embedding models;
+- broken file paths;
+- reindexing after model changes;
+- mobile OS background execution limits;
+- changelog growth without compaction/snapshot mechanisms.
 
-Поэтому MOPS должен быть не пылесосом данных, а фильтром личного смысла.
+Therefore, MOPS should be a filter of personal meaning, not a data vacuum cleaner.
 
-## Принципы дизайна
+## Design principles
 
 - Individual-first.
 - Local-first.
@@ -195,21 +195,21 @@ MOPS не должен превращаться в бездумный индек
 - Explicit model versioning.
 - Encrypted sync from day one.
 
-## Нецели
+## Non-goals
 
-MOPS не предназначен для:
+MOPS is not intended for:
 
-- командной работы;
-- корпоративной базы знаний;
-- совместного редактирования;
+- team collaboration;
+- enterprise knowledge bases;
+- collaborative editing;
 - realtime collaboration;
-- общих рабочих пространств;
-- сложных ACL;
-- хранения всех пользовательских файлов внутри своей базы;
-- обязательного облачного backend как master-сервера.
+- shared workspaces;
+- complex ACLs;
+- storing all user files inside its own database;
+- a mandatory cloud backend as the master server.
 
-## Статус
+## Status
 
-Проект находится на стадии проектирования архитектуры и MVP.
+The project is in the architecture and MVP design stage.
 
-Первый фокус: компактная, приватная, синхронизируемая semantic memory для одного пользователя и его личных устройств.
+The first focus is a compact, private, synchronized semantic memory for one user and their personal devices.
