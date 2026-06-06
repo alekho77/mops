@@ -17,6 +17,11 @@
 - Desktop app is processing-first.
 - Mobile and desktop product code should live in one monorepo.
 - Independent low-level engine forks should live in separate repositories.
+- Mobile MVP uses Flutter.
+- Dart is the primary mobile application language.
+- `apps/mobile` targets iOS and Android from one shared Flutter codebase.
+- Rust is not part of the first mobile MVP by default.
+- Rust remains a future option only for a measured portable local core need.
 
 ## MVP pipeline
 
@@ -60,6 +65,8 @@ mops/
 
 ### apps/mobile
 
+- Flutter/Dart application.
+- Shared iOS and Android codebase.
 - voice capture;
 - text capture;
 - offline inbox;
@@ -68,7 +75,8 @@ mops/
 - lightweight semantic search;
 - suggested cluster review;
 - manual correction;
-- compact project pages.
+- compact project pages;
+- narrow native platform adapters where required.
 
 ### apps/desktop
 
@@ -138,6 +146,36 @@ mops/
 ### packages/shared-types
 
 - shared DTOs and contracts.
+
+## Mobile stack
+
+Selected for MVP:
+
+- Flutter;
+- Dart;
+- one shared iOS/Android codebase in `apps/mobile`.
+
+Expected validation after mobile code is introduced:
+
+```text
+flutter analyze
+flutter test
+real iOS device build
+real Android device build
+```
+
+Native adapters are allowed for:
+
+- permissions;
+- file access;
+- speech integration;
+- background execution limits;
+- local notifications;
+- secure storage.
+
+Do not put heavy semantic engine logic directly into Flutter UI code.
+
+Rust is deferred from the first mobile MVP and may be introduced later only behind explicit interfaces for heavy local vector search, indexing, large file processing, or reusable cross-platform core logic.
 
 ## Current data model assumptions
 
@@ -287,7 +325,6 @@ Open implementation choices:
 
 ## Not yet selected
 
-- Mobile framework.
 - Desktop framework.
 - Exact embedding model.
 - Vector index library.
@@ -300,6 +337,7 @@ Open implementation choices:
 
 ## Explicitly deferred from first MVP
 
+- Rust-based mobile core engine.
 - Photo analysis.
 - Document ingestion.
 - Web URL scraping.
@@ -331,3 +369,5 @@ Open implementation choices:
 - Raw transcription and cleaned note must be stored separately.
 - Automatic cluster/project assignment must remain editable.
 - User corrections must be stored as first-class events.
+- Flutter UI code must not become the semantic engine boundary.
+- Platform-specific mobile code must stay behind narrow Dart-facing adapters.
