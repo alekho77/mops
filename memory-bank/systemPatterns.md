@@ -17,6 +17,117 @@ It is a voice-first personal AI orchestration system, not only a task manager an
 - Vector index as rebuildable local cache.
 - Raw files remain outside vector DB by default.
 - Model Layer produces vectors; Vector DB Layer stores and searches vectors.
+- Mobile app is a capture client for MVP.
+- Desktop app is the semantic memory engine for MVP.
+- Shared product logic belongs in the main monorepo.
+- Low-level model/vector DB forks belong in separate repositories.
+
+## Voice/Text Inbox MVP pattern
+
+The first MVP is narrowed to:
+
+```text
+Voice/Text Inbox
+  -> transcription
+  -> cleaned note
+  -> embedding
+  -> semantic search
+  -> suggested clusters
+  -> manual correction
+  -> project pages
+```
+
+The MVP must optimize for low-friction chaotic input, not perfect automatic organization.
+
+Core rule:
+
+```text
+capture first
+process later
+suggest organization
+store corrections
+```
+
+## Mobile capture client pattern
+
+For MVP, the mobile app owns fast capture and lightweight review.
+
+Responsibilities:
+
+- voice note capture;
+- text note capture;
+- offline local inbox;
+- raw transcription display;
+- cleaned note display;
+- processing status display;
+- lightweight semantic search;
+- cluster/project suggestion review;
+- manual correction of project assignment;
+- compact project pages.
+
+Mobile must not be required to own heavy indexing, model migration, full reindexing, or deep batch processing in the first MVP.
+
+## Desktop semantic engine pattern
+
+For MVP, the desktop app owns heavy processing and organization.
+
+Responsibilities:
+
+- full inbox review;
+- transcription reprocessing;
+- cleaned note generation;
+- embedding pipeline;
+- local semantic DB management;
+- vector index management;
+- semantic search;
+- cluster building;
+- project page generation;
+- manual correction workflows;
+- model/version migration support later.
+
+Desktop is the preferred place to debug storage, embeddings, clustering, and project extraction.
+
+## Suggestion over silent automation pattern
+
+MOPS must not silently treat AI classification as truth.
+
+Automatic classification creates suggestions:
+
+- candidate domain;
+- candidate project;
+- candidate cluster;
+- confidence;
+- alternative candidates when available.
+
+User actions are first-class events:
+
+- confirm suggestion;
+- reject suggestion;
+- move note to another project;
+- create new project;
+- merge clusters;
+- split clusters.
+
+Corrections become training/adaptation signals.
+
+## Raw and interpreted memory separation pattern
+
+Raw capture must not be overwritten by AI interpretation.
+
+A captured thought can produce multiple derived records:
+
+```text
+RawNote
+  -> Transcription
+  -> CleanedNote
+  -> Summary
+  -> EmbeddingRecord
+  -> SuggestedCluster
+  -> ProjectAssignment
+  -> CorrectionEvent
+```
+
+Raw input remains available as source of truth. Cleaned notes, summaries, entities, clusters, and project assignments are derived interpretations.
 
 ## Personal MOPS agent pattern
 
