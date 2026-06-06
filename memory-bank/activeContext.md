@@ -29,6 +29,10 @@ MOPS is in architecture and MVP definition stage.
 - Automatic classification must suggest, not silently decide. User correction is a first-class event.
 - Raw transcription and cleaned note must be stored separately.
 - First MVP excludes photo analysis, document ingestion, web scraping, browser extension, GitHub ingestion, full knowledge graph, custom vector DB fork, and custom model training.
+- Repository licensing accepted: PolyForm Noncommercial License 1.0.0 in `LICENSE.md`.
+- Repository is source-available / noncommercial, not OSI-approved open source.
+- Personal and noncommercial use is allowed; commercial use requires separate written permission or a commercial license from Aleksei Khozin.
+- Required notice: `Required Notice: Copyright 2026 Aleksei Khozin (https://github.com/alekho77)`.
 
 ## Current open choices
 
