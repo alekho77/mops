@@ -294,3 +294,30 @@ Tracked results:
 - failed delegation.
 
 Feedback affects prioritization, decomposition, planning, and delegation decisions.
+
+## Repository licensing boundary
+
+MOPS repository is source-available under PolyForm Noncommercial License 1.0.0.
+
+Allowed without separate permission:
+
+- reading source code;
+- downloading source code;
+- building applications;
+- personal use;
+- noncommercial use.
+
+Not allowed without separate written permission or commercial license:
+
+- commercial use;
+- selling MOPS-based products;
+- embedding MOPS into commercial products;
+- using MOPS as the basis for paid services or commercial systems.
+
+Required notice must remain attached to redistributed copies:
+
+```text
+Required Notice: Copyright 2026 Aleksei Khozin (https://github.com/alekho77)
+```
+
+This is a repository distribution boundary, not a runtime architecture boundary.
