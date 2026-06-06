@@ -30,3 +30,19 @@ It is not a team platform, enterprise knowledge base, collaborative workspace, o
 - Do not replace source files with vector memory.
 - Treat vector indexes as rebuildable local caches.
 - Treat semantic DB and memory metadata as the durable source of truth.
+
+## Source file headers
+
+Every new or modified source file must start with a language-native comment header:
+
+```text
+Copyright 2026 Aleksei Khozin (https://github.com/alekho77)
+License: PolyForm Noncommercial License 1.0.0. See LICENSE.md.
+```
+
+Rules:
+
+- Use the comment syntax of the target language or file format.
+- If a file has a shebang, keep the shebang as the first line and place the header immediately after it.
+- Do not add this header to generated files, vendored files, lockfiles, binary assets, or documentation files.
+- Preserve existing external copyright notices.
