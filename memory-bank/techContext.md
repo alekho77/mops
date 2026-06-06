@@ -11,6 +11,7 @@
 - Vector index treated as a rebuildable cache.
 - Original files remain outside vector DB.
 - Explicit model and embedding versioning required.
+- Embedding/custom linguistic models are separated from vector DB implementation.
 
 ## Current data model assumptions
 
@@ -30,6 +31,21 @@ Semantic DB stores:
 - task classification events;
 - goal decomposition events;
 - execution feedback events.
+
+Vector records require:
+
+- vector id;
+- source id;
+- chunk id;
+- model id;
+- model version;
+- vector dimension;
+- distance metric;
+- content hash;
+- created timestamp;
+- source reference;
+- domain tags;
+- user/project scope when available.
 
 ## Integration targets
 
@@ -52,6 +68,7 @@ Required model capabilities:
 
 - speech-to-text;
 - semantic embedding;
+- custom linguistic vector support;
 - summarization;
 - entity extraction;
 - task extraction;
@@ -83,3 +100,5 @@ Required model capabilities:
 - Sync must not depend on live SQLite database files.
 - ANN/HNSW/Faiss indexes must not be treated as sync source of truth.
 - Raw binary media should not be synchronized by default.
+- Vectors from incompatible models must not be mixed in one searchable space.
+- Vector dimension and distance metric must match the selected model and index.
