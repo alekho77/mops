@@ -18,6 +18,9 @@ MOPS is in architecture and MVP definition stage.
 - MOPS should prepare execution-ready packages for AI agents.
 - Successful and failed task execution should feed back into future planning and classification.
 - Three MVP slices are currently viable: Voice Task Manager MVP, Memory-first MVP, Agent-first MVP.
+- Model Layer must be separated from Vector DB Layer: models produce embeddings/custom linguistic vectors, while vector DB stores ready vectors, indexes them, and searches nearest neighbors.
+- MOPS Semantic Engine coordinates parsing, chunking, embedding, vector storage, search, source references, and context reconstruction.
+- Vector DB is not semantic source of truth; it is searchable infrastructure over source-linked memory records.
 
 ## Current open choice
 
