@@ -33,6 +33,14 @@ MOPS is in architecture and MVP definition stage.
 - Repository is source-available / noncommercial, not OSI-approved open source.
 - Personal and noncommercial use is allowed; commercial use requires separate written permission or a commercial license from Aleksei Khozin.
 - Required notice: `Required Notice: Copyright 2026 Aleksei Khozin (https://github.com/alekho77)`.
+- MOPS is explicitly individual-first: no teams, shared workspaces, realtime collaboration, enterprise access-control lists, or server-owned source of truth.
+- Each personal device should keep a full local copy of the semantic DB.
+- Personal cloud storage is accepted as encrypted sync and backup transport, not as the live database or master backend.
+- The semantic DB stores compact meaning: short chunks, summaries, embeddings, metadata, relations, entities, model metadata, and source references.
+- Raw files remain outside the semantic/vector DB by default; records keep device/path references and fingerprints.
+- Live SQLite files, WAL files, and ANN/vector indexes must not be synchronized as source of truth.
+- Source Resolver is required for broken path checks, source recovery, availability tracking, and device-aware resolution.
+- Long-term storage quality requires semantic budget, deduplication, compaction, stale relation cleanup, and cluster compression.
 
 ## Current open choices
 
