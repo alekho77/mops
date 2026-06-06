@@ -266,6 +266,15 @@ Required model capabilities later:
 - Custom model training.
 - Full iOS + Android + macOS + Windows + Linux launch at once.
 
+## Repository license configuration
+
+- License file: `LICENSE.md`.
+- License: PolyForm Noncommercial License 1.0.0.
+- Required notice: `Required Notice: Copyright 2026 Aleksei Khozin (https://github.com/alekho77)`.
+- Commercial use requires separate written permission or a commercial license from Aleksei Khozin.
+- The repository is source-available / noncommercial, not OSI-approved open source.
+- Future third-party dependency choices must be checked against this repository licensing model.
+
 ## Constraints
 
 - Mobile OS background execution limits must be treated as a design constraint.
