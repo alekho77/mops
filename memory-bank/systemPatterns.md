@@ -67,6 +67,35 @@ Responsibilities:
 
 Mobile must not be required to own heavy indexing, model migration, full reindexing, or deep batch processing in the first MVP.
 
+## Flutter mobile MVP pattern
+
+The mobile MVP uses Flutter and Dart.
+
+`apps/mobile` is one shared Flutter codebase for iOS and Android.
+
+Flutter owns:
+
+- mobile UI;
+- capture workflows;
+- local inbox UI;
+- lightweight search UI;
+- suggestion review UI;
+- manual correction UI;
+- compact project page UI.
+
+Flutter must not own heavy semantic processing or durable semantic engine rules directly.
+
+Native iOS/Android code is allowed only as narrow platform adapters for:
+
+- permissions;
+- file access;
+- speech integration;
+- background execution limits;
+- local notifications;
+- secure storage.
+
+Rust is deferred from the first mobile MVP. It remains a future option only for measured heavy local processing or portable native core needs behind explicit interfaces.
+
 ## Desktop semantic engine pattern
 
 For MVP, the desktop app owns heavy processing and organization.
