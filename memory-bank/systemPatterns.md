@@ -16,6 +16,7 @@ It is a voice-first personal AI orchestration system, not only a task manager an
 - Semantic DB as durable source of truth.
 - Vector index as rebuildable local cache.
 - Raw files remain outside vector DB by default.
+- Model Layer produces vectors; Vector DB Layer stores and searches vectors.
 
 ## Personal MOPS agent pattern
 
@@ -65,6 +66,32 @@ Stored memory units include:
 - model metadata.
 
 Source Resolver remains responsible for restoring access to original files.
+
+## Model and vector store separation pattern
+
+MOPS separates semantic vector production from vector storage and search.
+
+Model Layer:
+
+- produces embeddings or custom linguistic vectors;
+- owns model id, version, vector dimension, and metric expectations;
+- determines semantic representation quality.
+
+Vector DB Layer:
+
+- stores ready vectors;
+- maintains search indexes;
+- performs nearest-neighbor search;
+- returns ids, scores, and metadata references.
+
+MOPS Semantic Engine:
+
+- decides what to parse, chunk, embed, store, and search;
+- connects vector ids to semantic chunks and source references;
+- reconstructs context from nearest-neighbor candidates;
+- validates model/vector compatibility.
+
+Vector search results are candidates, not semantic truth.
 
 ## Domain memory pattern
 
