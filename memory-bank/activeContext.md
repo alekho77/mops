@@ -41,10 +41,14 @@ MOPS is in architecture and MVP definition stage.
 - Live SQLite files, WAL files, and ANN/vector indexes must not be synchronized as source of truth.
 - Source Resolver is required for broken path checks, source recovery, availability tracking, and device-aware resolution.
 - Long-term storage quality requires semantic budget, deduplication, compaction, stale relation cleanup, and cluster compression.
+- Mobile MVP framework accepted: Flutter with Dart.
+- `apps/mobile` should be one shared Flutter codebase for iOS and Android.
+- Native iOS/Android code is limited to narrow platform adapters for permissions, file access, speech integration, background limits, local notifications, and secure storage.
+- Rust is deferred from the first mobile MVP and remains only a possible future portable local engine for measured heavy-processing needs.
+- Codex-generated Flutter changes must be validated with `flutter analyze`, `flutter test`, and real iOS/Android builds once mobile code exists.
 
 ## Current open choices
 
-- Mobile framework.
 - Desktop framework.
 - Exact embedding model.
 - Vector index library.
