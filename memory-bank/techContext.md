@@ -241,6 +241,50 @@ Required model capabilities later:
 - document parsing;
 - web scraping.
 
+## Local-first semantic sync technical direction
+
+Confirmed:
+
+- SQLite remains the semantic DB candidate for MVP.
+- Personal cloud storage is accepted as encrypted file/object transport.
+- Sync must be changelog/snapshot based.
+- Live SQLite files and WAL files must not be synchronized.
+- ANN/vector indexes must be rebuilt locally.
+- Raw source files must not be uploaded by default.
+- Embedding model metadata is mandatory for every vector record.
+- Sync must be deterministic and idempotent.
+- Conflict handling is required even for a single-user product because multiple devices can edit offline.
+
+Initial cloud targets:
+
+- Google Drive;
+- OneDrive;
+- Dropbox;
+- iCloud Drive;
+- WebDAV/S3-compatible storage later.
+
+Required implementation modules:
+
+- sync changelog writer;
+- sync changelog reader;
+- encrypted snapshot writer;
+- encrypted snapshot restore;
+- device manifest manager;
+- Source Resolver;
+- semantic compaction job;
+- vector index rebuild job;
+- model migration/reindex job.
+
+Open implementation choices:
+
+- encryption implementation;
+- cloud provider abstraction;
+- SQLite vector extension or vector index library;
+- conflict merge format;
+- snapshot cadence;
+- changelog compaction rules;
+- key recovery/onboarding flow for new devices.
+
 ## Not yet selected
 
 - Mobile framework.
