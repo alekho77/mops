@@ -1,6 +1,8 @@
 # ADR-0002: Voice/Text Inbox MVP and Application Split
 
-## Status: Accepted
+## Status: Accepted, release scope superseded by ADR-0005 and ADR-0010
+
+ADR-0005 replaced the Voice/Text Inbox MVP with the Sketch/SemanticSketch target model. ADR-0010 then narrowed the first installable mobile release to v0.1 Mobile Capture + Inbox and staged semantic capabilities across later `v0.x` milestones.
 
 ## Context
 
@@ -29,9 +31,9 @@ The discussion also clarified that mobile and desktop have different platform co
 
 ## Decision
 
-The first MVP is the **Voice/Text Inbox MVP**.
+The former first MVP direction was the **Voice/Text Inbox MVP**.
 
-The accepted MVP pipeline is:
+The former accepted MVP pipeline was:
 
 ```text
 Voice/Text Inbox

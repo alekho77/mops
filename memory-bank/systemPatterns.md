@@ -17,14 +17,87 @@ It is a voice-first personal AI orchestration system, not only a task manager an
 - Vector index as rebuildable local cache.
 - Raw files remain outside vector DB by default.
 - Model Layer produces vectors; Vector DB Layer stores and searches vectors.
-- Mobile app is the full local user-facing app for UX v0.1.
-- Desktop app is deferred from UX v0.1 and remains a future semantic memory engine surface.
+- Mobile app is the full local user-facing app for the active `v0.x` milestone.
+- Desktop app is deferred from v0.1 and remains a future semantic memory engine surface.
 - Shared product logic belongs in the main monorepo.
 - Low-level model/vector DB forks belong in separate repositories.
 
-## Sketch/SemanticSketch MVP v0.1 pattern
+## Incremental mobile release train pattern
 
-The first MVP is clarified as MVP v0.1:
+ADR-0010 supersedes the old v0.1 scope from ADR-0005 and ADR-0006.
+
+Every `v0.x` milestone must be:
+
+- local-first unless a later ADR explicitly changes that;
+- buildable as Android APK or iOS/Xcode build;
+- testable on a real phone with a manual acceptance scenario;
+- narrow enough to ship without pulling in the whole semantic workbench.
+
+Release train:
+
+```text
+v0.1 Mobile Capture + Inbox
+v0.2 Semantic Outbox
+v0.3 Semantic Links
+v0.4 Bundles
+v0.5 Drafts
+v0.6 Knowledge Base
+v0.7 KnowledgeAreas
+v0.8 2D Semantic Map
+```
+
+## v0.1 capture/inbox pattern
+
+v0.1 is mobile-only, local-only, accountless, and registration-free.
+
+Required v0.1 chain:
+
+```text
+ActiveSketchBuffer
+  -> Sketch
+  -> Inbox
+```
+
+Required v0.1 screens:
+
+```text
+Sketch Editor
+  -> Inbox
+  -> Settings
+```
+
+The app starts on Sketch Editor. New input is stored in `ActiveSketchBuffer`, autosaved after every change, restored after restart, and only converted into a `Sketch` after explicit user confirmation.
+
+v0.1 includes:
+
+- Flutter mobile app shell;
+- local device storage;
+- `ActiveSketchBuffer` autosave and restart restoration;
+- Sketch create/list/edit/delete/status tracking;
+- Inbox;
+- Settings;
+- confirmations for clear, delete, send to Inbox, and full local reset.
+
+v0.1 excludes:
+
+- embeddings;
+- cosine similarity;
+- Outbox;
+- SemanticSketch;
+- semantic links;
+- graph persistence;
+- Bundles;
+- Drafts;
+- KnowledgeItems;
+- KnowledgeAreas;
+- semantic search;
+- Semantic Map;
+- sync;
+- desktop dependency.
+
+## Target semantic workbench pattern
+
+ADR-0005 remains accepted as the target semantic model:
 
 ```text
 Sketch
@@ -39,7 +112,7 @@ Sketch
   -> Semantic Map
 ```
 
-The MVP must optimize for low-friction chaotic input, not perfect automatic organization.
+This is not the v0.1 scope. It is delivered through v0.2-v0.8.
 
 Core rule:
 
@@ -59,70 +132,26 @@ Outbox = SemanticSketch workbench
 Vector DB = long-term KnowledgeItem memory
 ```
 
-Outbox is user-visible working space, not a passive queue. It contains SemanticSketch records, candidate semantic links, editable Bundles, and the source material for Draft generation.
+Outbox is user-visible working space, not a passive queue. It contains SemanticSketch records, candidate semantic links, editable Bundles, and the source material for Draft generation once those milestones exist.
 
-UX v0.1 is mobile-only and local-only:
+Fixed target terms:
 
-```text
-Sketch Editor
-  -> Inbox
-  -> Outbox
-  -> Knowledge Base
-  -> Settings
-```
-
-The app starts on Sketch Editor. New input is stored in `ActiveSketchBuffer`, autosaved after every change, restored after restart, and only converted into a `Sketch` after explicit user confirmation.
-
-Fixed MVP terms:
-
-- Sketch: raw note shown in UI RU as "Набросок".
-- SemanticSketch: vectorized sketch before finalization, shown in UI RU as "Обработанный набросок".
+- Sketch: raw note.
+- SemanticSketch: vectorized sketch before finalization.
 - Semantic Link: relationship between SemanticSketch records.
-- Bundle: group of linked SemanticSketch records, shown in UI RU as "Связка".
-- Draft: editable coherent text assembled from a Bundle, shown in UI RU as "Черновик".
-- KnowledgeItem: finalized document in the main semantic DB and vector space, shown in UI RU as "Знание".
-- KnowledgeArea: large cluster of KnowledgeItems, shown in UI RU as "Направление".
+- Bundle: group of linked SemanticSketch records.
+- Draft: editable coherent text assembled from a Bundle.
+- KnowledgeItem: finalized document in the main semantic DB and vector space.
+- KnowledgeArea: large cluster of KnowledgeItems.
 - Semantic Map: visualization of Outbox or long-term memory.
 
-## Mobile UX v0.1 pattern
-
-For UX v0.1, the mobile app owns the full local user-facing product.
-
-Responsibilities:
-
-- voice note capture;
-- text note capture;
-- new Sketch Editor;
-- `ActiveSketchBuffer` autosave;
-- offline local inbox;
-- Outbox semantic workbench;
-- Knowledge Base view;
-- Settings;
-- raw transcription display;
-- cleaned note display;
-- processing status display;
-- lightweight semantic search;
-- Bundle/KnowledgeArea suggestion review;
-- manual correction of KnowledgeArea assignment;
-- compact project pages.
-
-Mobile must not be required to own heavy indexing, model migration, full reindexing, or deep batch processing in UX v0.1.
-
-## Flutter mobile MVP pattern
+## Flutter mobile pattern
 
 The mobile MVP uses Flutter and Dart.
 
 `apps/mobile` is one shared Flutter codebase for iOS and Android.
 
-Flutter owns:
-
-- mobile UI;
-- capture workflows;
-- local inbox UI;
-- lightweight search UI;
-- suggestion review UI;
-- manual correction UI;
-- compact project page UI.
+Flutter owns the user-facing surface for the active `v0.x` milestone. In v0.1 that means capture, Inbox, Settings, local persistence UI, and confirmations.
 
 Flutter must not own heavy semantic processing or durable semantic engine rules directly.
 
@@ -139,7 +168,7 @@ Rust is deferred from the first mobile MVP. It remains a future option only for 
 
 ## Desktop semantic engine pattern
 
-For UX v0.1, desktop is deferred. Later, the desktop app can own heavy processing and organization.
+Desktop is deferred from v0.1. Later, the desktop app can own heavy processing and organization.
 
 Responsibilities:
 
@@ -155,7 +184,7 @@ Responsibilities:
 - manual correction workflows;
 - model/version migration support later.
 
-Desktop is the preferred place to debug storage, embeddings, clustering, and project extraction.
+Desktop is the preferred place to debug storage, embeddings, clustering, and project extraction, but it must not be required for v0.1 mobile capture.
 
 ## Suggestion over silent automation pattern
 
@@ -169,7 +198,7 @@ Automatic classification creates suggestions:
 - confidence;
 - alternative candidates when available.
 
-User actions are first-class events:
+User actions are first-class events once the relevant milestone exists:
 
 - confirm suggestion;
 - reject suggestion;
@@ -185,23 +214,15 @@ Corrections become training/adaptation signals.
 
 ## Destructive action confirmation pattern
 
-UX v0.1 requires confirmation for destructive and state-moving actions:
+v0.1 requires confirmation for:
 
 - clear `ActiveSketchBuffer`;
+- send `ActiveSketchBuffer` to Inbox;
 - clear Inbox;
-- clear Outbox;
 - delete Sketch;
-- delete SemanticSketch;
-- delete Draft;
-- delete KnowledgeItem;
-- send Sketch to Outbox;
-- send all Inbox to Outbox;
-- merge Bundle into Draft;
-- merge all Bundles;
-- return SemanticSketch records to Inbox;
-- save Draft or KnowledgeItemCandidate to Knowledge Base;
-- delete KnowledgeArea;
 - full local reset.
+
+Later milestones must add confirmations for their own destructive and state-moving actions, including Outbox clear, link deletion, Bundle merge/split, Draft deletion, KnowledgeItem deletion, KnowledgeArea deletion, and saving to the Knowledge Base.
 
 ## Raw and interpreted memory separation pattern
 

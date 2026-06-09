@@ -1,6 +1,23 @@
 # MVP Application Split
 
-## MVP pipeline
+## Release train
+
+MOPS uses an incremental mobile release train. Each `v0.x` release must be buildable as an Android APK or iOS/Xcode build and must have a manual phone acceptance scenario.
+
+| Version | User-facing capability | First required objects |
+| --- | --- | --- |
+| v0.1 Mobile Capture + Inbox | Capture raw sketches locally and manage Inbox. | `ActiveSketchBuffer`, `Sketch` |
+| v0.2 Semantic Outbox | Process sketches into vectorized Outbox records and inspect similar sketches. | `SemanticSketch`, `EmbeddingRecord` |
+| v0.3 Semantic Links | Review, confirm, reject, and persist semantic links. | `SemanticLink`, `CorrectionEvent` |
+| v0.4 Bundles | Group linked sketches and edit Bundle membership. | `Bundle`, `BundleSuggestion` |
+| v0.5 Drafts | Generate and edit Drafts from Bundles. | `Draft` |
+| v0.6 Knowledge Base | Persist, embed, search, and open KnowledgeItems. | `KnowledgeItem`, `SearchResult` |
+| v0.7 KnowledgeAreas | Assign KnowledgeItems to long-term areas. | `KnowledgeArea`, `KnowledgeAreaAssignment` |
+| v0.8 2D Semantic Map | Visualize semantic records, links, Bundles, and areas. | map projection/view state |
+
+## Target semantic pipeline
+
+ADR-0005 remains the target semantic model:
 
 ```text
 Sketch
@@ -15,6 +32,8 @@ Sketch
   -> Semantic Map
 ```
 
+This pipeline is not the v0.1 scope. It is delivered across the release train in ADR-0010.
+
 Core model:
 
 ```text
@@ -23,192 +42,60 @@ Outbox = SemanticSketch workbench
 Vector DB = long-term KnowledgeItem memory
 ```
 
-Canonical MVP terms:
-
-| Level | UI RU | Code term |
-| --- | --- | --- |
-| Inbox | Набросок | `Sketch` |
-| Outbox | Обработанный набросок | `SemanticSketch` |
-| Outbox cluster | Связка | `Bundle` |
-| Generated document | Черновик | `Draft` |
-| Vector DB document | Знание | `KnowledgeItem` |
-| Vector DB cluster | Направление | `KnowledgeArea` |
-
 ## Product split
 
 ```text
-Mobile app = full v0.1 user-facing application
+Mobile app = full user-facing app for the current v0.x milestone
 Desktop app = deferred semantic memory engine
 Shared core = common domain and processing contracts
 ```
 
-UX v0.1 is mobile-only and local-only. Desktop remains a future processing surface and is not part of the first user-facing release.
+v0.1 is mobile-only and local-only. Desktop remains a future processing surface and is not part of the first user-facing release.
 
-## Mobile app responsibilities
-
-### UX v0.1 boundary
+## Mobile v0.1 responsibilities
 
 - No account.
 - No registration.
 - Local device storage only.
-- Always start on the new Sketch Editor.
+- Start on Sketch Editor.
 - Autosave all input.
-- Confirm all destructive actions.
+- Persist `ActiveSketchBuffer` independently from Inbox records.
+- Create `Sketch` records only after explicit confirmation.
+- Support Sketch create, list, edit, delete, and status tracking.
+- Provide Inbox and Settings screens.
+- Confirm destructive capture and Inbox actions.
+- Build and install on Android or iOS for phone testing.
 
-### Voice/Text Inbox
+v0.1 does not include Outbox, embeddings, cosine similarity, semantic links, graph persistence, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, semantic search, or Semantic Map.
 
-- Fast voice note capture.
-- Fast text note capture.
-- Offline-first local inbox.
-- Raw note list.
-- Minimal friction capture flow.
-- Note CRUD.
-- Processing status display.
+## Later mobile responsibilities
 
-### Transcription
+- v0.2 adds local embedding processing, embedding metadata, similar-sketch lookup, and Outbox list/detail views.
+- v0.3 adds semantic link suggestions, confirmation/rejection, correction events, and basic graph persistence.
+- v0.4 adds Bundle creation, inspection, merge/split, and manual assignment.
+- v0.5 adds Draft generation, editing, and confirmation as a KnowledgeItem candidate.
+- v0.6 adds KnowledgeItem persistence, embedding, semantic search, and basic Knowledge Base list/detail views.
+- v0.7 adds KnowledgeArea creation, assignment, rename/delete, suggestions, and correction events.
+- v0.8 adds a phone-testable 2D Semantic Map.
 
-- Record audio.
-- Start speech-to-text processing.
-- Store raw transcription.
-- Track processing status.
+## Desktop responsibilities
 
-Statuses:
+Desktop is deferred from v0.1. Later, it may own heavier processing and debugging workflows:
 
-```text
-recorded
-transcribed
-cleaned
-embedded
-failed
-pending_remote_processing
-```
+- batch inbox review;
+- heavy transcription and reprocessing;
+- cleaned note generation;
+- embedding pipeline maintenance;
+- vector index rebuilds;
+- clustering and Bundle diagnostics;
+- KnowledgeArea and project extraction diagnostics;
+- model migration and reindexing tools.
 
-### Cleaned note
-
-- Show cleaned text when available.
-- Preserve raw transcription separately.
-- Allow manual text correction.
-
-### Embedding
-
-- Send cleaned text to the embedding pipeline.
-- Store embedding status.
-- Do not require the mobile app to own heavy reindexing.
-
-### Outbox
-
-- Show SemanticSketch records after Sketch processing.
-- Show similar SemanticSketch records.
-- Allow the user to inspect candidate links.
-- Support manual SemanticSketch-to-Bundle assignment where lightweight enough for mobile.
-
-### Semantic search
-
-- Search personal notes by meaning.
-- Open the original captured note from a result.
-- Support text query first; voice query later.
-
-### Bundle suggestions
-
-- Show candidate Bundle and KnowledgeArea assignments.
-- Show confidence when available.
-- Allow confirm/reject/correct.
-
-### Draft documents
-
-- Show Draft records generated elsewhere when available.
-- Allow lightweight Draft review and manual text edits if the mobile surface supports it.
-- Allow final confirmation when the user is comfortable doing so on mobile.
-
-### Project pages
-
-- Compact project page.
-- Related notes.
-- Recent thoughts.
-- Search inside project.
-- Add a new note directly into project context.
-
-## Desktop app responsibilities
-
-Desktop is deferred from UX v0.1.
-
-### Inbox processing
-
-- Full inbox review.
-- Filters for unprocessed notes, failed notes, low-confidence assignments, and unassigned notes.
-- Batch processing tools.
-
-### Transcription
-
-- Heavy transcription jobs.
-- Reprocess low-quality transcriptions.
-- Support model/runtime changes later.
-
-### Cleaned note generation
-
-- Generate cleaned notes from raw transcriptions.
-- Extract candidate ideas, tasks, questions, entities, technologies, and projects.
-- Preserve all derived interpretations separately from raw input.
-
-### Embedding engine
-
-- Own the main local embedding pipeline for MVP.
-- Maintain local vector index.
-- Support reindexing.
-- Track model id, model version, vector dimension, and distance metric.
-
-### Outbox semantic workbench
-
-- Process Sketch records into SemanticSketch records.
-- Build SemanticSketch vector space.
-- Calculate SemanticSketch similarity with cosine similarity.
-- Generate candidate semantic links.
-- Persist confirmed and rejected links.
-- Display SemanticSketch records, links, and Bundle membership.
-
-### Semantic search
-
-- Full semantic search.
-- Hybrid search later: keyword + vector + metadata.
-- Search by project, date, source type, and processing status.
-
-### Bundle suggestions
-
-- Build Bundles.
-- Propose KnowledgeArea names.
-- Merge/split Bundles.
-- Track confidence.
-- Store user decisions as correction events.
-
-### Draft and KnowledgeItems
-
-- Generate a coherent Draft from a selected Bundle.
-- Support manual editing before finalization.
-- Save confirmed Draft records as KnowledgeItems.
-- Embed KnowledgeItems.
-- Search similar KnowledgeItems.
-- Link KnowledgeItems to KnowledgeAreas.
-
-### Semantic Map
-
-- Provide the MVP 2D map.
-- Render SemanticSketch records as points.
-- Render semantic links as lines.
-- Render Bundles as groups.
-- Use color or size for status, review state, or cluster density.
-
-### Project pages
-
-- Full project page.
-- Project summary.
-- Related notes.
-- Open questions.
-- Candidate tasks.
-- Timeline.
-- Linked Bundles and KnowledgeAreas.
-- Export later.
+Desktop must not become a required backend for v0.1 mobile capture.
 
 ## Shared core packages
+
+Planned shared packages:
 
 ```text
 packages/core
@@ -221,36 +108,14 @@ packages/sync
 packages/shared-types
 ```
 
-## Core entities
-
-```text
-Source
-RawNote
-CleanedNote
-EmbeddingRecord
-Sketch
-SemanticSketch
-SemanticLink
-Bundle
-Draft
-KnowledgeItem
-SearchResult
-BundleSuggestion
-Project
-KnowledgeArea
-KnowledgeAreaAssignment
-CorrectionEvent
-Device
-SyncEvent
-ProcessingStatus
-```
+For v0.1, only the shared contracts needed by `ActiveSketchBuffer`, `Sketch`, local storage, confirmations, and Settings are required. Later packages can be introduced when their release milestone requires them.
 
 ## Monorepo boundary
 
 The main product monorepo contains:
 
 - mobile app;
-- desktop app;
+- desktop app placeholder or future app;
 - shared product core;
 - semantic DB schema;
 - ingestion contracts;
@@ -270,22 +135,25 @@ Separate repositories are reserved for future independent engines:
 - benchmarks and datasets;
 - native runtime experiments.
 
-## MVP exclusions
+## Exclusions from v0.1
 
-Do not include in first MVP:
+Do not include in the first mobile release:
 
+- embeddings or vector search;
+- Outbox;
+- graph persistence;
+- Bundles;
+- Draft generation;
+- KnowledgeItems;
+- KnowledgeAreas;
+- Semantic Map;
 - photo analysis;
 - document ingestion;
 - web URL scraping;
 - browser extension;
 - GitHub ingestion;
-- knowledge graph;
 - custom vector DB fork;
 - custom model training;
-- full 3D semantic globe;
-- automatic large project creation without user confirmation;
-- complex document hierarchy;
-- multi-agent processing;
 - device sync;
 - collaboration;
 - automatic file import;

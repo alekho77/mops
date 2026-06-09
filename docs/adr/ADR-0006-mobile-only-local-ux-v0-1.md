@@ -1,10 +1,14 @@
 # ADR-0006: Mobile-only local UX v0.1
 
-## Status: Accepted
+## Status: Accepted, release scope superseded by ADR-0010
+
+ADR-0010 supersedes the v0.1 release scope in this ADR. The mobile-only, local-only, accountless UX principles remain accepted. The full semantic chain is delivered incrementally after v0.1.
 
 ## Context
 
-MOPS MVP v0.1 is now defined around the object chain:
+MOPS needs a first shippable UX that is smaller than the broader multi-device MOPS architecture. It should prioritize fast capture and local privacy without requiring accounts, registration, cloud sync, semantic processing, or a desktop application.
+
+The broader target object chain remains:
 
 ```text
 ActiveSketchBuffer
@@ -16,7 +20,7 @@ ActiveSketchBuffer
   -> KnowledgeArea
 ```
 
-The first shippable UX needs to be smaller than the broader multi-device MOPS architecture. It should prioritize fast capture, local privacy, and a complete loop from raw sketch to long-term knowledge without requiring accounts, registration, cloud sync, or a desktop application.
+For v0.1, only the capture and Inbox part of that chain is required.
 
 ## Decision
 
@@ -32,89 +36,60 @@ General principles:
 6. Any user input is autosaved.
 7. All destructive actions require confirmation.
 
-The accepted main screens are:
+The accepted v0.1 main screens are:
 
 ```text
 Sketch Editor
   -> Inbox
-  -> Outbox
-  -> Knowledge Base
   -> Settings
 ```
-
-Canonical Russian UI screen labels:
-
-| Screen | UI RU |
-| --- | --- |
-| Sketch Editor | Редактор наброска |
-| Inbox | Inbox |
-| Outbox | Outbox |
-| Knowledge Base | База знаний |
-| Settings | Настройки |
 
 Navigation:
 
 | Screen | Available transitions |
 | --- | --- |
-| Sketch Editor | Inbox, Knowledge Base, Settings |
-| Inbox | Sketch Editor, Outbox, Knowledge Base, Settings |
-| Outbox | Inbox, Sketch Editor, Knowledge Base, Settings |
-| Knowledge Base | Sketch Editor, Inbox, Outbox, Settings |
+| Sketch Editor | Inbox, Settings |
+| Inbox | Sketch Editor, Settings |
 | Settings | back to previous screen |
 
 ## UX Chain
 
-The accepted user-facing chain is:
+The accepted v0.1 user-facing chain is:
 
 ```text
 New sketch
   -> Inbox
-  -> Outbox
-  -> Draft
-  -> KnowledgeItem
-  -> KnowledgeArea
 ```
 
-Canonical Russian user-facing chain:
-
-```text
-Новый набросок
-  -> Inbox
-  -> Outbox
-  -> Черновик
-  -> Знание
-  -> Направление
-```
-
-The accepted object chain is:
+The accepted v0.1 object chain is:
 
 ```text
 ActiveSketchBuffer
   -> Sketch
-  -> SemanticSketch
-  -> Bundle
-  -> Draft
-  -> KnowledgeItem
-  -> KnowledgeArea
 ```
 
-The core UX decision is:
+The core v0.1 UX decision is:
 
 ```text
 Sketch Editor = fast capture
-Inbox = raw list
-Outbox = semantic workbench
-Knowledge Base = long-term memory
+Inbox = raw sketch list
+Settings = local storage, confirmations, reset, and app information
 ```
 
-Canonical Russian UX decision:
+Outbox, SemanticSketch records, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, semantic search, and the Semantic Map enter the mobile UX in later ADR-0010 milestones.
 
-```text
-Редактор = быстрый захват
-Inbox = сырой список
-Outbox = семантический рабочий стол
-База знаний = долговременная память
-```
+## v0.1 Required Behavior
+
+- Start directly on Sketch Editor.
+- Persist `ActiveSketchBuffer` separately from Inbox `Sketch` records.
+- Autosave `ActiveSketchBuffer` after edits.
+- Restore `ActiveSketchBuffer` after app restart.
+- Create a `Sketch` only after explicit user confirmation.
+- Clear `ActiveSketchBuffer` only after confirmed submission to Inbox or confirmed manual clear.
+- Support create, list, edit, delete, and status-track operations for `Sketch` records.
+- Require confirmation for deletion, clearing, sending to Inbox, and full local reset.
+- Keep local storage as the only v0.1 persistence layer.
+- Provide Android APK and iOS/Xcode build paths for phone testing.
 
 ## Consequences
 
@@ -130,13 +105,11 @@ Trade-offs:
 
 - Device sync is not part of UX v0.1.
 - Desktop processing is not part of the first user-facing release.
-- Heavy semantic processing must either run locally on mobile in a limited form or be deferred until a later architecture phase.
-- The first mobile app must keep processing scope small enough for mobile OS and device constraints.
+- Heavy semantic processing is deferred until later mobile release milestones.
+- v0.1 does not validate embeddings, semantic search, graph editing, or draft generation.
 
 Obligations:
 
-- Persist `ActiveSketchBuffer` separately from Inbox `Sketch` records.
-- Do not clear `ActiveSketchBuffer` on app restart or navigation.
-- Clear `ActiveSketchBuffer` only after confirmed submission to Inbox or confirmed manual clear.
-- Require confirmation for deletion, clearing, sending to Outbox, merging, returning Outbox items to Inbox, saving to the Knowledge Base, and full local reset.
-- Keep local storage as the only v0.1 persistence layer.
+- Do not describe v0.1 as requiring Outbox or Knowledge Base screens.
+- Do not include embeddings, cosine links, graph persistence, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, or the Semantic Map in v0.1 acceptance criteria.
+- Keep `ActiveSketchBuffer` and `Sketch` as the only required v0.1 product objects.

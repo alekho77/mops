@@ -1,6 +1,8 @@
 # ADR-0005: Sketch, SemanticSketch, and Semantic Workbench MVP
 
-## Status: Accepted
+## Status: Accepted, release scope superseded by ADR-0010
+
+ADR-0010 supersedes the v0.1 release scope in this ADR. The terminology and target semantic workbench model remain accepted, but the full Sketch-to-Semantic-Map loop is delivered incrementally across the mobile release train.
 
 ## Context
 
@@ -42,7 +44,7 @@ Canonical terminology:
 
 ## Decision
 
-The MVP v0.1 model is:
+The target semantic workbench model is:
 
 1. **Sketch**
    - Stores raw text notes and future voice-derived notes in the Inbox level.
@@ -88,7 +90,7 @@ The MVP v0.1 model is:
    - Groups represent bundles.
    - Color or size can represent status, cluster density, or review state.
 
-The accepted MVP flow is:
+The accepted target flow is:
 
 ```text
 Sketch
@@ -103,9 +105,35 @@ Sketch
   -> Semantic Map
 ```
 
-## MVP v0.1 Scope
+## Incremental Release Scope
 
-Required:
+The release scope is now defined by ADR-0010.
+
+v0.1 is limited to Mobile Capture + Inbox:
+
+- Flutter app shell;
+- local-only and accountless startup;
+- `ActiveSketchBuffer` autosave and restart restoration;
+- create, list, edit, delete, and status-track Sketch records;
+- Inbox and Settings;
+- confirmations for destructive capture and Inbox actions;
+- APK and iOS/Xcode build paths for phone testing.
+
+The remaining semantic workbench capabilities are staged after v0.1:
+
+- v0.2 introduces `SemanticSketch`, local embeddings, cosine similarity, and Outbox list/detail views;
+- v0.3 introduces semantic links, link confirmation/deletion, correction events, and basic graph persistence;
+- v0.4 introduces Bundles and Bundle editing;
+- v0.5 introduces Draft generation and editing;
+- v0.6 introduces KnowledgeItems and Knowledge Base search;
+- v0.7 introduces KnowledgeAreas;
+- v0.8 introduces the 2D Semantic Map.
+
+## Former MVP v0.1 Scope
+
+The following scope is retained as the target semantic workbench capability set, not as the v0.1 requirement.
+
+Target capabilities:
 
 - create, list, edit, delete, and status-track Sketch records;
 - manually process Sketch records into SemanticSketch records;
@@ -138,7 +166,7 @@ Deferred:
 
 Positive:
 
-- The first product loop becomes concrete and shippable.
+- The target semantic workbench loop remains concrete and shippable across staged mobile releases.
 - Outbox gives the user a place to inspect and correct SemanticSketch structure before long-term storage.
 - Draft records create a clear bridge from chaotic sketches to durable knowledge.
 - Manual confirmation remains central to Bundle and KnowledgeArea assignment.
@@ -146,9 +174,9 @@ Positive:
 
 Trade-offs:
 
-- The first MVP needs graph persistence and cluster editing earlier than a simple inbox-only app would.
-- Document generation becomes part of MVP, but only from selected Bundles.
-- The first visualization is a 2D map, not the future full 3D semantic globe.
+- Graph persistence and cluster editing are required before the full semantic workbench is complete, but not in v0.1.
+- Document generation enters in the Draft milestone, only from selected Bundles.
+- The first semantic visualization remains a 2D map, not the future full 3D semantic globe.
 
 Obligations:
 

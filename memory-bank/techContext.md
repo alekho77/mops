@@ -5,25 +5,81 @@
 - Local-first architecture.
 - Mobile-first capture interface.
 - Offline-first personal memory.
-- SQLite-backed semantic DB for MVP.
-- Local vector search for MVP.
-- Encrypted sync through user-controlled cloud storage.
-- Vector index treated as a rebuildable cache.
-- Original files remain outside vector DB.
-- Explicit model and embedding versioning required.
-- Embedding/custom linguistic models are separated from vector DB implementation.
-- First MVP is mobile-only local UX v0.1: ActiveSketchBuffer -> Sketch -> SemanticSketch -> Bundle -> Draft -> KnowledgeItem -> KnowledgeArea, not full multimodal memory.
-- Mobile app is the full v0.1 user-facing application.
-- Desktop app is deferred from UX v0.1.
-- Mobile and desktop product code should live in one monorepo.
-- Independent low-level engine forks should live in separate repositories.
-- Mobile MVP uses Flutter.
-- Dart is the primary mobile application language.
+- SQLite-backed local persistence remains the default candidate.
+- Semantic DB and memory metadata are durable source of truth.
+- Vector indexes are rebuildable local caches.
+- Original files remain outside vector DB by default.
+- Explicit model and embedding versioning is required once embeddings are introduced.
+- Model Layer remains separated from Vector DB Layer.
+- Mobile MVP uses Flutter and Dart.
 - `apps/mobile` targets iOS and Android from one shared Flutter codebase.
 - Rust is not part of the first mobile MVP by default.
-- Rust remains a future option only for a measured portable local core need.
+- Desktop app is deferred from v0.1.
+- Product code should live in one monorepo.
+- Independent low-level engine forks should live in separate repositories.
 
-## MVP pipeline
+## Mobile release train
+
+Each `v0.x` release must be buildable as Android APK or iOS/Xcode build and testable on a real phone.
+
+| Version | Milestone | Technical boundary |
+| --- | --- | --- |
+| v0.1 | Mobile Capture + Inbox | Flutter app shell, local storage, `ActiveSketchBuffer`, `Sketch`, Inbox, Settings, confirmations. |
+| v0.2 | Semantic Outbox | Embedding provider contract, embedding metadata, `SemanticSketch`, cosine similarity, Outbox list/detail. |
+| v0.3 | Semantic Links | `SemanticLink`, confirmed/rejected link persistence, correction events, basic graph persistence. |
+| v0.4 | Bundles | Bundle builder, Bundle persistence, merge/split/manual assignment. |
+| v0.5 | Drafts | Draft generation contract, editable Draft persistence, KnowledgeItem candidate confirmation. |
+| v0.6 | Knowledge Base | KnowledgeItem persistence, KnowledgeItem embeddings/search, Knowledge Base list/detail/search. |
+| v0.7 | KnowledgeAreas | KnowledgeArea persistence, assignment suggestions, manual correction events. |
+| v0.8 | 2D Semantic Map | Phone map projection/view state over semantic records, links, Bundles, items, and areas. |
+
+## v0.1 scope
+
+Required v0.1 object chain:
+
+```text
+ActiveSketchBuffer
+  -> Sketch
+```
+
+Required v0.1 screens:
+
+```text
+Sketch Editor
+  -> Inbox
+  -> Settings
+```
+
+Required v0.1 implementation:
+
+- local accountless startup;
+- `ActiveSketchBuffer` autosave and restart restoration;
+- `Sketch` create/list/edit/delete/status tracking;
+- monotonic local Sketch title/counter support;
+- local persistence;
+- confirmation dialogs for clear, send to Inbox, delete, clear Inbox, and full local reset;
+- Android APK and iOS/Xcode build path.
+
+Excluded from v0.1:
+
+- embeddings;
+- cosine similarity;
+- Outbox;
+- `SemanticSketch`;
+- semantic links;
+- graph persistence;
+- Bundles;
+- Draft generation;
+- KnowledgeItems;
+- KnowledgeAreas;
+- semantic search;
+- Semantic Map;
+- sync;
+- desktop dependency.
+
+## Target semantic pipeline
+
+The ADR-0005 pipeline remains the target architecture, delivered after v0.1:
 
 ```text
 Sketch
@@ -44,28 +100,6 @@ Core semantic roles:
 Inbox = Sketch input buffer
 Outbox = SemanticSketch workbench
 Vector DB = long-term KnowledgeItem memory
-```
-
-UX v0.1 screens:
-
-```text
-Sketch Editor
-  -> Inbox
-  -> Outbox
-  -> Knowledge Base
-  -> Settings
-```
-
-UX v0.1 object chain:
-
-```text
-ActiveSketchBuffer
-  -> Sketch
-  -> SemanticSketch
-  -> Bundle
-  -> Draft
-  -> KnowledgeItem
-  -> KnowledgeArea
 ```
 
 ## MVP monorepo structure
@@ -93,72 +127,59 @@ mops/
   tests/
 ```
 
-## MVP package responsibilities
+Only the packages needed for the active milestone should be implemented. v0.1 does not require embeddings, clustering, search, sync, model-runner, or desktop implementation.
+
+## Package responsibilities
 
 ### apps/mobile
 
 - Flutter/Dart application.
 - Shared iOS and Android codebase.
-- full mobile-only UX v0.1;
-- local device storage;
-- accountless and registration-free startup;
-- Sketch Editor as the startup screen;
-- `ActiveSketchBuffer` autosave;
-- voice capture;
-- text capture;
-- offline inbox;
-- transcription status;
-- cleaned note view;
-- lightweight semantic search;
-- Bundle suggestion review;
-- manual correction;
-- compact project pages;
-- narrow native platform adapters where required.
+- v0.1 capture, Inbox, Settings, local persistence UI, and confirmations.
+- Later milestones add Outbox, semantic search, Bundle review, Draft review, Knowledge Base, KnowledgeAreas, and Semantic Map.
+- Narrow native platform adapters only where required.
 
 ### apps/desktop
 
-Deferred from UX v0.1.
+Deferred from v0.1.
 
-- full inbox review;
-- heavy transcription/reprocessing;
-- cleaned note generation;
-- embedding jobs;
-- vector index management;
-- Bundle building;
-- project pages;
-- manual correction workflows;
+- full inbox review later;
+- heavy transcription/reprocessing later;
+- cleaned note generation later;
+- embedding jobs later;
+- vector index management later;
+- Bundle and KnowledgeArea diagnostics later;
 - reindexing and migration tools later.
 
 ### packages/core
 
-- use cases;
 - domain entities;
+- use cases;
 - processing state machine;
 - correction events;
-- semantic link and Bundle rules;
-- Draft lifecycle;
-- KnowledgeArea/Bundle assignment rules.
+- semantic link and Bundle rules when their milestones arrive;
+- Draft lifecycle when v0.5 arrives;
+- KnowledgeItem and KnowledgeArea rules when v0.6-v0.7 arrive.
 
 ### packages/db
 
-- semantic DB schema;
+- local persistence schema;
 - migrations;
 - repositories;
-- graph persistence for semantic links;
-- Draft and KnowledgeItem persistence;
-- vector-store adapter;
-- full-text search adapter later.
+- graph persistence from v0.3;
+- Draft and KnowledgeItem persistence from v0.5-v0.6;
+- vector-store adapter from v0.2/v0.6 as needed.
 
 ### packages/ingestion
 
-- voice ingestion contracts;
-- text ingestion contracts;
-- transcription normalization;
-- cleaned note generation contracts;
-- chunking later.
+- text ingestion contracts for v0.1;
+- voice ingestion contracts later;
+- transcription normalization later;
+- cleaned note generation contracts later.
 
 ### packages/embeddings
 
+- deferred until v0.2;
 - embedding provider interface;
 - embedding job pipeline;
 - model metadata;
@@ -167,15 +188,16 @@ Deferred from UX v0.1.
 
 ### packages/clustering
 
+- deferred until v0.4;
 - Bundle suggestion generation;
 - semantic link graph clustering into Bundles;
 - Bundle merge/split operations;
-- project detection;
 - confidence scoring;
 - user correction application.
 
 ### packages/search
 
+- deferred until v0.6;
 - semantic search;
 - ranking;
 - search result explanation;
@@ -183,71 +205,47 @@ Deferred from UX v0.1.
 
 ### packages/sync
 
+- deferred from the first release train unless a later ADR pulls it forward;
 - event log;
 - device state;
 - conflict handling;
 - encrypted cloud transport contracts later.
 
-### packages/shared-types
-
-- shared DTOs and contracts.
-
-## Mobile stack
-
-Selected for MVP:
-
-- Flutter;
-- Dart;
-- one shared iOS/Android codebase in `apps/mobile`.
-
-Expected validation after mobile code is introduced:
-
-```text
-flutter analyze
-flutter test
-real iOS device build
-real Android device build
-```
-
-Native adapters are allowed for:
-
-- permissions;
-- file access;
-- speech integration;
-- background execution limits;
-- local notifications;
-- secure storage.
-
-Do not put heavy semantic engine logic directly into Flutter UI code.
-
-Rust is deferred from the first mobile MVP and may be introduced later only behind explicit interfaces for heavy local vector search, indexing, large file processing, or reusable cross-platform core logic.
-
 ## Current data model assumptions
 
-Semantic DB stores:
+v0.1 data objects:
 
-- active sketch buffer;
-- sources;
-- raw notes;
-- transcriptions;
-- cleaned notes;
-- summaries;
-- embeddings;
-- metadata;
-- entities;
-- relations;
-- source references;
-- device references;
-- content hashes;
-- model metadata;
-- user corrections;
-- Bundle suggestions;
-- KnowledgeArea assignments;
-- task classification events;
-- goal decomposition events;
-- execution feedback events.
+```text
+ActiveSketchBuffer
+Sketch
+ProcessingStatus
+LocalSettings
+```
 
-Vector records require:
+Later milestones introduce:
+
+```text
+Source
+RawNote
+Transcription
+CleanedNote
+EmbeddingRecord
+SemanticSketch
+SemanticLink
+Bundle
+Draft
+KnowledgeItem
+BundleSuggestion
+Project
+KnowledgeArea
+KnowledgeAreaAssignment
+SearchResult
+CorrectionEvent
+Device
+SyncEvent
+```
+
+Vector records, once introduced, require:
 
 - vector id;
 - source id;
@@ -262,59 +260,20 @@ Vector records require:
 - domain tags;
 - user/project scope when available.
 
-## Core MVP entities
-
-```text
-Source
-RawNote
-Transcription
-CleanedNote
-EmbeddingRecord
-Sketch
-SemanticSketch
-SemanticLink
-Bundle
-Draft
-KnowledgeItem
-BundleSuggestion
-Project
-KnowledgeArea
-KnowledgeAreaAssignment
-SearchResult
-CorrectionEvent
-Device
-SyncEvent
-ProcessingStatus
-```
-
-## Integration targets
-
-Initial integration candidates:
-
-- notes;
-- voice notes;
-- text notes;
-- selected documents later;
-- saved links later;
-- cloud folders later;
-- GitHub repositories later;
-- task lists later;
-- calendars later.
-
 ## AI and model requirements
 
-Required model capabilities for the first MVP:
+v0.1 has no required AI/model runtime.
 
-- speech-to-text;
-- text cleanup;
-- semantic embedding;
-- semantic search;
-- Bundle suggestion;
-- KnowledgeArea suggestion;
-- confidence scoring;
-- correction handling.
+Required later by milestone:
 
-Required model capabilities later:
+- v0.2: semantic embedding and cosine similarity.
+- v0.3: semantic link candidate generation.
+- v0.4: Bundle suggestion and clustering.
+- v0.5: Draft generation.
+- v0.6: KnowledgeItem embedding and semantic search.
+- v0.7: KnowledgeArea suggestion.
+
+Required much later:
 
 - custom linguistic vector support;
 - summarization;
@@ -334,9 +293,9 @@ Required model capabilities later:
 
 ## Local-first semantic sync technical direction
 
-Confirmed:
+Confirmed for later architecture:
 
-- SQLite remains the semantic DB candidate for MVP.
+- SQLite remains the semantic DB candidate.
 - Personal cloud storage is accepted as encrypted file/object transport.
 - Sync must be changelog/snapshot based.
 - Live SQLite files and WAL files must not be synchronized.
@@ -346,35 +305,7 @@ Confirmed:
 - Sync must be deterministic and idempotent.
 - Conflict handling is required even for a single-user product because multiple devices can edit offline.
 
-Initial cloud targets:
-
-- Google Drive;
-- OneDrive;
-- Dropbox;
-- iCloud Drive;
-- WebDAV/S3-compatible storage later.
-
-Required implementation modules:
-
-- sync changelog writer;
-- sync changelog reader;
-- encrypted snapshot writer;
-- encrypted snapshot restore;
-- device manifest manager;
-- Source Resolver;
-- semantic compaction job;
-- vector index rebuild job;
-- model migration/reindex job.
-
-Open implementation choices:
-
-- encryption implementation;
-- cloud provider abstraction;
-- SQLite vector extension or vector index library;
-- conflict merge format;
-- snapshot cadence;
-- changelog compaction rules;
-- key recovery/onboarding flow for new devices.
+Sync is not part of v0.1.
 
 ## Not yet selected
 
@@ -388,9 +319,19 @@ Open implementation choices:
 - Task storage schema.
 - Agent execution runtime.
 
-## Explicitly deferred from first MVP
+## Explicitly deferred from v0.1
 
 - Rust-based mobile core engine.
+- Voice capture unless explicitly pulled into the first app implementation.
+- Local embeddings.
+- Outbox.
+- Semantic links.
+- Graph persistence.
+- Bundles.
+- Draft generation.
+- Knowledge Base.
+- KnowledgeAreas.
+- Semantic Map.
 - Photo analysis.
 - Document ingestion.
 - Web URL scraping.
@@ -426,8 +367,8 @@ Open implementation choices:
 - Raw binary media should not be synchronized by default.
 - Vectors from incompatible models must not be mixed in one searchable space.
 - Vector dimension and distance metric must match the selected model and index.
-- Raw transcription and cleaned note must be stored separately.
-- Automatic Bundle/KnowledgeArea assignment must remain editable.
-- User corrections must be stored as first-class events.
+- Raw transcription and cleaned note must be stored separately once voice/transcription exists.
+- Automatic Bundle/KnowledgeArea assignment must remain editable once introduced.
+- User corrections must be stored as first-class events once introduced.
 - Flutter UI code must not become the semantic engine boundary.
 - Platform-specific mobile code must stay behind narrow Dart-facing adapters.

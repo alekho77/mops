@@ -6,30 +6,35 @@ The MOPS mobile MVP uses Flutter and Dart.
 
 The mobile application is one shared codebase for iOS and Android under `apps/mobile`.
 
-## Role in MVP
+## Role in v0.1
 
-The mobile app is the full local user-facing application for UX v0.1.
+The mobile app is the full local user-facing application for the active mobile release milestone.
+
+For v0.1, the mobile app is limited to Mobile Capture + Inbox.
 
 Responsibilities:
 
-- voice note capture;
 - text note capture;
-- offline local inbox;
-- raw transcription display;
-- cleaned note display;
-- processing status display;
-- lightweight semantic search;
-- Bundle and KnowledgeArea suggestion review;
-- manual correction of KnowledgeArea assignment;
-- compact KnowledgeArea pages;
 - Sketch Editor startup screen;
-- `ActiveSketchBuffer` autosave;
-- Outbox semantic workbench;
-- Knowledge Base view;
+- `ActiveSketchBuffer` autosave and restart restoration;
+- offline local inbox;
+- processing status display;
+- `Sketch` create/list/edit/delete/status tracking;
 - Settings.
 
 Non-goals for first mobile MVP:
 
+- local embeddings;
+- Outbox;
+- semantic links;
+- graph persistence;
+- Bundles;
+- Drafts;
+- KnowledgeItems;
+- KnowledgeAreas;
+- semantic search;
+- Semantic Map;
+- voice capture unless explicitly pulled into the first implementation;
 - heavy indexing;
 - full reindexing;
 - model migration;
@@ -37,7 +42,9 @@ Non-goals for first mobile MVP:
 - local engine implementation in Rust;
 - full desktop-grade semantic processing.
 
-Desktop semantic processing is deferred from UX v0.1. If later introduced, it must remain a separate processing surface rather than a requirement for the first mobile-local release.
+Desktop semantic processing is deferred from v0.1. If later introduced, it must remain a separate processing surface rather than a requirement for the first mobile-local release.
+
+Later mobile milestones add Semantic Outbox, links, Bundles, Drafts, Knowledge Base, KnowledgeAreas, and the 2D Semantic Map as defined by ADR-0010.
 
 ## Code boundaries
 
@@ -47,7 +54,6 @@ apps/mobile
   -> Dart application state
   -> capture workflows
   -> local inbox UI
-  -> search and review UI
   -> platform adapters
   -> shared package interfaces
 ```

@@ -8,19 +8,30 @@ This repository is intended for advanced users who want to inspect, build, and i
 
 MOPS is in architecture and MVP definition stage.
 
-The first implementation target is a mobile-only local MVP v0.1:
+The first implementation target is a mobile-only local v0.1 release:
 
 ```text
 ActiveSketchBuffer
   -> Sketch
-  -> SemanticSketch
-  -> Bundle
-  -> Draft
-  -> KnowledgeItem
-  -> KnowledgeArea
+  -> Inbox
 ```
 
 Production mobile and desktop releases are not published yet.
+
+## Mobile release train
+
+Each `v0.x` release must be buildable as an Android APK or iOS/Xcode build and testable on a real phone.
+
+| Version | Milestone | Scope |
+| --- | --- | --- |
+| v0.1 | Mobile Capture + Inbox | Flutter app shell, local-only startup, `ActiveSketchBuffer`, autosave, `Sketch` CRUD, Inbox, Settings, confirmations, local persistence. |
+| v0.2 | Semantic Outbox | Manual `Sketch` to `SemanticSketch` processing, local embeddings, embedding metadata, similar sketches by cosine similarity, Outbox list/details. |
+| v0.3 | Semantic Links | Candidate links, manual confirm/delete, correction events, basic graph persistence without Bundle editing. |
+| v0.4 | Bundles | Build Bundles from confirmed links, inspect/merge/split Bundles, manual `SemanticSketch` to Bundle assignment. |
+| v0.5 | Drafts | Generate editable Drafts from selected Bundles, edit Drafts, confirm Draft as a `KnowledgeItem` candidate. |
+| v0.6 | Knowledge Base | Persist KnowledgeItems, embed/search KnowledgeItems, basic Knowledge Base list/detail/search. |
+| v0.7 | KnowledgeAreas | Manual and suggested KnowledgeArea assignment, create/rename/delete areas, correction events for area changes. |
+| v0.8 | 2D Semantic Map | Phone-testable 2D map for SemanticSketch records, links, Bundles, KnowledgeItems, and KnowledgeAreas. |
 
 ## User scope
 
@@ -28,7 +39,7 @@ MOPS is designed for personal use:
 
 - voice notes;
 - text notes;
-- mobile-only local capture for v0.1;
+- mobile-only local capture and Inbox management for v0.1;
 - cleaned personal notes;
 - semantic search;
 - Bundle and KnowledgeArea suggestions;
