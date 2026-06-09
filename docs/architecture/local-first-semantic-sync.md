@@ -161,7 +161,7 @@ chunk_id
 model_id
 model_version
 dimensions
-quantization
+storage_dtype
 distance_metric
 normalization
 created_at
@@ -169,25 +169,28 @@ created_at
 
 Vectors produced by incompatible models must not be searched in the same vector space.
 
+Persisted vector records use FP16 by default, as accepted in ADR-0009. FP32 can be used inside model/runtime computation, but vectors must be converted to FP16 before persistence unless a future ADR changes the storage format.
+
 ## Size target
 
-MVP sizing target:
+Sizing target:
 
 ```text
 100 semantic chunks/day
 384-dimensional embeddings
-FP32 or INT8 vectors
+FP16 persisted vectors
 short text + summary + metadata
 ```
 
 Five-year estimate:
 
 ```text
-100 chunks/day × 365 × 5 = 182,500 chunks
-384 FP32 raw vectors ≈ 280 MB
-384 INT8 raw vectors ≈ 70 MB
-full semantic DB with metadata ≈ hundreds of MB to ~1–2 GB
+100 chunks/day x 365 x 5 = 182,500 chunks
+182,500 x 384 x 2 bytes = 140,160,000 bytes approx 140 MB
+full semantic DB with metadata approx hundreds of MB to 1-2 GB
 ```
+
+INT8 storage would require a future ADR. It is not the current persisted vector format.
 
 The database size target depends on semantic selection. Blind document ingestion can exceed this budget quickly.
 

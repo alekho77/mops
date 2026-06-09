@@ -475,7 +475,7 @@ Initial storage budget target:
 ```text
 100 semantic chunks/day
 384-dimensional embeddings
-FP32 or INT8 vectors
+FP16 persisted vectors
 short text + summary + metadata
 ```
 
@@ -483,10 +483,11 @@ Five-year estimate:
 
 ```text
 100 chunks/day x 365 x 5 = 182,500 chunks
-384 FP32 raw vectors approx 280 MB
-384 INT8 raw vectors approx 70 MB
+182,500 x 384 x 2 bytes = 140,160,000 bytes approx 140 MB
 full semantic DB with metadata approx hundreds of MB to 1-2 GB
 ```
+
+INT8 storage would require a future ADR. It is not the current persisted vector format. FP32 can still be used inside model/runtime computation, but persisted vectors are FP16 by default per ADR-0009.
 
 The budget is valid only when MOPS stores compact meaning, not full extracted documents.
 

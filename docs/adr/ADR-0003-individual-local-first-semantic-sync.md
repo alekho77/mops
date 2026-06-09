@@ -2,6 +2,8 @@
 
 Status: Accepted
 
+ADR-0009 later clarifies that persisted vector records use FP16 by default. FP32 may be used inside model/runtime computation, but persisted vector storage uses FP16 unless a future ADR changes that format.
+
 ## Context
 
 MOPS is explicitly an individual product: one personal MOPS agent per user, across that user's own devices. The product does not target teams, shared workspaces, enterprise knowledge bases, collaborative editing, realtime multi-user flows, or corporate ACL models.
@@ -30,18 +32,19 @@ The initial sizing target is approximately:
 ```text
 100 semantic chunks/day
 384-dimensional embeddings
-FP32 or INT8 vectors
+FP16 persisted vectors
 short text + summary + metadata
 ```
 
 For five years of heavy personal use:
 
 ```text
-100 chunks/day × 365 × 5 = 182,500 chunks
-384 FP32 raw vectors ≈ 280 MB
-384 INT8 raw vectors ≈ 70 MB
-full semantic DB with metadata ≈ hundreds of MB to ~1–2 GB
+100 chunks/day x 365 x 5 = 182,500 chunks
+182,500 x 384 x 2 bytes = 140,160,000 bytes approx 140 MB
+full semantic DB with metadata approx hundreds of MB to 1-2 GB
 ```
+
+INT8 storage would require a future ADR. It is not the current persisted vector format.
 
 ## Consequences
 
