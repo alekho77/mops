@@ -8,7 +8,17 @@ This repository is intended for advanced users who want to inspect, build, and i
 
 MOPS is in architecture and MVP definition stage.
 
-The first implementation target is MVP v0.1: Sketch -> SemanticSketch -> Bundle -> Draft -> KnowledgeItem -> KnowledgeArea.
+The first implementation target is a mobile-only local MVP v0.1:
+
+```text
+ActiveSketchBuffer
+  -> Sketch
+  -> SemanticSketch
+  -> Bundle
+  -> Draft
+  -> KnowledgeItem
+  -> KnowledgeArea
+```
 
 Production mobile and desktop releases are not published yet.
 
@@ -18,6 +28,7 @@ MOPS is designed for personal use:
 
 - voice notes;
 - text notes;
+- mobile-only local capture for v0.1;
 - cleaned personal notes;
 - semantic search;
 - Bundle and KnowledgeArea suggestions;

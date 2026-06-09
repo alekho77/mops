@@ -37,12 +37,23 @@ Canonical MVP terms:
 ## Product split
 
 ```text
-Mobile app = capture client
-Desktop app = semantic memory engine
+Mobile app = full v0.1 user-facing application
+Desktop app = deferred semantic memory engine
 Shared core = common domain and processing contracts
 ```
 
+UX v0.1 is mobile-only and local-only. Desktop remains a future processing surface and is not part of the first user-facing release.
+
 ## Mobile app responsibilities
+
+### UX v0.1 boundary
+
+- No account.
+- No registration.
+- Local device storage only.
+- Always start on the new Sketch Editor.
+- Autosave all input.
+- Confirm all destructive actions.
 
 ### Voice/Text Inbox
 
@@ -118,6 +129,8 @@ pending_remote_processing
 - Add a new note directly into project context.
 
 ## Desktop app responsibilities
+
+Desktop is deferred from UX v0.1.
 
 ### Inbox processing
 

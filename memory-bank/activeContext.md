@@ -23,12 +23,18 @@ MOPS is in architecture and MVP definition stage.
 - First MVP is now selected as **MVP v0.1: Sketch/SemanticSketch semantic workbench**.
 - Previous Voice/Text Inbox pipeline is retained as capture context, but the accepted MVP v0.1 product loop is now centered on Sketch, SemanticSketch, links, Bundles, Drafts, KnowledgeItems, and KnowledgeAreas.
 - MVP v0.1 is clarified as `Sketch -> SemanticSketch -> Semantic Links -> Bundle -> Draft -> KnowledgeItem -> Vector DB -> KnowledgeArea -> Semantic Map`.
+- UX v0.1 is mobile-only, local-only, accountless, and registration-free.
+- UX v0.1 always starts on the new Sketch Editor backed by `ActiveSketchBuffer`.
+- `ActiveSketchBuffer` is autosaved independently and is not an Inbox `Sketch` until the user confirms sending it to Inbox.
+- UX v0.1 main screens are Sketch Editor, Inbox, Outbox, Knowledge Base, and Settings.
+- UX v0.1 object chain is `ActiveSketchBuffer -> Sketch -> SemanticSketch -> Bundle -> Draft -> KnowledgeItem -> KnowledgeArea`.
+- All destructive or state-moving actions require confirmation in v0.1: clear, delete, send to Outbox, merge, return to Inbox, save to Knowledge Base, and full local reset.
 - Outbox is not just a queue; it is the semantic workbench for SemanticSketch records, candidate links, editable Bundles, and Draft generation before long-term storage.
 - MVP terms are fixed: Sketch, SemanticSketch, Semantic Link, Bundle, Draft, KnowledgeItem, KnowledgeArea, Semantic Map.
 - MVP v0.1 requires Sketch CRUD, manual Sketch-to-SemanticSketch processing, local embeddings, cosine-similarity links, manual link confirmation/deletion, graph persistence, Bundle build/edit flows, Draft generation/editing, final KnowledgeItem embedding/search, KnowledgeArea linking, and a 2D Outbox map.
 - Deferred until after MVP v0.1: full 3D globe, unconfirmed automatic large project creation, complex document hierarchy, multi-agent processing, device sync, collaboration, and automatic file import.
-- Mobile app role: capture client for fast voice/text input, offline inbox, lightweight search, suggestion review, and manual correction.
-- Desktop app role: semantic memory engine for transcription reprocessing, cleaned note generation, embeddings, clustering, search, and project pages.
+- Mobile app role for UX v0.1: full local user-facing app for capture, Inbox, Outbox, Knowledge Base, Settings, lightweight search, suggestion review, and manual correction.
+- Desktop app role: deferred semantic memory engine for later transcription reprocessing, cleaned note generation, embeddings, clustering, search, and project pages.
 - Product code should start as one monorepo containing `apps/mobile`, `apps/desktop`, and shared `packages/*`.
 - Future custom vector DB, model forks, speech/OCR/vision engines, benchmarks, and native runtime experiments should live in separate repositories.
 - Automatic classification must suggest, not silently decide. User correction is a first-class event.

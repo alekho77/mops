@@ -17,8 +17,8 @@ It is a voice-first personal AI orchestration system, not only a task manager an
 - Vector index as rebuildable local cache.
 - Raw files remain outside vector DB by default.
 - Model Layer produces vectors; Vector DB Layer stores and searches vectors.
-- Mobile app is a capture client for MVP.
-- Desktop app is the semantic memory engine for MVP.
+- Mobile app is the full local user-facing app for UX v0.1.
+- Desktop app is deferred from UX v0.1 and remains a future semantic memory engine surface.
 - Shared product logic belongs in the main monorepo.
 - Low-level model/vector DB forks belong in separate repositories.
 
@@ -61,6 +61,18 @@ Vector DB = long-term KnowledgeItem memory
 
 Outbox is user-visible working space, not a passive queue. It contains SemanticSketch records, candidate semantic links, editable Bundles, and the source material for Draft generation.
 
+UX v0.1 is mobile-only and local-only:
+
+```text
+Sketch Editor
+  -> Inbox
+  -> Outbox
+  -> Knowledge Base
+  -> Settings
+```
+
+The app starts on Sketch Editor. New input is stored in `ActiveSketchBuffer`, autosaved after every change, restored after restart, and only converted into a `Sketch` after explicit user confirmation.
+
 Fixed MVP terms:
 
 - Sketch: raw note shown in UI RU as "Набросок".
@@ -72,15 +84,20 @@ Fixed MVP terms:
 - KnowledgeArea: large cluster of KnowledgeItems, shown in UI RU as "Направление".
 - Semantic Map: visualization of Outbox or long-term memory.
 
-## Mobile capture client pattern
+## Mobile UX v0.1 pattern
 
-For MVP, the mobile app owns fast capture and lightweight review.
+For UX v0.1, the mobile app owns the full local user-facing product.
 
 Responsibilities:
 
 - voice note capture;
 - text note capture;
+- new Sketch Editor;
+- `ActiveSketchBuffer` autosave;
 - offline local inbox;
+- Outbox semantic workbench;
+- Knowledge Base view;
+- Settings;
 - raw transcription display;
 - cleaned note display;
 - processing status display;
@@ -89,7 +106,7 @@ Responsibilities:
 - manual correction of KnowledgeArea assignment;
 - compact project pages.
 
-Mobile must not be required to own heavy indexing, model migration, full reindexing, or deep batch processing in the first MVP.
+Mobile must not be required to own heavy indexing, model migration, full reindexing, or deep batch processing in UX v0.1.
 
 ## Flutter mobile MVP pattern
 
@@ -122,7 +139,7 @@ Rust is deferred from the first mobile MVP. It remains a future option only for 
 
 ## Desktop semantic engine pattern
 
-For MVP, the desktop app owns heavy processing and organization.
+For UX v0.1, desktop is deferred. Later, the desktop app can own heavy processing and organization.
 
 Responsibilities:
 
@@ -159,12 +176,32 @@ User actions are first-class events:
 - move KnowledgeItem to another KnowledgeArea;
 - create new KnowledgeArea;
 - merge Bundles;
-- split Bundles.
+- split Bundles;
 - generate Draft from a Bundle;
 - edit Draft;
 - confirm Draft as KnowledgeItem.
 
 Corrections become training/adaptation signals.
+
+## Destructive action confirmation pattern
+
+UX v0.1 requires confirmation for destructive and state-moving actions:
+
+- clear `ActiveSketchBuffer`;
+- clear Inbox;
+- clear Outbox;
+- delete Sketch;
+- delete SemanticSketch;
+- delete Draft;
+- delete KnowledgeItem;
+- send Sketch to Outbox;
+- send all Inbox to Outbox;
+- merge Bundle into Draft;
+- merge all Bundles;
+- return SemanticSketch records to Inbox;
+- save Draft or KnowledgeItemCandidate to Knowledge Base;
+- delete KnowledgeArea;
+- full local reset.
 
 ## Raw and interpreted memory separation pattern
 

@@ -12,9 +12,9 @@
 - Original files remain outside vector DB.
 - Explicit model and embedding versioning required.
 - Embedding/custom linguistic models are separated from vector DB implementation.
-- First MVP is MVP v0.1: Sketch -> SemanticSketch -> Bundle -> Draft -> KnowledgeItem -> KnowledgeArea, not full multimodal memory.
-- Mobile app is capture-first.
-- Desktop app is processing-first.
+- First MVP is mobile-only local UX v0.1: ActiveSketchBuffer -> Sketch -> SemanticSketch -> Bundle -> Draft -> KnowledgeItem -> KnowledgeArea, not full multimodal memory.
+- Mobile app is the full v0.1 user-facing application.
+- Desktop app is deferred from UX v0.1.
 - Mobile and desktop product code should live in one monorepo.
 - Independent low-level engine forks should live in separate repositories.
 - Mobile MVP uses Flutter.
@@ -44,6 +44,28 @@ Core semantic roles:
 Inbox = Sketch input buffer
 Outbox = SemanticSketch workbench
 Vector DB = long-term KnowledgeItem memory
+```
+
+UX v0.1 screens:
+
+```text
+Sketch Editor
+  -> Inbox
+  -> Outbox
+  -> Knowledge Base
+  -> Settings
+```
+
+UX v0.1 object chain:
+
+```text
+ActiveSketchBuffer
+  -> Sketch
+  -> SemanticSketch
+  -> Bundle
+  -> Draft
+  -> KnowledgeItem
+  -> KnowledgeArea
 ```
 
 ## MVP monorepo structure
@@ -77,6 +99,11 @@ mops/
 
 - Flutter/Dart application.
 - Shared iOS and Android codebase.
+- full mobile-only UX v0.1;
+- local device storage;
+- accountless and registration-free startup;
+- Sketch Editor as the startup screen;
+- `ActiveSketchBuffer` autosave;
 - voice capture;
 - text capture;
 - offline inbox;
@@ -89,6 +116,8 @@ mops/
 - narrow native platform adapters where required.
 
 ### apps/desktop
+
+Deferred from UX v0.1.
 
 - full inbox review;
 - heavy transcription/reprocessing;
@@ -197,6 +226,7 @@ Rust is deferred from the first mobile MVP and may be introduced later only behi
 
 Semantic DB stores:
 
+- active sketch buffer;
 - sources;
 - raw notes;
 - transcriptions;

@@ -8,7 +8,7 @@ The mobile application is one shared codebase for iOS and Android under `apps/mo
 
 ## Role in MVP
 
-The mobile app is the capture-first client.
+The mobile app is the full local user-facing application for UX v0.1.
 
 Responsibilities:
 
@@ -19,9 +19,14 @@ Responsibilities:
 - cleaned note display;
 - processing status display;
 - lightweight semantic search;
-- cluster and project suggestion review;
-- manual correction of project assignment;
-- compact project pages.
+- Bundle and KnowledgeArea suggestion review;
+- manual correction of KnowledgeArea assignment;
+- compact KnowledgeArea pages;
+- Sketch Editor startup screen;
+- `ActiveSketchBuffer` autosave;
+- Outbox semantic workbench;
+- Knowledge Base view;
+- Settings.
 
 Non-goals for first mobile MVP:
 
@@ -30,7 +35,9 @@ Non-goals for first mobile MVP:
 - model migration;
 - custom vector DB implementation;
 - local engine implementation in Rust;
-- replacing desktop semantic processing.
+- full desktop-grade semantic processing.
+
+Desktop semantic processing is deferred from UX v0.1. If later introduced, it must remain a separate processing surface rather than a requirement for the first mobile-local release.
 
 ## Code boundaries
 
