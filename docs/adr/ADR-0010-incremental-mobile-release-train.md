@@ -1,6 +1,8 @@
-# ADR-0010: Incremental mobile release train
+# ADR-0010: Incremental private mobile pre-1.0 release train
 
-## Status: Accepted
+## Status: Accepted, release maturity superseded by ADR-0011
+
+ADR-0011 supersedes the release-maturity interpretation of this ADR. The `v0.1` through `v0.8` sequence remains accepted as a private mobile pre-1.0 alpha/beta train, not as MVP or public release scope.
 
 ## Supersedes
 
@@ -9,26 +11,28 @@ This ADR supersedes the v0.1 release scope portions of:
 - ADR-0005: Sketch, SemanticSketch, and Semantic Workbench MVP.
 - ADR-0006: Mobile-only local UX v0.1.
 
-ADR-0005 remains accepted as canonical terminology and target semantic model. ADR-0006 remains accepted for local-only mobile UX principles. This ADR narrows what is required for each shippable mobile release.
+ADR-0005 remains accepted as canonical terminology and target semantic model. ADR-0006 remains accepted for local-only mobile UX principles. This ADR narrows what is required for each private phone-testable mobile pre-1.0 build.
 
 ## Context
 
-ADR-0005 made the first MVP too large by grouping capture, embeddings, cosine links, graph persistence, Bundles, Draft generation, KnowledgeItems, KnowledgeAreas, and the 2D Semantic Map into v0.1.
+ADR-0005 made the first installable build too large by grouping capture, embeddings, cosine links, graph persistence, Bundles, Draft generation, KnowledgeItems, KnowledgeAreas, and the 2D Semantic Map into v0.1.
 
-That scope is closer to a small local Obsidian-like semantic graph plus vector database and local AI pipeline. MOPS needs smaller phone-testable releases where each `v0.x` can be built as an Android APK or iOS/Xcode build and validated on a real device.
+That scope is closer to a small local Obsidian-like semantic graph plus vector database and local AI pipeline. MOPS needs smaller private phone-testable pre-1.0 builds where each `v0.x` can be built as an Android APK or iOS/Xcode build and validated on a real device.
 
 ## Decision
 
-MOPS will use an incremental mobile release train. Every `v0.x` release must:
+MOPS will use an incremental private mobile pre-1.0 release train. Every `v0.x` build must:
 
 - be local-first and accountless unless a later ADR explicitly changes that;
 - be buildable as an Android APK or iOS/Xcode build;
 - have a manual phone acceptance scenario;
 - keep vector indexes and AI output as infrastructure or suggestions, not semantic truth.
 
-The first release is intentionally limited to capture and Inbox.
+The first pre-1.0 build is intentionally limited to capture and Inbox.
 
-## Release train
+`v0.x` builds are private alpha/beta builds. They are not MVPs and are not public releases.
+
+## Private pre-1.0 release train
 
 | Version | Name | Scope | Phone acceptance scenario |
 | --- | --- | --- | --- |
@@ -76,18 +80,19 @@ Excluded from v0.1:
 
 Positive:
 
-- The first mobile release becomes small enough to implement, install, and test quickly.
+- The first private mobile build becomes small enough to implement, install, and test quickly.
 - Semantic workbench complexity is preserved as the target direction without blocking capture-first validation.
 - Each later milestone adds one major user-facing capability.
 
 Trade-offs:
 
 - v0.1 does not prove local embeddings or semantic search.
-- The full ADR-0005 loop arrives across several releases instead of the first installable build.
+- The full ADR-0005 loop arrives across several private pre-1.0 builds instead of the first installable build.
 - Documentation must distinguish canonical semantic terminology from release scope.
 
 Obligations:
 
 - Do not describe v0.1 as requiring embeddings, cosine links, graph persistence, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, or Semantic Map.
+- Do not describe `v0.x` builds as MVP releases.
 - Keep `ActiveSketchBuffer` and `Sketch` as the only v0.1 domain objects required by the user-facing product loop.
 - Add semantic objects only in the release where they first become testable on a phone.

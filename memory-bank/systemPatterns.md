@@ -17,21 +17,35 @@ It is a voice-first personal AI orchestration system, not only a task manager an
 - Vector index as rebuildable local cache.
 - Raw files remain outside vector DB by default.
 - Model Layer produces vectors; Vector DB Layer stores and searches vectors.
-- Mobile app is the full local user-facing app for the active `v0.x` milestone.
-- Desktop app is deferred from v0.1 and remains a future semantic memory engine surface.
+- Mobile app is the full local user-facing app for private `v0.x` and public `v1.x`.
+- Desktop app is deferred until `v2.0+`.
 - Shared product logic belongs in the main monorepo.
 - Low-level model/vector DB forks belong in separate repositories.
 
-## Incremental mobile release train pattern
+## Release maturity pattern
 
-ADR-0010 supersedes the old v0.1 scope from ADR-0005 and ADR-0006.
+Version ladder:
+
+```text
+v0.x  = private mobile-only pre-1.0 alpha/beta builds, not MVP
+v1.0  = first public mobile-only MVP/product baseline
+v1.x  = public mobile-only iteration line
+v2.0+ = desktop expansion line
+```
+
+Desktop app, desktop-owned embedding pipeline, desktop-owned vector index, desktop-owned reindexing, desktop semantic workbench, and cross-device desktop workflows are forbidden in `v0.x` and `v1.x`.
+
+## Incremental private mobile release train pattern
+
+ADR-0010 supersedes the old v0.1 scope from ADR-0005 and ADR-0006. ADR-0011 classifies the whole `v0.x` train as private pre-1.0 alpha/beta builds.
 
 Every `v0.x` milestone must be:
 
 - local-first unless a later ADR explicitly changes that;
 - buildable as Android APK or iOS/Xcode build;
 - testable on a real phone with a manual acceptance scenario;
-- narrow enough to ship without pulling in the whole semantic workbench.
+- narrow enough to ship without pulling in the whole semantic workbench;
+- described as a private pre-MVP alpha/beta build, not as MVP.
 
 Release train:
 
@@ -48,7 +62,7 @@ v0.8 2D Semantic Map
 
 ## v0.1 capture/inbox pattern
 
-v0.1 is mobile-only, local-only, accountless, and registration-free.
+v0.1 is a private mobile-only, local-only, accountless, and registration-free pre-1.0 build.
 
 Required v0.1 chain:
 
@@ -147,11 +161,11 @@ Fixed target terms:
 
 ## Flutter mobile pattern
 
-The mobile MVP uses Flutter and Dart.
+The mobile product uses Flutter and Dart.
 
 `apps/mobile` is one shared Flutter codebase for iOS and Android.
 
-Flutter owns the user-facing surface for the active `v0.x` milestone. In v0.1 that means capture, Inbox, Settings, local persistence UI, and confirmations.
+Flutter owns the user-facing surface for private `v0.x` builds and public `v1.x` releases. In v0.1 that means capture, Inbox, Settings, local persistence UI, and confirmations.
 
 Flutter must not own heavy semantic processing or durable semantic engine rules directly.
 
@@ -164,13 +178,13 @@ Native iOS/Android code is allowed only as narrow platform adapters for:
 - local notifications;
 - secure storage.
 
-Rust is deferred from the first mobile MVP. It remains a future option only for measured heavy local processing or portable native core needs behind explicit interfaces.
+Rust is deferred from the private pre-1.0 train and public v1.0 mobile baseline. It remains a future option only for measured heavy local processing or portable native core needs behind explicit interfaces.
 
-## Desktop semantic engine pattern
+## Desktop v2.0+ semantic engine pattern
 
-Desktop is deferred from v0.1. Later, the desktop app can own heavy processing and organization.
+Desktop is deferred until `v2.0+`. It cannot own or be required for embeddings, vector indexes, reindexing, semantic workbench behavior, or cross-device workflows in `v0.x` or `v1.x`.
 
-Responsibilities:
+Candidate v2.0+ responsibilities:
 
 - full inbox review;
 - transcription reprocessing;
@@ -184,7 +198,7 @@ Responsibilities:
 - manual correction workflows;
 - model/version migration support later.
 
-Desktop is the preferred place to debug storage, embeddings, clustering, and project extraction, but it must not be required for v0.1 mobile capture.
+Desktop may become the preferred place to debug storage, embeddings, clustering, and project extraction in v2.0+, but it must not be required for private v0.x builds or public v1.x mobile releases.
 
 ## Suggestion over silent automation pattern
 

@@ -11,16 +11,27 @@
 - Original files remain outside vector DB by default.
 - Explicit model and embedding versioning is required once embeddings are introduced.
 - Model Layer remains separated from Vector DB Layer.
-- Mobile MVP uses Flutter and Dart.
+- Mobile product uses Flutter and Dart.
 - `apps/mobile` targets iOS and Android from one shared Flutter codebase.
-- Rust is not part of the first mobile MVP by default.
-- Desktop app is deferred from v0.1.
+- Rust is not part of the private pre-1.0 train or public v1.0 mobile baseline by default.
+- Desktop app is deferred until v2.0+.
 - Product code should live in one monorepo.
 - Independent low-level engine forks should live in separate repositories.
 
-## Mobile release train
+## Version ladder
 
-Each `v0.x` release must be buildable as Android APK or iOS/Xcode build and testable on a real phone.
+```text
+v0.x  = private mobile-only pre-1.0 alpha/beta builds, not MVP
+v1.0  = first public mobile-only MVP/product baseline
+v1.x  = public mobile-only iteration line
+v2.0+ = desktop expansion line
+```
+
+Desktop app, desktop-owned embedding pipeline, desktop-owned vector index, desktop-owned reindexing, desktop semantic workbench, and cross-device desktop workflows are forbidden in `v0.x` and `v1.x`.
+
+## Private pre-1.0 mobile train
+
+Each `v0.x` build must be buildable as Android APK or iOS/Xcode build and testable on a real phone.
 
 | Version | Milestone | Technical boundary |
 | --- | --- | --- |
@@ -102,13 +113,13 @@ Outbox = SemanticSketch workbench
 Vector DB = long-term KnowledgeItem memory
 ```
 
-## MVP monorepo structure
+## Product monorepo structure
 
 ```text
 mops/
   apps/
     mobile/
-    desktop/
+    desktop/        # v2.0+ only or placeholder
   packages/
     core/
     db/
@@ -141,15 +152,17 @@ Only the packages needed for the active milestone should be implemented. v0.1 do
 
 ### apps/desktop
 
-Deferred from v0.1.
+Deferred until v2.0+. It must not own or be required for `v0.x` private builds, `v1.0`, or any `v1.x` release.
 
-- full inbox review later;
-- heavy transcription/reprocessing later;
-- cleaned note generation later;
-- embedding jobs later;
-- vector index management later;
-- Bundle and KnowledgeArea diagnostics later;
-- reindexing and migration tools later.
+Candidate v2.0+ responsibilities:
+
+- full inbox review;
+- heavy transcription/reprocessing;
+- cleaned note generation;
+- embedding jobs;
+- vector index management;
+- Bundle and KnowledgeArea diagnostics;
+- reindexing and migration tools.
 
 ### packages/core
 
@@ -205,7 +218,7 @@ Deferred from v0.1.
 
 ### packages/sync
 
-- deferred from the first release train unless a later ADR pulls it forward;
+- deferred from the private pre-1.0 train unless a later ADR pulls it forward;
 - event log;
 - device state;
 - conflict handling;
@@ -309,7 +322,7 @@ Sync is not part of v0.1.
 
 ## Not yet selected
 
-- Desktop framework.
+- Desktop framework for v2.0+.
 - Exact embedding model.
 - Vector index library.
 - Speech recognition engine.
@@ -349,6 +362,15 @@ Sync is not part of v0.1.
 - Automatic file import.
 - Full iOS + Android + macOS + Windows + Linux launch at once.
 
+## Explicitly deferred from v0.x and v1.x
+
+- Desktop app.
+- Desktop-owned embedding pipeline.
+- Desktop-owned vector index.
+- Desktop-owned reindexing workflow.
+- Desktop-owned semantic workbench.
+- Cross-device desktop workflow dependency.
+
 ## Repository license configuration
 
 - License file: `LICENSE.md`.
@@ -361,7 +383,7 @@ Sync is not part of v0.1.
 ## Constraints
 
 - Mobile OS background execution limits must be treated as a design constraint.
-- Heavy indexing may run on desktop or home server later.
+- Heavy indexing may run on desktop or home server in v2.0+ or later.
 - Sync must not depend on live SQLite database files.
 - ANN/HNSW/Faiss indexes must not be treated as sync source of truth.
 - Raw binary media should not be synchronized by default.

@@ -6,9 +6,9 @@ This repository is intended for advanced users who want to inspect, build, and i
 
 ## Status
 
-MOPS is in architecture and MVP definition stage.
+MOPS is in architecture, private pre-1.0 mobile alpha/beta, and v1.0 mobile MVP definition stage.
 
-The first implementation target is a mobile-only local v0.1 release:
+The first implementation target is a private mobile-only local v0.1 alpha/beta build:
 
 ```text
 ActiveSketchBuffer
@@ -18,9 +18,18 @@ ActiveSketchBuffer
 
 Production mobile and desktop releases are not published yet.
 
-## Mobile release train
+## Version ladder
 
-Each `v0.x` release must be buildable as an Android APK or iOS/Xcode build and testable on a real phone.
+| Version family | Maturity | Product boundary |
+| --- | --- | --- |
+| `v0.x` | Private pre-1.0 alpha/beta builds | Mobile-only phone-test builds. Not MVP. Not public releases. |
+| `v1.0` | First public MVP/product baseline | Mobile-only public release. No desktop app or desktop processing dependency. |
+| `v1.x` | Public mobile iteration line | Mobile-only improvements over v1.0. No desktop app or desktop processing dependency. |
+| `v2.0+` | Desktop expansion line | First allowed family for desktop app, desktop semantic engine, heavier embedding/index/reindex tooling, and cross-device workflows. |
+
+## Private pre-1.0 mobile train
+
+Each `v0.x` build must be buildable as an Android APK or iOS/Xcode build and testable on a real phone.
 
 | Version | Milestone | Scope |
 | --- | --- | --- |
@@ -39,7 +48,7 @@ MOPS is designed for personal use:
 
 - voice notes;
 - text notes;
-- mobile-only local capture and Inbox management for v0.1;
+- private mobile-only local capture and Inbox management for v0.1;
 - cleaned personal notes;
 - semantic search;
 - Bundle and KnowledgeArea suggestions;
@@ -85,7 +94,7 @@ flutter build ipa --release
 
 If `apps/mobile` is absent in the checked-out revision, that revision does not contain runnable mobile app code yet.
 
-Desktop support is planned, but the desktop framework and release process are not selected yet.
+Desktop support is planned for v2.0 or later. The desktop framework and release process are not selected yet.
 
 ## Repository map
 
@@ -95,7 +104,7 @@ Desktop support is planned, but the desktop framework and release process are no
 - `docs/architecture/` — technical architecture notes.
 - `memory-bank/` — working context for AI agents.
 - `apps/mobile/` — planned mobile app.
-- `apps/desktop/` — planned desktop app.
+- `apps/desktop/` — planned v2.0+ desktop app.
 - `packages/` — planned shared packages.
 
 ## Documentation policy

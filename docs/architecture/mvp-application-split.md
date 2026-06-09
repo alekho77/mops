@@ -1,8 +1,19 @@
-# MVP Application Split
+# Application Version Split
 
-## Release train
+## Version ladder
 
-MOPS uses an incremental mobile release train. Each `v0.x` release must be buildable as an Android APK or iOS/Xcode build and must have a manual phone acceptance scenario.
+MOPS separates private mobile validation builds from the public mobile product and from future desktop expansion.
+
+| Version family | Maturity | Product boundary |
+| --- | --- | --- |
+| `v0.x` | Private pre-1.0 alpha/beta builds | Mobile-only phone-test builds. Not MVP. Not public releases. |
+| `v1.0` | First public MVP/product baseline | Mobile-only public release. No desktop app or desktop processing dependency. |
+| `v1.x` | Public mobile iteration line | Mobile-only improvements over v1.0. No desktop app or desktop processing dependency. |
+| `v2.0+` | Desktop expansion line | First allowed family for desktop app, desktop semantic engine, heavier embedding/index/reindex tooling, and cross-device workflows. |
+
+## Private pre-1.0 mobile train
+
+Each `v0.x` build must be buildable as an Android APK or iOS/Xcode build and must have a manual phone acceptance scenario.
 
 | Version | User-facing capability | First required objects |
 | --- | --- | --- |
@@ -32,7 +43,7 @@ Sketch
   -> Semantic Map
 ```
 
-This pipeline is not the v0.1 scope. It is delivered across the release train in ADR-0010.
+This pipeline is not the v0.1 scope and does not make `v0.x` an MVP. It is validated incrementally across the private pre-1.0 mobile train in ADR-0010.
 
 Core model:
 
@@ -45,12 +56,12 @@ Vector DB = long-term KnowledgeItem memory
 ## Product split
 
 ```text
-Mobile app = full user-facing app for the current v0.x milestone
-Desktop app = deferred semantic memory engine
+Mobile app = full user-facing app for v0.x and v1.x
+Desktop app = v2.0+ expansion only
 Shared core = common domain and processing contracts
 ```
 
-v0.1 is mobile-only and local-only. Desktop remains a future processing surface and is not part of the first user-facing release.
+`v0.x` and `v1.x` are mobile-only. Desktop remains a future `v2.0+` processing surface and must not be required for private pre-1.0 builds or the public v1.x mobile product.
 
 ## Mobile v0.1 responsibilities
 
@@ -68,7 +79,7 @@ v0.1 is mobile-only and local-only. Desktop remains a future processing surface 
 
 v0.1 does not include Outbox, embeddings, cosine similarity, semantic links, graph persistence, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, semantic search, or Semantic Map.
 
-## Later mobile responsibilities
+## Later private mobile responsibilities
 
 - v0.2 adds local embedding processing, embedding metadata, similar-sketch lookup, and Outbox list/detail views.
 - v0.3 adds semantic link suggestions, confirmation/rejection, correction events, and basic graph persistence.
@@ -78,9 +89,11 @@ v0.1 does not include Outbox, embeddings, cosine similarity, semantic links, gra
 - v0.7 adds KnowledgeArea creation, assignment, rename/delete, suggestions, and correction events.
 - v0.8 adds a phone-testable 2D Semantic Map.
 
-## Desktop responsibilities
+## Desktop v2.0+ boundary
 
-Desktop is deferred from v0.1. Later, it may own heavier processing and debugging workflows:
+Desktop is not part of `v0.x`, `v1.0`, or any `v1.x` release. It must not own or be required for embeddings, vector indexes, reindexing, or semantic workbench behavior before `v2.0`.
+
+Candidate `v2.0+` desktop responsibilities:
 
 - batch inbox review;
 - heavy transcription and reprocessing;
@@ -91,7 +104,7 @@ Desktop is deferred from v0.1. Later, it may own heavier processing and debuggin
 - KnowledgeArea and project extraction diagnostics;
 - model migration and reindexing tools.
 
-Desktop must not become a required backend for v0.1 mobile capture.
+These responsibilities are placeholders for v2.0+ planning, not private pre-1.0 or v1.x scope.
 
 ## Shared core packages
 
@@ -112,10 +125,10 @@ For v0.1, only the shared contracts needed by `ActiveSketchBuffer`, `Sketch`, lo
 
 ## Monorepo boundary
 
-The main product monorepo contains:
+The main product monorepo can contain:
 
 - mobile app;
-- desktop app placeholder or future app;
+- v2.0+ desktop app placeholder or future app;
 - shared product core;
 - semantic DB schema;
 - ingestion contracts;
@@ -137,7 +150,7 @@ Separate repositories are reserved for future independent engines:
 
 ## Exclusions from v0.1
 
-Do not include in the first mobile release:
+Do not include in the first private mobile build:
 
 - embeddings or vector search;
 - Outbox;
@@ -158,6 +171,15 @@ Do not include in the first mobile release:
 - collaboration;
 - automatic file import;
 - full iOS + Android + macOS + Windows + Linux launch at once.
+
+Do not include in `v0.x` or `v1.x`:
+
+- desktop app;
+- desktop-owned embedding pipeline;
+- desktop-owned vector index;
+- desktop-owned reindexing workflow;
+- desktop-owned semantic workbench;
+- cross-device workflow dependency.
 
 ## Design rule
 

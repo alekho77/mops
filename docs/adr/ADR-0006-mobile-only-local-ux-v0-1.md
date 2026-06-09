@@ -6,7 +6,7 @@ ADR-0010 supersedes the v0.1 release scope in this ADR. The mobile-only, local-o
 
 ## Context
 
-MOPS needs a first shippable UX that is smaller than the broader multi-device MOPS architecture. It should prioritize fast capture and local privacy without requiring accounts, registration, cloud sync, semantic processing, or a desktop application.
+MOPS needs a first private phone-testable UX that is smaller than the broader multi-device MOPS architecture. It should prioritize fast capture and local privacy without requiring accounts, registration, cloud sync, semantic processing, or a desktop application.
 
 The broader target object chain remains:
 
@@ -24,7 +24,7 @@ For v0.1, only the capture and Inbox part of that chain is required.
 
 ## Decision
 
-MOPS UX v0.1 is a mobile-only local application.
+MOPS UX v0.1 is a private mobile-only local application build.
 
 General principles:
 
@@ -104,7 +104,7 @@ Positive:
 Trade-offs:
 
 - Device sync is not part of UX v0.1.
-- Desktop processing is not part of the first user-facing release.
+- Desktop processing is not part of the private v0.1 build.
 - Heavy semantic processing is deferred until later mobile release milestones.
 - v0.1 does not validate embeddings, semantic search, graph editing, or draft generation.
 

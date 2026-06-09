@@ -2,7 +2,7 @@
 
 ## Current stage
 
-MOPS is in architecture and MVP definition stage.
+MOPS is in architecture, private pre-1.0 mobile alpha/beta, and v1.0 mobile MVP definition stage.
 
 ## Recent decisions
 
@@ -15,9 +15,14 @@ MOPS is in architecture and MVP definition stage.
 - MOPS Semantic Engine coordinates parsing, chunking, embedding, vector storage, search, source references, and context reconstruction.
 - Vector DB is not semantic source of truth; it is searchable infrastructure over source-linked memory records.
 - ADR-0010 supersedes the v0.1 release scope from ADR-0005 and ADR-0006.
+- ADR-0011 supersedes release-maturity interpretation from ADR-0010 and desktop-scope portions of ADR-0002.
+- Version ladder is fixed: `v0.x` = private mobile-only pre-1.0 alpha/beta builds; `v1.0` = first public mobile-only MVP/product baseline; `v1.x` = mobile-only public iteration line; `v2.0+` = desktop expansion.
+- `v0.x` builds are not MVPs and are not public releases.
+- Desktop app, desktop-owned embedding pipeline, desktop-owned vector index, desktop-owned reindexing, desktop semantic workbench, and cross-device desktop workflows are not allowed in `v0.x` or `v1.x`.
+- Desktop starts no earlier than `v2.0`.
 - The full ADR-0005 semantic workbench model remains the target: `Sketch -> SemanticSketch -> Semantic Links -> Bundle -> Draft -> KnowledgeItem -> Vector DB -> KnowledgeArea -> Semantic Map`.
-- Mobile release train is now staged as feature milestones from v0.1 through v0.8.
-- Each `v0.x` release must be buildable as Android APK or iOS/Xcode build and have a manual phone acceptance scenario.
+- Private pre-1.0 mobile alpha/beta train is staged as feature milestones from v0.1 through v0.8.
+- Each `v0.x` build must be buildable as Android APK or iOS/Xcode build and have a manual phone acceptance scenario.
 - v0.1 is **Mobile Capture + Inbox** only.
 - v0.1 object chain is `ActiveSketchBuffer -> Sketch`.
 - v0.1 main screens are Sketch Editor, Inbox, and Settings.
@@ -30,11 +35,11 @@ MOPS is in architecture and MVP definition stage.
 - v0.6 introduces Knowledge Base: persist KnowledgeItems, embed/search KnowledgeItems, and basic Knowledge Base list/detail/search.
 - v0.7 introduces KnowledgeAreas: manual and suggested KnowledgeArea assignment, create/rename/delete areas, and correction events for area changes.
 - v0.8 introduces a phone-testable 2D Semantic Map.
-- Mobile MVP framework accepted: Flutter with Dart.
+- Mobile product framework accepted: Flutter with Dart.
 - `apps/mobile` should be one shared Flutter codebase for iOS and Android.
 - Native iOS/Android code is limited to narrow platform adapters for permissions, file access, speech integration, background limits, local notifications, and secure storage.
-- Rust is deferred from the first mobile MVP and remains only a possible future portable local engine for measured heavy-processing needs.
-- Product code should start as one monorepo containing `apps/mobile`, `apps/desktop`, and shared `packages/*`.
+- Rust is deferred from the private pre-1.0 train and public v1.0 mobile baseline; it remains only a possible future portable local engine for measured heavy-processing needs.
+- Product code should start as one monorepo containing `apps/mobile`, shared `packages/*`, and at most a placeholder for future `apps/desktop` v2.0+ work.
 - Future custom vector DB, model forks, speech/OCR/vision engines, benchmarks, and native runtime experiments should live in separate repositories.
 - Automatic classification must suggest, not silently decide. User correction is a first-class event.
 - Raw transcription and cleaned note must be stored separately.
@@ -49,7 +54,7 @@ MOPS is in architecture and MVP definition stage.
 
 ## Current open choices
 
-- Desktop framework.
+- Desktop framework for v2.0+.
 - Exact embedding model.
 - Vector index library.
 - Speech recognition engine.
@@ -58,4 +63,4 @@ MOPS is in architecture and MVP definition stage.
 
 ## Working constraint
 
-Do not expand all capabilities at once. Ship v0.1 Mobile Capture + Inbox first while preserving the broader MOPS orchestration architecture.
+Do not expand all capabilities at once. Ship private v0.1 Mobile Capture + Inbox first, keep v1.x mobile-only, and defer desktop to v2.0+ while preserving the broader MOPS orchestration architecture.

@@ -1,8 +1,10 @@
 # ADR-0002: Voice/Text Inbox MVP and Application Split
 
-## Status: Accepted, release scope superseded by ADR-0005 and ADR-0010
+## Status: Accepted, release and desktop scope superseded by ADR-0005, ADR-0010, and ADR-0011
 
 ADR-0005 replaced the Voice/Text Inbox MVP with the Sketch/SemanticSketch target model. ADR-0010 then narrowed the first installable mobile release to v0.1 Mobile Capture + Inbox and staged semantic capabilities across later `v0.x` milestones.
+
+ADR-0011 reclassifies all `v0.x` milestones as private pre-1.0 mobile alpha/beta builds, defines `v1.0` as the first public mobile-only MVP/product baseline, and defers desktop app or desktop-owned semantic engine work until `v2.0+`.
 
 ## Context
 
@@ -23,7 +25,7 @@ Voice/Text Inbox
 
 The system must support chaotic, low-friction capture of short thoughts, ideas, and notes. The user should not manually organize content at capture time. Automatic organization is useful only if the user can inspect and correct it.
 
-The discussion also clarified that mobile and desktop have different platform constraints:
+The former discussion also clarified that mobile and desktop have different platform constraints:
 
 - Mobile platforms are harder for background processing, file access, permissions, audio, and local ML runtimes.
 - Desktop platforms are better suited for heavy processing, indexing, debugging, local databases, and batch jobs.
@@ -60,7 +62,10 @@ Application roles are split as follows:
    - manual project correction;
    - compact project cards.
 
-2. **Desktop app = semantic memory engine**
+2. **Former desktop app = semantic memory engine**
+
+   This was a former direction. Under ADR-0011, this desktop-owned semantic memory engine is not part of current `v0.x` private mobile builds or the `v1.x` mobile-only public product line. Desktop semantic engine ownership can be reconsidered only for `v2.0+`.
+
    - full inbox review;
    - heavy transcription and reprocessing;
    - cleaned note generation;
@@ -130,7 +135,7 @@ Positive consequences:
 
 - The MVP becomes narrow enough to implement and test.
 - Mobile UX can focus on low-friction capture instead of heavy AI.
-- Desktop can own complex processing where the OS constraints are weaker.
+- Desktop may own complex processing only if this former direction is revived for `v2.0+`.
 - Shared core prevents mobile and desktop logic from drifting apart.
 - Manual correction creates training data for later adaptive behavior.
 - The product remains compatible with the broader MOPS orchestration architecture.
@@ -141,7 +146,7 @@ Negative consequences and risks:
 - Sync between mobile and desktop is still a major design problem.
 - Mobile speech-to-text quality and correction UX remain critical risks.
 - Automatic clustering may still create noisy or misleading suggestions.
-- Desktop processing can become a bottleneck if mobile depends on it too strongly.
+- Desktop processing can become a bottleneck if a future `v2.0+` mobile/desktop workflow depends on it too strongly.
 - Cross-platform mobile support should not be assumed to be cheap.
 
 New obligations:

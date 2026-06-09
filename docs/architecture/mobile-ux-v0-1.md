@@ -2,7 +2,7 @@
 
 ## Scope
 
-Mobile UX v0.1 is the first installable local phone build. It is limited to capture and Inbox management.
+Mobile UX v0.1 is the first private installable local phone build. It is limited to capture and Inbox management.
 
 Required object chain:
 
@@ -35,7 +35,7 @@ Excluded from v0.1:
 5. The app always starts on the new Sketch Editor.
 6. Any input is autosaved.
 7. Destructive capture and Inbox actions require confirmation.
-8. The release must be buildable as Android APK or iOS/Xcode build for phone testing.
+8. The private build must be buildable as Android APK or iOS/Xcode build for phone testing.
 
 ## Main Screens
 
@@ -172,7 +172,7 @@ Settings must not expose embedding model, voice input, semantic search, sync, or
 
 ## Phone Acceptance Scenario
 
-The v0.1 release is acceptable when this scenario passes on a real Android or iOS device:
+The v0.1 private build is acceptable when this scenario passes on a real Android or iOS device:
 
 1. Install the app from an APK or Xcode/iOS build.
 2. Open the app and land on Sketch Editor without login or registration.

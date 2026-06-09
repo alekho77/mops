@@ -1,8 +1,8 @@
 # ADR-0005: Sketch, SemanticSketch, and Semantic Workbench MVP
 
-## Status: Accepted, release scope superseded by ADR-0010
+## Status: Accepted, release scope superseded by ADR-0010 and release maturity superseded by ADR-0011
 
-ADR-0010 supersedes the v0.1 release scope in this ADR. The terminology and target semantic workbench model remain accepted, but the full Sketch-to-Semantic-Map loop is delivered incrementally across the mobile release train.
+ADR-0010 supersedes the v0.1 release scope in this ADR. ADR-0011 clarifies that `v0.x` milestones are private pre-1.0 alpha/beta builds, not MVP releases. The terminology and target semantic workbench model remain accepted, but the full Sketch-to-Semantic-Map loop is delivered incrementally across the mobile train.
 
 ## Context
 
@@ -129,7 +129,7 @@ The remaining semantic workbench capabilities are staged after v0.1:
 - v0.7 introduces KnowledgeAreas;
 - v0.8 introduces the 2D Semantic Map.
 
-## Former MVP v0.1 Scope
+## Former Oversized v0.1 Scope
 
 The following scope is retained as the target semantic workbench capability set, not as the v0.1 requirement.
 
@@ -170,7 +170,7 @@ Positive:
 - Outbox gives the user a place to inspect and correct SemanticSketch structure before long-term storage.
 - Draft records create a clear bridge from chaotic sketches to durable knowledge.
 - Manual confirmation remains central to Bundle and KnowledgeArea assignment.
-- The MVP still supports later voice capture, project crystallization, and agent orchestration.
+- The target model still supports later voice capture, project crystallization, and agent orchestration.
 
 Trade-offs:
 

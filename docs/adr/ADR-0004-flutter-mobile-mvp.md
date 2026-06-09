@@ -2,6 +2,8 @@
 
 Status: Accepted
 
+ADR-0011 clarifies release maturity: private `v0.x` alpha/beta builds are not MVP releases, while `v1.0` is the first public mobile-only MVP/product baseline. This ADR applies Flutter to both the private pre-1.0 mobile train and the public v1.x mobile product line.
+
 ## Context
 
 MOPS needs a mobile application for the first MVP that can run on iOS and Android without maintaining two separate native applications.
