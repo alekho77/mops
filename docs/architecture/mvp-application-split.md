@@ -3,25 +3,36 @@
 ## MVP pipeline
 
 ```text
-Inbox Notes
+Sketch
   -> Embedding Pipeline
-  -> Outbox Vector Space
+  -> SemanticSketch
   -> Semantic Links
-  -> Note Clusters
-  -> Draft Document Generation
-  -> Knowledge Documents
+  -> Bundle
+  -> Draft
+  -> KnowledgeItem
   -> Vector DB
-  -> Project Clusters
+  -> KnowledgeArea
   -> Semantic Map
 ```
 
 Core model:
 
 ```text
-Inbox = input buffer
-Outbox = semantic workbench
-Vector DB = long-term memory
+Inbox = Sketch input buffer
+Outbox = SemanticSketch workbench
+Vector DB = long-term KnowledgeItem memory
 ```
+
+Canonical MVP terms:
+
+| Level | UI RU | Code term |
+| --- | --- | --- |
+| Inbox | Набросок | `Sketch` |
+| Outbox | Обработанный набросок | `SemanticSketch` |
+| Outbox cluster | Связка | `Bundle` |
+| Generated document | Черновик | `Draft` |
+| Vector DB document | Знание | `KnowledgeItem` |
+| Vector DB cluster | Направление | `KnowledgeArea` |
 
 ## Product split
 
@@ -75,10 +86,10 @@ pending_remote_processing
 
 ### Outbox
 
-- Show vectorized notes after Inbox processing.
-- Show similar notes.
+- Show SemanticSketch records after Sketch processing.
+- Show similar SemanticSketch records.
 - Allow the user to inspect candidate links.
-- Support manual note-to-cluster assignment where lightweight enough for mobile.
+- Support manual SemanticSketch-to-Bundle assignment where lightweight enough for mobile.
 
 ### Semantic search
 
@@ -86,16 +97,16 @@ pending_remote_processing
 - Open the original captured note from a result.
 - Support text query first; voice query later.
 
-### Suggested clusters
+### Bundle suggestions
 
-- Show candidate cluster/project assignments.
+- Show candidate Bundle and KnowledgeArea assignments.
 - Show confidence when available.
 - Allow confirm/reject/correct.
 
 ### Draft documents
 
-- Show draft documents generated elsewhere when available.
-- Allow lightweight draft review and manual text edits if the mobile surface supports it.
+- Show Draft records generated elsewhere when available.
+- Allow lightweight Draft review and manual text edits if the mobile surface supports it.
 - Allow final confirmation when the user is comfortable doing so on mobile.
 
 ### Project pages
@@ -135,12 +146,12 @@ pending_remote_processing
 
 ### Outbox semantic workbench
 
-- Move notes from Inbox to Outbox.
-- Build Outbox vector space.
-- Calculate note similarity with cosine similarity.
+- Process Sketch records into SemanticSketch records.
+- Build SemanticSketch vector space.
+- Calculate SemanticSketch similarity with cosine similarity.
 - Generate candidate semantic links.
 - Persist confirmed and rejected links.
-- Display vectorized notes, links, and cluster membership.
+- Display SemanticSketch records, links, and Bundle membership.
 
 ### Semantic search
 
@@ -148,29 +159,29 @@ pending_remote_processing
 - Hybrid search later: keyword + vector + metadata.
 - Search by project, date, source type, and processing status.
 
-### Suggested clusters
+### Bundle suggestions
 
-- Build note clusters.
-- Propose project names.
-- Merge/split clusters.
+- Build Bundles.
+- Propose KnowledgeArea names.
+- Merge/split Bundles.
 - Track confidence.
 - Store user decisions as correction events.
 
-### Draft and Knowledge Documents
+### Draft and KnowledgeItems
 
-- Generate a coherent Draft Document from a selected Note Cluster.
+- Generate a coherent Draft from a selected Bundle.
 - Support manual editing before finalization.
-- Save confirmed drafts as Knowledge Documents.
-- Embed Knowledge Documents.
-- Search similar Knowledge Documents.
-- Link Knowledge Documents to Project Clusters.
+- Save confirmed Draft records as KnowledgeItems.
+- Embed KnowledgeItems.
+- Search similar KnowledgeItems.
+- Link KnowledgeItems to KnowledgeAreas.
 
 ### Semantic Map
 
 - Provide the MVP 2D map.
-- Render notes as points.
+- Render SemanticSketch records as points.
 - Render semantic links as lines.
-- Render note clusters as groups.
+- Render Bundles as groups.
 - Use color or size for status, review state, or cluster density.
 
 ### Project pages
@@ -181,7 +192,7 @@ pending_remote_processing
 - Open questions.
 - Candidate tasks.
 - Timeline.
-- Linked clusters.
+- Linked Bundles and KnowledgeAreas.
 - Export later.
 
 ## Shared core packages
@@ -204,16 +215,17 @@ Source
 RawNote
 CleanedNote
 EmbeddingRecord
-InboxNote
-OutboxNote
+Sketch
+SemanticSketch
 SemanticLink
-NoteCluster
-DraftDocument
-KnowledgeDocument
+Bundle
+Draft
+KnowledgeItem
 SearchResult
-SuggestedCluster
+BundleSuggestion
 Project
-ProjectCluster
+KnowledgeArea
+KnowledgeAreaAssignment
 CorrectionEvent
 Device
 SyncEvent

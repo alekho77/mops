@@ -8,7 +8,7 @@ This repository is intended for advanced users who want to inspect, build, and i
 
 MOPS is in architecture and MVP definition stage.
 
-The first implementation target is MVP v0.1: Inbox -> Outbox semantic workbench -> Draft Documents -> Knowledge Documents.
+The first implementation target is MVP v0.1: Sketch -> SemanticSketch -> Bundle -> Draft -> KnowledgeItem -> KnowledgeArea.
 
 Production mobile and desktop releases are not published yet.
 
@@ -20,7 +20,7 @@ MOPS is designed for personal use:
 - text notes;
 - cleaned personal notes;
 - semantic search;
-- suggested clusters and projects;
+- Bundle and KnowledgeArea suggestions;
 - editable semantic links;
 - draft document generation;
 - manual correction of AI suggestions;

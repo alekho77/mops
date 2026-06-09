@@ -12,7 +12,7 @@
 - Original files remain outside vector DB.
 - Explicit model and embedding versioning required.
 - Embedding/custom linguistic models are separated from vector DB implementation.
-- First MVP is MVP v0.1: Inbox -> Outbox semantic workbench -> Draft Documents -> Knowledge Documents, not full multimodal memory.
+- First MVP is MVP v0.1: Sketch -> SemanticSketch -> Bundle -> Draft -> KnowledgeItem -> KnowledgeArea, not full multimodal memory.
 - Mobile app is capture-first.
 - Desktop app is processing-first.
 - Mobile and desktop product code should live in one monorepo.
@@ -26,24 +26,24 @@
 ## MVP pipeline
 
 ```text
-Inbox Notes
+Sketch
   -> Embedding Pipeline
-  -> Outbox Vector Space
+  -> SemanticSketch
   -> Semantic Links
-  -> Note Clusters
-  -> Draft Document Generation
-  -> Knowledge Documents
+  -> Bundle
+  -> Draft
+  -> KnowledgeItem
   -> Vector DB
-  -> Project Clusters
+  -> KnowledgeArea
   -> Semantic Map
 ```
 
 Core semantic roles:
 
 ```text
-Inbox = input buffer
-Outbox = semantic workbench
-Vector DB = long-term memory
+Inbox = Sketch input buffer
+Outbox = SemanticSketch workbench
+Vector DB = long-term KnowledgeItem memory
 ```
 
 ## MVP monorepo structure
@@ -83,7 +83,7 @@ mops/
 - transcription status;
 - cleaned note view;
 - lightweight semantic search;
-- suggested cluster review;
+- Bundle suggestion review;
 - manual correction;
 - compact project pages;
 - narrow native platform adapters where required.
@@ -95,7 +95,7 @@ mops/
 - cleaned note generation;
 - embedding jobs;
 - vector index management;
-- cluster building;
+- Bundle building;
 - project pages;
 - manual correction workflows;
 - reindexing and migration tools later.
@@ -106,9 +106,9 @@ mops/
 - domain entities;
 - processing state machine;
 - correction events;
-- semantic link and note cluster rules;
-- draft document lifecycle;
-- project/cluster assignment rules.
+- semantic link and Bundle rules;
+- Draft lifecycle;
+- KnowledgeArea/Bundle assignment rules.
 
 ### packages/db
 
@@ -116,7 +116,7 @@ mops/
 - migrations;
 - repositories;
 - graph persistence for semantic links;
-- draft and knowledge document persistence;
+- Draft and KnowledgeItem persistence;
 - vector-store adapter;
 - full-text search adapter later.
 
@@ -138,9 +138,9 @@ mops/
 
 ### packages/clustering
 
-- suggested cluster generation;
-- semantic link graph clustering;
-- cluster merge/split operations;
+- Bundle suggestion generation;
+- semantic link graph clustering into Bundles;
+- Bundle merge/split operations;
 - project detection;
 - confidence scoring;
 - user correction application.
@@ -211,8 +211,8 @@ Semantic DB stores:
 - content hashes;
 - model metadata;
 - user corrections;
-- cluster suggestions;
-- project assignments;
+- Bundle suggestions;
+- KnowledgeArea assignments;
 - task classification events;
 - goal decomposition events;
 - execution feedback events.
@@ -240,16 +240,16 @@ RawNote
 Transcription
 CleanedNote
 EmbeddingRecord
-InboxNote
-OutboxNote
+Sketch
+SemanticSketch
 SemanticLink
-NoteCluster
-DraftDocument
-KnowledgeDocument
-SuggestedCluster
+Bundle
+Draft
+KnowledgeItem
+BundleSuggestion
 Project
-ProjectCluster
-ProjectAssignment
+KnowledgeArea
+KnowledgeAreaAssignment
 SearchResult
 CorrectionEvent
 Device
@@ -279,8 +279,8 @@ Required model capabilities for the first MVP:
 - text cleanup;
 - semantic embedding;
 - semantic search;
-- cluster suggestion;
-- project suggestion;
+- Bundle suggestion;
+- KnowledgeArea suggestion;
 - confidence scoring;
 - correction handling.
 
@@ -397,7 +397,7 @@ Open implementation choices:
 - Vectors from incompatible models must not be mixed in one searchable space.
 - Vector dimension and distance metric must match the selected model and index.
 - Raw transcription and cleaned note must be stored separately.
-- Automatic cluster/project assignment must remain editable.
+- Automatic Bundle/KnowledgeArea assignment must remain editable.
 - User corrections must be stored as first-class events.
 - Flutter UI code must not become the semantic engine boundary.
 - Platform-specific mobile code must stay behind narrow Dart-facing adapters.

@@ -20,12 +20,12 @@ MOPS is in architecture and MVP definition stage.
 - Model Layer must be separated from Vector DB Layer: models produce embeddings/custom linguistic vectors, while vector DB stores ready vectors, indexes them, and searches nearest neighbors.
 - MOPS Semantic Engine coordinates parsing, chunking, embedding, vector storage, search, source references, and context reconstruction.
 - Vector DB is not semantic source of truth; it is searchable infrastructure over source-linked memory records.
-- First MVP is now selected as **MVP v0.1: Inbox/Outbox semantic workbench**.
-- Previous Voice/Text Inbox pipeline is retained as capture context, but the accepted MVP v0.1 product loop is now centered on Inbox, Outbox, links, clusters, drafts, and Knowledge Documents.
-- MVP v0.1 is clarified as `Inbox -> Outbox semantic workbench -> Semantic Links -> Note Clusters -> Draft Documents -> Knowledge Documents -> Vector DB -> Project Clusters -> Semantic Map`.
-- Outbox is not just a queue; it is the semantic workbench for vectorized notes, candidate links, editable clusters, and draft document generation before long-term storage.
-- MVP terms are fixed: Inbox, Outbox, Semantic Link, Note Cluster, Draft Document, Knowledge Document, Project Cluster, Semantic Map.
-- MVP v0.1 requires text Inbox CRUD, manual Inbox-to-Outbox processing, local embeddings, cosine-similarity links, manual link confirmation/deletion, graph persistence, cluster build/edit flows, draft document generation/editing, final document embedding/search, project linking, and a 2D Outbox map.
+- First MVP is now selected as **MVP v0.1: Sketch/SemanticSketch semantic workbench**.
+- Previous Voice/Text Inbox pipeline is retained as capture context, but the accepted MVP v0.1 product loop is now centered on Sketch, SemanticSketch, links, Bundles, Drafts, KnowledgeItems, and KnowledgeAreas.
+- MVP v0.1 is clarified as `Sketch -> SemanticSketch -> Semantic Links -> Bundle -> Draft -> KnowledgeItem -> Vector DB -> KnowledgeArea -> Semantic Map`.
+- Outbox is not just a queue; it is the semantic workbench for SemanticSketch records, candidate links, editable Bundles, and Draft generation before long-term storage.
+- MVP terms are fixed: Sketch, SemanticSketch, Semantic Link, Bundle, Draft, KnowledgeItem, KnowledgeArea, Semantic Map.
+- MVP v0.1 requires Sketch CRUD, manual Sketch-to-SemanticSketch processing, local embeddings, cosine-similarity links, manual link confirmation/deletion, graph persistence, Bundle build/edit flows, Draft generation/editing, final KnowledgeItem embedding/search, KnowledgeArea linking, and a 2D Outbox map.
 - Deferred until after MVP v0.1: full 3D globe, unconfirmed automatic large project creation, complex document hierarchy, multi-agent processing, device sync, collaboration, and automatic file import.
 - Mobile app role: capture client for fast voice/text input, offline inbox, lightweight search, suggestion review, and manual correction.
 - Desktop app role: semantic memory engine for transcription reprocessing, cleaned note generation, embeddings, clustering, search, and project pages.

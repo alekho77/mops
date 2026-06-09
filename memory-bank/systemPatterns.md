@@ -22,20 +22,20 @@ It is a voice-first personal AI orchestration system, not only a task manager an
 - Shared product logic belongs in the main monorepo.
 - Low-level model/vector DB forks belong in separate repositories.
 
-## Inbox/Outbox MVP v0.1 pattern
+## Sketch/SemanticSketch MVP v0.1 pattern
 
 The first MVP is clarified as MVP v0.1:
 
 ```text
-Inbox Notes
+Sketch
   -> Embedding Pipeline
-  -> Outbox Vector Space
+  -> SemanticSketch
   -> Semantic Links
-  -> Note Clusters
-  -> Draft Document Generation
-  -> Knowledge Documents
+  -> Bundle
+  -> Draft
+  -> KnowledgeItem
   -> Vector DB
-  -> Project Clusters
+  -> KnowledgeArea
   -> Semantic Map
 ```
 
@@ -47,29 +47,29 @@ Core rule:
 capture first
 process later
 review semantic links
-assemble draft documents
+assemble Draft records
 store corrections
 ```
 
 Core semantic roles:
 
 ```text
-Inbox = input buffer
-Outbox = semantic workbench
-Vector DB = long-term memory
+Inbox = Sketch input buffer
+Outbox = SemanticSketch workbench
+Vector DB = long-term KnowledgeItem memory
 ```
 
-Outbox is user-visible working space, not a passive queue. It contains vectorized notes, candidate semantic links, editable note clusters, and the source material for draft document generation.
+Outbox is user-visible working space, not a passive queue. It contains SemanticSketch records, candidate semantic links, editable Bundles, and the source material for Draft generation.
 
 Fixed MVP terms:
 
-- Inbox: raw notes.
-- Outbox: vectorized notes before finalization.
-- Semantic Link: relationship between notes.
-- Note Cluster: group of linked notes.
-- Draft Document: editable coherent text assembled from a note cluster.
-- Knowledge Document: finalized document in the main semantic DB and vector space.
-- Project Cluster: large cluster of Knowledge Documents.
+- Sketch: raw note shown in UI RU as "Набросок".
+- SemanticSketch: vectorized sketch before finalization, shown in UI RU as "Обработанный набросок".
+- Semantic Link: relationship between SemanticSketch records.
+- Bundle: group of linked SemanticSketch records, shown in UI RU as "Связка".
+- Draft: editable coherent text assembled from a Bundle, shown in UI RU as "Черновик".
+- KnowledgeItem: finalized document in the main semantic DB and vector space, shown in UI RU as "Знание".
+- KnowledgeArea: large cluster of KnowledgeItems, shown in UI RU as "Направление".
 - Semantic Map: visualization of Outbox or long-term memory.
 
 ## Mobile capture client pattern
@@ -85,8 +85,8 @@ Responsibilities:
 - cleaned note display;
 - processing status display;
 - lightweight semantic search;
-- cluster/project suggestion review;
-- manual correction of project assignment;
+- Bundle/KnowledgeArea suggestion review;
+- manual correction of KnowledgeArea assignment;
 - compact project pages.
 
 Mobile must not be required to own heavy indexing, model migration, full reindexing, or deep batch processing in the first MVP.
@@ -133,7 +133,7 @@ Responsibilities:
 - local semantic DB management;
 - vector index management;
 - semantic search;
-- cluster building;
+- Bundle building;
 - project page generation;
 - manual correction workflows;
 - model/version migration support later.
@@ -147,8 +147,8 @@ MOPS must not silently treat AI classification as truth.
 Automatic classification creates suggestions:
 
 - candidate domain;
-- candidate project;
-- candidate cluster;
+- candidate KnowledgeArea;
+- candidate Bundle;
 - confidence;
 - alternative candidates when available.
 
@@ -156,13 +156,13 @@ User actions are first-class events:
 
 - confirm suggestion;
 - reject suggestion;
-- move note to another project;
-- create new project;
-- merge clusters;
-- split clusters.
-- generate draft document from a cluster;
-- edit draft document;
-- confirm draft as Knowledge Document.
+- move KnowledgeItem to another KnowledgeArea;
+- create new KnowledgeArea;
+- merge Bundles;
+- split Bundles.
+- generate Draft from a Bundle;
+- edit Draft;
+- confirm Draft as KnowledgeItem.
 
 Corrections become training/adaptation signals.
 
@@ -178,12 +178,12 @@ RawNote
   -> CleanedNote
   -> Summary
   -> EmbeddingRecord
-  -> SuggestedCluster
-  -> ProjectAssignment
+  -> BundleSuggestion
+  -> KnowledgeAreaAssignment
   -> CorrectionEvent
 ```
 
-Raw input remains available as source of truth. Cleaned notes, summaries, entities, clusters, and project assignments are derived interpretations.
+Raw input remains available as source of truth. Cleaned notes, summaries, entities, Bundles, and KnowledgeArea assignments are derived interpretations.
 
 ## Personal MOPS agent pattern
 
