@@ -2,7 +2,7 @@
 
 ## Status: Accepted, release scope superseded by ADR-0010, release maturity superseded by ADR-0011, early Outbox and Knowledge Base scope superseded by ADR-0013
 
-ADR-0010 supersedes the v0.1 release scope in this ADR. ADR-0011 clarifies that `v0.x` milestones are private pre-1.0 alpha/beta builds, not MVP releases. ADR-0013 narrows the first mobile Outbox and Knowledge Base surfaces to list/card workflows and makes the first Semantic Map read-only experimental visualization. The terminology and target semantic workbench model remain accepted, but the full Sketch-to-Semantic-Map loop is delivered incrementally across the mobile train.
+ADR-0010 supersedes the v0.1 release scope in this ADR. ADR-0011 clarifies that `v0.x` milestones are private pre-1.0 alpha/beta builds, not MVP releases. ADR-0013 narrows the first mobile Outbox and Knowledge Base surfaces to list/card workflows and makes the first Semantic Map read-only experimental visualization. ADR-0014 adds early voice capture in v0.2 and shifts semantic milestones to v0.3-v0.9. The terminology and target semantic workbench model remain accepted, but the full Sketch-to-Semantic-Map loop is delivered incrementally across the mobile train.
 
 ## Context
 
@@ -119,15 +119,16 @@ v0.1 is limited to Mobile Capture + Inbox:
 - confirmations for destructive capture and Inbox actions;
 - APK and iOS/Xcode build paths for phone testing.
 
-The remaining semantic workbench capabilities are staged after v0.1:
+The remaining voice and semantic workbench capabilities are staged after v0.1:
 
-- v0.2 introduces `SemanticSketch`, local embeddings, cosine similarity, Outbox list/detail views, and suggested Bundle cards without graph editing;
-- v0.3 introduces semantic links, link confirmation/deletion, correction events, and basic graph persistence;
-- v0.4 introduces Bundles and list/card membership adjustment;
-- v0.5 introduces Draft generation and editing;
-- v0.6 introduces KnowledgeItems, Knowledge Base list/search/detail, edit, and delete;
-- v0.7 introduces KnowledgeAreas;
-- v0.8 introduces the 2D Semantic Map as a read-only experiment.
+- v0.2 introduces OS speech API voice capture into `ActiveSketchBuffer`;
+- v0.3 introduces `SemanticSketch`, local embeddings, cosine similarity, Outbox list/detail views, and suggested Bundle cards without graph editing;
+- v0.4 introduces semantic links, link confirmation/deletion, correction events, and basic graph persistence;
+- v0.5 introduces Bundles and list/card membership adjustment;
+- v0.6 introduces Draft generation and editing;
+- v0.7 introduces KnowledgeItems, Knowledge Base list/search/detail, edit, and delete;
+- v0.8 introduces KnowledgeAreas;
+- v0.9 introduces the 2D Semantic Map as a read-only experiment.
 
 ## Former Oversized v0.1 Scope
 

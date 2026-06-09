@@ -1,12 +1,14 @@
 # ADR-0010: Incremental private mobile pre-1.0 release train
 
-## Status: Accepted, release maturity superseded by ADR-0011, Send to Inbox confirmation superseded by ADR-0012, early Outbox and Knowledge Base scope superseded by ADR-0013
+## Status: Accepted, release maturity superseded by ADR-0011, Send to Inbox confirmation superseded by ADR-0012, early Outbox and Knowledge Base scope superseded by ADR-0013, voice capture scope superseded by ADR-0014
 
-ADR-0011 supersedes the release-maturity interpretation of this ADR. The `v0.1` through `v0.8` sequence remains accepted as a private mobile pre-1.0 alpha/beta train, not as MVP or public release scope.
+ADR-0011 supersedes the release-maturity interpretation of this ADR. The `v0.1` through `v0.9` sequence remains accepted as a private mobile pre-1.0 alpha/beta train, not as MVP or public release scope.
 
 ADR-0012 supersedes the v0.1 rule that `Send to Inbox` requires confirmation. `Send to Inbox` is now a one-tap explicit action with Undo; confirmations remain required for destructive, reset, and batch operations.
 
 ADR-0013 supersedes the early mobile scope for Outbox, Knowledge Base, and Semantic Map. First Outbox and Knowledge Base surfaces are list/card-first; the first Semantic Map is read-only experimental visualization, not a graph editor.
+
+ADR-0014 supersedes the open first voice-capture engine choice. `v0.2` is now Mobile Voice Capture using OS speech APIs through narrow iOS/Android adapters, and semantic milestones move to `v0.3` through `v0.9`.
 
 ## Supersedes
 
@@ -40,14 +42,15 @@ The first pre-1.0 build is intentionally limited to capture and Inbox.
 
 | Version | Name | Scope | Phone acceptance scenario |
 | --- | --- | --- | --- |
-| v0.1 | Mobile Capture + Inbox | Flutter app shell, local-only startup, `ActiveSketchBuffer`, autosave, `Sketch` CRUD, Inbox, Settings, confirmations for destructive/reset/batch actions, Undo for Send to Inbox, local persistence. No embeddings, Outbox, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, or Semantic Map. | Install on a phone, write a sketch, restart the app, confirm the buffer is restored, send it to Inbox without confirmation, verify Undo restores the buffer, edit/delete it, and verify data remains local. |
-| v0.2 | Semantic Outbox | Manual `Sketch` to `SemanticSketch` processing, local embeddings, embedding metadata, similar sketches by cosine similarity, Outbox list/detail views, suggested Bundle cards. No map-first UI or graph editing. | Install on a phone, process sketches into Outbox, inspect the processed list, open details, review similar sketches and suggested Bundle cards, and verify embedding status is visible. |
-| v0.3 | Semantic Links | Candidate links, manual confirm/delete, rejected and confirmed link persistence, correction events, basic graph persistence without Bundle editing. | Install on a phone, review candidate links, confirm one, reject one, restart, and verify both decisions persist. |
-| v0.4 | Bundles | Build Bundles from confirmed links, inspect Bundle cards, and adjust membership through list/card workflows. No map-based editing, merged document editor, or bulk merge. | Install on a phone, create or adjust a Bundle from cards/lists, restart, and verify membership persists. |
-| v0.5 | Drafts | Generate editable Drafts from selected Bundles, edit Drafts, confirm a Draft as a `KnowledgeItem` candidate. | Install on a phone, generate a Draft from a Bundle, edit it, confirm it, and verify the candidate is retained. |
-| v0.6 | Knowledge Base | Persist `KnowledgeItem` records, list/search/open/edit/delete KnowledgeItems, and keep delete confirmation. No KnowledgeArea editing or map-first UI. | Install on a phone, save a KnowledgeItem, search for it, open and edit it, delete it only after confirmation, and verify changes persist after restart. |
-| v0.7 | KnowledgeAreas | Manual and suggested `KnowledgeArea` assignment, create/rename/delete areas, correction events for area changes. | Install on a phone, assign a KnowledgeItem to an area, rename the area, move the item, and verify correction history is stored. |
-| v0.8 | 2D Semantic Map | Phone-testable read-only experimental map for `SemanticSketch` records, links, Bundles, KnowledgeItems, and KnowledgeAreas. No create/edit/delete/link/merge operations from the map. | Install on a phone, open the read-only map, inspect stored semantic records visually, and verify the map reflects existing data without becoming an editor. |
+| v0.1 | Mobile Capture + Inbox | Text-only Flutter app shell, local-only startup, `ActiveSketchBuffer`, autosave, `Sketch` CRUD, Inbox, Settings, confirmations for destructive/reset/batch actions, Undo for Send to Inbox, local persistence. No voice capture, embeddings, Outbox, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, or Semantic Map. | Install on a phone, write a sketch, restart the app, confirm the buffer is restored, send it to Inbox without confirmation, verify Undo restores the buffer, edit/delete it, and verify data remains local. |
+| v0.2 | Mobile Voice Capture | OS speech API capture through narrow iOS/Android adapters, speech/microphone permission status, recognized text inserted at the current cursor position in `ActiveSketchBuffer`. No local speech model, MOPS cloud speech backend, raw audio persistence, transcript cleanup, voice commands, background dictation, or semantic processing. | Install on a phone, grant speech/microphone permission, record speech in Sketch Editor, verify recognized text appears at the cursor, edit it as normal text, restart, and verify autosave restored it. |
+| v0.3 | Semantic Outbox | Manual `Sketch` to `SemanticSketch` processing, local embeddings, embedding metadata, similar sketches by cosine similarity, Outbox list/detail views, suggested Bundle cards. No map-first UI or graph editing. | Install on a phone, process sketches into Outbox, inspect the processed list, open details, review similar sketches and suggested Bundle cards, and verify embedding status is visible. |
+| v0.4 | Semantic Links | Candidate links, manual confirm/delete, rejected and confirmed link persistence, correction events, basic graph persistence without Bundle editing. | Install on a phone, review candidate links, confirm one, reject one, restart, and verify both decisions persist. |
+| v0.5 | Bundles | Build Bundles from confirmed links, inspect Bundle cards, and adjust membership through list/card workflows. No map-based editing, merged document editor, or bulk merge. | Install on a phone, create or adjust a Bundle from cards/lists, restart, and verify membership persists. |
+| v0.6 | Drafts | Generate editable Drafts from selected Bundles, edit Drafts, confirm a Draft as a `KnowledgeItem` candidate. | Install on a phone, generate a Draft from a Bundle, edit it, confirm it, and verify the candidate is retained. |
+| v0.7 | Knowledge Base | Persist `KnowledgeItem` records, list/search/open/edit/delete KnowledgeItems, and keep delete confirmation. No KnowledgeArea editing or map-first UI. | Install on a phone, save a KnowledgeItem, search for it, open and edit it, delete it only after confirmation, and verify changes persist after restart. |
+| v0.8 | KnowledgeAreas | Manual and suggested `KnowledgeArea` assignment, create/rename/delete areas, correction events for area changes. | Install on a phone, assign a KnowledgeItem to an area, rename the area, move the item, and verify correction history is stored. |
+| v0.9 | 2D Semantic Map | Phone-testable read-only experimental map for `SemanticSketch` records, links, Bundles, KnowledgeItems, and KnowledgeAreas. No create/edit/delete/link/merge operations from the map. | Install on a phone, open the read-only map, inspect stored semantic records visually, and verify the map reflects existing data without becoming an editor. |
 
 ## v0.1 boundary
 
@@ -67,6 +70,7 @@ Required in v0.1:
 Excluded from v0.1:
 
 - local embeddings;
+- voice capture;
 - cosine similarity;
 - Outbox;
 - `SemanticSketch`;

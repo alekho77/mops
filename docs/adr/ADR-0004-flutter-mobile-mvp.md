@@ -1,14 +1,14 @@
 # ADR-0004: Flutter mobile MVP
 
-Status: Accepted
+Status: Accepted, release scope superseded by ADR-0010 and voice capture timing superseded by ADR-0014
 
-ADR-0011 clarifies release maturity: private `v0.x` alpha/beta builds are not MVP releases, while `v1.0` is the first public mobile-only MVP/product baseline. This ADR applies Flutter to both the private pre-1.0 mobile train and the public v1.x mobile product line.
+ADR-0011 clarifies release maturity: private `v0.x` alpha/beta builds are not MVP releases, while `v1.0` is the first public mobile-only MVP/product baseline. ADR-0010 keeps v0.1 limited to Mobile Capture + Inbox, and ADR-0014 introduces voice capture in v0.2 using OS speech APIs. This ADR applies Flutter to both the private pre-1.0 mobile train and the public v1.x mobile product line.
 
 ## Context
 
 MOPS needs a mobile application for the first MVP that can run on iOS and Android without maintaining two separate native applications.
 
-The mobile MVP is capture-first: voice input, text input, offline inbox, lightweight review, lightweight semantic search, suggestion review, and manual correction.
+The mobile product direction is capture-first: voice input, text input, offline inbox, lightweight review, lightweight semantic search, suggestion review, and manual correction. The first private v0.1 build is text-only; voice input starts in v0.2.
 
 The project considered whether the mobile app must be written separately for each platform using native stacks, or whether one cross-platform codebase is acceptable.
 

@@ -14,6 +14,7 @@ ActiveSketchBuffer
 Excluded from v0.1:
 
 - Outbox;
+- voice capture;
 - embeddings;
 - cosine similarity;
 - `SemanticSketch`;
@@ -149,7 +150,7 @@ Required actions:
 | Delete | confirmation -> delete `Sketch` |
 | Clear all | confirmation -> delete all Inbox sketches |
 
-v0.1 does not support sending sketches to Outbox. That action appears in v0.2.
+v0.1 does not support sending sketches to Outbox. That action appears in v0.3 after v0.2 Mobile Voice Capture.
 
 ## Settings
 

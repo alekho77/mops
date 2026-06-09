@@ -36,13 +36,14 @@ Each `v0.x` build must be buildable as Android APK or iOS/Xcode build and testab
 | Version | Milestone | Technical boundary |
 | --- | --- | --- |
 | v0.1 | Mobile Capture + Inbox | Flutter app shell, local storage, `ActiveSketchBuffer`, `Sketch`, Inbox, Settings, Send to Inbox Undo, destructive/reset/batch confirmations. |
-| v0.2 | Semantic Outbox | Embedding provider contract, embedding metadata, `SemanticSketch`, cosine similarity, Outbox list/detail, suggested Bundle cards. |
-| v0.3 | Semantic Links | `SemanticLink`, confirmed/rejected link persistence, correction events, basic graph persistence. |
-| v0.4 | Bundles | Bundle builder, Bundle persistence, list/card membership adjustment. |
-| v0.5 | Drafts | Draft generation contract, editable Draft persistence, KnowledgeItem candidate confirmation. |
-| v0.6 | Knowledge Base | KnowledgeItem persistence, KnowledgeItem search, Knowledge Base list/detail/edit/delete. |
-| v0.7 | KnowledgeAreas | KnowledgeArea persistence, assignment suggestions, manual correction events. |
-| v0.8 | 2D Semantic Map | Read-only phone map projection/view state over semantic records, links, Bundles, items, and areas. |
+| v0.2 | Mobile Voice Capture | OS speech API adapter, speech/microphone permission status, recognized text insertion into `ActiveSketchBuffer`. |
+| v0.3 | Semantic Outbox | Embedding provider contract, embedding metadata, `SemanticSketch`, cosine similarity, Outbox list/detail, suggested Bundle cards. |
+| v0.4 | Semantic Links | `SemanticLink`, confirmed/rejected link persistence, correction events, basic graph persistence. |
+| v0.5 | Bundles | Bundle builder, Bundle persistence, list/card membership adjustment. |
+| v0.6 | Drafts | Draft generation contract, editable Draft persistence, KnowledgeItem candidate confirmation. |
+| v0.7 | Knowledge Base | KnowledgeItem persistence, KnowledgeItem search, Knowledge Base list/detail/edit/delete. |
+| v0.8 | KnowledgeAreas | KnowledgeArea persistence, assignment suggestions, manual correction events. |
+| v0.9 | 2D Semantic Map | Read-only phone map projection/view state over semantic records, links, Bundles, items, and areas. |
 
 ## v0.1 scope
 
@@ -74,6 +75,7 @@ Required v0.1 implementation:
 
 Excluded from v0.1:
 
+- voice capture;
 - embeddings;
 - cosine similarity;
 - Outbox;
@@ -148,7 +150,7 @@ Only the packages needed for the active milestone should be implemented. v0.1 do
 - Flutter/Dart application.
 - Shared iOS and Android codebase.
 - v0.1 capture, Inbox, Settings, local persistence UI, Send to Inbox Undo, and destructive-action confirmations.
-- Later milestones add Outbox, semantic search, Bundle review, Draft review, Knowledge Base, KnowledgeAreas, and read-only experimental Semantic Map.
+- Later milestones add OS speech API voice capture, Outbox, semantic search, Bundle review, Draft review, Knowledge Base, KnowledgeAreas, and read-only experimental Semantic Map.
 - Narrow native platform adapters only where required.
 
 ### apps/desktop
@@ -172,28 +174,28 @@ Candidate v2.0+ responsibilities:
 - processing state machine;
 - correction events;
 - semantic link and Bundle rules when their milestones arrive;
-- Draft lifecycle when v0.5 arrives;
-- KnowledgeItem and KnowledgeArea rules when v0.6-v0.7 arrive.
+- Draft lifecycle when v0.6 arrives;
+- KnowledgeItem and KnowledgeArea rules when v0.7-v0.8 arrive.
 
 ### packages/db
 
 - local persistence schema;
 - migrations;
 - repositories;
-- graph persistence from v0.3;
-- Draft and KnowledgeItem persistence from v0.5-v0.6;
-- vector-store adapter from v0.2/v0.6 as needed.
+- graph persistence from v0.4;
+- Draft and KnowledgeItem persistence from v0.6-v0.7;
+- vector-store adapter from v0.3/v0.7 as needed.
 
 ### packages/ingestion
 
 - text ingestion contracts for v0.1;
-- voice ingestion contracts later;
+- voice ingestion contracts in v0.2;
 - transcription normalization later;
 - cleaned note generation contracts later.
 
 ### packages/embeddings
 
-- deferred until v0.2;
+- deferred until v0.3;
 - embedding provider interface;
 - embedding job pipeline;
 - model metadata;
@@ -202,7 +204,7 @@ Candidate v2.0+ responsibilities:
 
 ### packages/clustering
 
-- deferred until v0.4;
+- deferred until v0.5;
 - Bundle suggestion generation;
 - semantic link graph clustering into Bundles;
 - list/card Bundle membership adjustment;
@@ -211,7 +213,7 @@ Candidate v2.0+ responsibilities:
 
 ### packages/search
 
-- deferred until v0.6;
+- deferred until v0.7;
 - semantic search;
 - ranking;
 - search result explanation;
@@ -280,12 +282,13 @@ v0.1 has no required AI/model runtime.
 
 Required later by milestone:
 
-- v0.2: semantic embedding and cosine similarity.
-- v0.3: semantic link candidate generation.
-- v0.4: Bundle suggestion and clustering.
-- v0.5: Draft generation.
-- v0.6: KnowledgeItem embedding and semantic search.
-- v0.7: KnowledgeArea suggestion.
+- v0.2: OS speech API voice capture.
+- v0.3: semantic embedding and cosine similarity.
+- v0.4: semantic link candidate generation.
+- v0.5: Bundle suggestion and clustering.
+- v0.6: Draft generation.
+- v0.7: KnowledgeItem embedding and semantic search.
+- v0.8: KnowledgeArea suggestion.
 
 Required much later:
 
@@ -326,7 +329,7 @@ Sync is not part of v0.1.
 - Desktop framework for v2.0+.
 - Exact embedding model.
 - Vector index library.
-- Speech recognition engine.
+- Future local speech model after the first OS speech API voice flow.
 - Local LLM runtime.
 - Cloud sync provider API strategy.
 - Encryption implementation.
@@ -336,7 +339,7 @@ Sync is not part of v0.1.
 ## Explicitly deferred from v0.1
 
 - Rust-based mobile core engine.
-- Voice capture unless explicitly pulled into the first app implementation.
+- Voice capture, which starts in v0.2 and not in v0.1.
 - Local embeddings.
 - Outbox.
 - Semantic links.
@@ -391,6 +394,7 @@ Sync is not part of v0.1.
 - Vectors from incompatible models must not be mixed in one searchable space.
 - Vector dimension and distance metric must match the selected model and index.
 - Raw transcription and cleaned note must be stored separately once voice/transcription exists.
+- First voice capture uses OS speech APIs, not a MOPS cloud speech backend or bundled local speech model.
 - Automatic Bundle/KnowledgeArea assignment must remain editable once introduced.
 - First Outbox and Knowledge Base mobile surfaces must stay list/card-first.
 - First Semantic Map must be read-only experimental visualization, not a graph editor.

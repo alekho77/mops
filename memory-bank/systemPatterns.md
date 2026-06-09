@@ -37,7 +37,7 @@ Desktop app, desktop-owned embedding pipeline, desktop-owned vector index, deskt
 
 ## Incremental private mobile release train pattern
 
-ADR-0010 supersedes the old v0.1 scope from ADR-0005 and ADR-0006. ADR-0011 classifies the whole `v0.x` train as private pre-1.0 alpha/beta builds. ADR-0013 keeps early Outbox and Knowledge Base surfaces list/card-first and makes the first Semantic Map read-only experimental visualization.
+ADR-0010 supersedes the old v0.1 scope from ADR-0005 and ADR-0006. ADR-0011 classifies the whole `v0.x` train as private pre-1.0 alpha/beta builds. ADR-0013 keeps early Outbox and Knowledge Base surfaces list/card-first and makes the first Semantic Map read-only experimental visualization. ADR-0014 adds v0.2 Mobile Voice Capture using OS speech APIs.
 
 Every `v0.x` milestone must be:
 
@@ -51,13 +51,14 @@ Release train:
 
 ```text
 v0.1 Mobile Capture + Inbox
-v0.2 Semantic Outbox
-v0.3 Semantic Links
-v0.4 Bundles
-v0.5 Drafts
-v0.6 Knowledge Base
-v0.7 KnowledgeAreas
-v0.8 2D Semantic Map
+v0.2 Mobile Voice Capture
+v0.3 Semantic Outbox
+v0.4 Semantic Links
+v0.5 Bundles
+v0.6 Drafts
+v0.7 Knowledge Base
+v0.8 KnowledgeAreas
+v0.9 2D Semantic Map
 ```
 
 ## v0.1 capture/inbox pattern
@@ -97,6 +98,7 @@ v0.1 excludes:
 
 - embeddings;
 - cosine similarity;
+- voice capture;
 - Outbox;
 - SemanticSketch;
 - semantic links;
@@ -127,7 +129,7 @@ Sketch
   -> Semantic Map
 ```
 
-This is not the v0.1 scope. It is delivered through v0.2-v0.8.
+This is not the v0.1 scope. It is delivered through v0.3-v0.9 after v0.2 Mobile Voice Capture.
 
 Core rule:
 
@@ -206,6 +208,28 @@ Native iOS/Android code is allowed only as narrow platform adapters for:
 - secure storage.
 
 Rust is deferred from the private pre-1.0 train and public v1.0 mobile baseline. It remains a future option only for measured heavy local processing or portable native core needs behind explicit interfaces.
+
+## v0.2 voice capture pattern
+
+v0.2 adds Mobile Voice Capture without changing the v0.1 text capture foundation.
+
+First voice flow:
+
+```text
+record speech
+  -> OS speech recognition
+  -> insert recognized text at current cursor position
+  -> ActiveSketchBuffer autosave
+```
+
+Rules:
+
+- use iOS/Android OS speech APIs through narrow Dart-facing adapters;
+- recognized speech becomes ordinary editable text in `ActiveSketchBuffer`;
+- Settings exposes only speech/microphone permission and availability status;
+- raw audio is not persisted by default;
+- no local speech model, MOPS cloud speech backend, transcript cleanup, voice commands, background dictation, or semantic processing in v0.2;
+- OS speech privacy and offline behavior depend on platform capabilities and user settings.
 
 ## Desktop v2.0+ semantic engine pattern
 

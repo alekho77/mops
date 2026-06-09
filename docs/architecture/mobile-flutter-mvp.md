@@ -34,7 +34,7 @@ Non-goals for the first private mobile build:
 - KnowledgeAreas;
 - semantic search;
 - Semantic Map;
-- voice capture unless explicitly pulled into the first implementation;
+- voice capture, which starts in v0.2 and not in v0.1;
 - heavy indexing;
 - full reindexing;
 - model migration;
@@ -44,7 +44,15 @@ Non-goals for the first private mobile build:
 
 Desktop semantic processing is deferred until v2.0 or later. It must not be required by private `v0.x` builds, the public `v1.0` mobile MVP/product baseline, or any `v1.x` mobile release.
 
-Later mobile milestones add Semantic Outbox, links, Bundles, Drafts, Knowledge Base, KnowledgeAreas, and the 2D Semantic Map as defined by ADR-0010 and narrowed by ADR-0013.
+Later mobile milestones add OS speech API voice capture, Semantic Outbox, links, Bundles, Drafts, Knowledge Base, KnowledgeAreas, and the 2D Semantic Map as defined by ADR-0010, narrowed by ADR-0013, and updated by ADR-0014.
+
+The first voice milestone is v0.2 Mobile Voice Capture:
+
+- use OS speech APIs through narrow iOS/Android adapters;
+- insert recognized text at the current cursor position in `ActiveSketchBuffer`;
+- expose only speech/microphone permission and availability status in Settings;
+- do not persist raw audio by default;
+- do not include local speech model, cloud speech backend, transcript cleanup, voice commands, or background dictation.
 
 Early semantic mobile surfaces must stay list/card-first:
 

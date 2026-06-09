@@ -2,7 +2,7 @@
 
 ## Status: Accepted, release and desktop scope superseded by ADR-0005, ADR-0010, and ADR-0011
 
-ADR-0005 replaced the Voice/Text Inbox MVP with the Sketch/SemanticSketch target model. ADR-0010 then narrowed the first installable mobile release to v0.1 Mobile Capture + Inbox and staged semantic capabilities across later `v0.x` milestones.
+ADR-0005 replaced the Voice/Text Inbox MVP with the Sketch/SemanticSketch target model. ADR-0010 then narrowed the first installable mobile release to v0.1 Mobile Capture + Inbox and staged semantic capabilities across later `v0.x` milestones. ADR-0014 introduces voice capture in v0.2 using OS speech APIs.
 
 ADR-0011 reclassifies all `v0.x` milestones as private pre-1.0 mobile alpha/beta builds, defines `v1.0` as the first public mobile-only MVP/product baseline, and defers desktop app or desktop-owned semantic engine work until `v2.0+`.
 

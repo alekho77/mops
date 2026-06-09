@@ -13,7 +13,7 @@ ADR-0010 remains accepted for the private pre-1.0 mobile feature sequence. ADR-0
 
 ## Context
 
-The `v0.1` through `v0.8` release train is useful for phone-testable increments, but those builds are not the public MVP. Treating them as MVP releases creates a contradiction with the mobile-only UX boundary and with older documents that described desktop as owner of the embedding pipeline, vector index, reindexing, and semantic workbench.
+The `v0.1` through `v0.9` release train is useful for phone-testable increments, but those builds are not the public MVP. Treating them as MVP releases creates a contradiction with the mobile-only UX boundary and with older documents that described desktop as owner of the embedding pipeline, vector index, reindexing, and semantic workbench.
 
 MOPS needs an explicit version maturity ladder:
 
