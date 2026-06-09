@@ -12,7 +12,7 @@
 - Original files remain outside vector DB.
 - Explicit model and embedding versioning required.
 - Embedding/custom linguistic models are separated from vector DB implementation.
-- First MVP is Voice/Text Inbox, not full multimodal memory.
+- First MVP is MVP v0.1: Inbox -> Outbox semantic workbench -> Draft Documents -> Knowledge Documents, not full multimodal memory.
 - Mobile app is capture-first.
 - Desktop app is processing-first.
 - Mobile and desktop product code should live in one monorepo.
@@ -26,14 +26,24 @@
 ## MVP pipeline
 
 ```text
-Voice/Text Inbox
-  -> transcription
-  -> cleaned note
-  -> embedding
-  -> semantic search
-  -> suggested clusters
-  -> manual correction
-  -> project pages
+Inbox Notes
+  -> Embedding Pipeline
+  -> Outbox Vector Space
+  -> Semantic Links
+  -> Note Clusters
+  -> Draft Document Generation
+  -> Knowledge Documents
+  -> Vector DB
+  -> Project Clusters
+  -> Semantic Map
+```
+
+Core semantic roles:
+
+```text
+Inbox = input buffer
+Outbox = semantic workbench
+Vector DB = long-term memory
 ```
 
 ## MVP monorepo structure
@@ -96,6 +106,8 @@ mops/
 - domain entities;
 - processing state machine;
 - correction events;
+- semantic link and note cluster rules;
+- draft document lifecycle;
 - project/cluster assignment rules.
 
 ### packages/db
@@ -103,6 +115,8 @@ mops/
 - semantic DB schema;
 - migrations;
 - repositories;
+- graph persistence for semantic links;
+- draft and knowledge document persistence;
 - vector-store adapter;
 - full-text search adapter later.
 
@@ -125,6 +139,8 @@ mops/
 ### packages/clustering
 
 - suggested cluster generation;
+- semantic link graph clustering;
+- cluster merge/split operations;
 - project detection;
 - confidence scoring;
 - user correction application.
@@ -224,8 +240,15 @@ RawNote
 Transcription
 CleanedNote
 EmbeddingRecord
+InboxNote
+OutboxNote
+SemanticLink
+NoteCluster
+DraftDocument
+KnowledgeDocument
 SuggestedCluster
 Project
+ProjectCluster
 ProjectAssignment
 SearchResult
 CorrectionEvent
@@ -346,6 +369,13 @@ Open implementation choices:
 - Full knowledge graph.
 - Custom vector DB fork.
 - Custom model training.
+- Full 3D semantic globe.
+- Automatic large project creation without user confirmation.
+- Complex document hierarchy.
+- Multi-agent processing.
+- Device sync.
+- Collaboration.
+- Automatic file import.
 - Full iOS + Android + macOS + Windows + Linux launch at once.
 
 ## Repository license configuration

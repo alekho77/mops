@@ -8,7 +8,7 @@ This repository is intended for advanced users who want to inspect, build, and i
 
 MOPS is in architecture and MVP definition stage.
 
-The first implementation target is the Voice/Text Inbox MVP.
+The first implementation target is MVP v0.1: Inbox -> Outbox semantic workbench -> Draft Documents -> Knowledge Documents.
 
 Production mobile and desktop releases are not published yet.
 
@@ -21,6 +21,8 @@ MOPS is designed for personal use:
 - cleaned personal notes;
 - semantic search;
 - suggested clusters and projects;
+- editable semantic links;
+- draft document generation;
 - manual correction of AI suggestions;
 - private device-oriented memory.
 

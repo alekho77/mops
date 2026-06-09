@@ -22,19 +22,21 @@ It is a voice-first personal AI orchestration system, not only a task manager an
 - Shared product logic belongs in the main monorepo.
 - Low-level model/vector DB forks belong in separate repositories.
 
-## Voice/Text Inbox MVP pattern
+## Inbox/Outbox MVP v0.1 pattern
 
-The first MVP is narrowed to:
+The first MVP is clarified as MVP v0.1:
 
 ```text
-Voice/Text Inbox
-  -> transcription
-  -> cleaned note
-  -> embedding
-  -> semantic search
-  -> suggested clusters
-  -> manual correction
-  -> project pages
+Inbox Notes
+  -> Embedding Pipeline
+  -> Outbox Vector Space
+  -> Semantic Links
+  -> Note Clusters
+  -> Draft Document Generation
+  -> Knowledge Documents
+  -> Vector DB
+  -> Project Clusters
+  -> Semantic Map
 ```
 
 The MVP must optimize for low-friction chaotic input, not perfect automatic organization.
@@ -44,9 +46,31 @@ Core rule:
 ```text
 capture first
 process later
-suggest organization
+review semantic links
+assemble draft documents
 store corrections
 ```
+
+Core semantic roles:
+
+```text
+Inbox = input buffer
+Outbox = semantic workbench
+Vector DB = long-term memory
+```
+
+Outbox is user-visible working space, not a passive queue. It contains vectorized notes, candidate semantic links, editable note clusters, and the source material for draft document generation.
+
+Fixed MVP terms:
+
+- Inbox: raw notes.
+- Outbox: vectorized notes before finalization.
+- Semantic Link: relationship between notes.
+- Note Cluster: group of linked notes.
+- Draft Document: editable coherent text assembled from a note cluster.
+- Knowledge Document: finalized document in the main semantic DB and vector space.
+- Project Cluster: large cluster of Knowledge Documents.
+- Semantic Map: visualization of Outbox or long-term memory.
 
 ## Mobile capture client pattern
 
@@ -136,6 +160,9 @@ User actions are first-class events:
 - create new project;
 - merge clusters;
 - split clusters.
+- generate draft document from a cluster;
+- edit draft document;
+- confirm draft as Knowledge Document.
 
 Corrections become training/adaptation signals.
 

@@ -3,14 +3,24 @@
 ## MVP pipeline
 
 ```text
-Voice/Text Inbox
-  -> transcription
-  -> cleaned note
-  -> embedding
-  -> semantic search
-  -> suggested clusters
-  -> manual correction
-  -> project pages
+Inbox Notes
+  -> Embedding Pipeline
+  -> Outbox Vector Space
+  -> Semantic Links
+  -> Note Clusters
+  -> Draft Document Generation
+  -> Knowledge Documents
+  -> Vector DB
+  -> Project Clusters
+  -> Semantic Map
+```
+
+Core model:
+
+```text
+Inbox = input buffer
+Outbox = semantic workbench
+Vector DB = long-term memory
 ```
 
 ## Product split
@@ -30,6 +40,8 @@ Shared core = common domain and processing contracts
 - Offline-first local inbox.
 - Raw note list.
 - Minimal friction capture flow.
+- Note CRUD.
+- Processing status display.
 
 ### Transcription
 
@@ -61,6 +73,13 @@ pending_remote_processing
 - Store embedding status.
 - Do not require the mobile app to own heavy reindexing.
 
+### Outbox
+
+- Show vectorized notes after Inbox processing.
+- Show similar notes.
+- Allow the user to inspect candidate links.
+- Support manual note-to-cluster assignment where lightweight enough for mobile.
+
 ### Semantic search
 
 - Search personal notes by meaning.
@@ -72,6 +91,12 @@ pending_remote_processing
 - Show candidate cluster/project assignments.
 - Show confidence when available.
 - Allow confirm/reject/correct.
+
+### Draft documents
+
+- Show draft documents generated elsewhere when available.
+- Allow lightweight draft review and manual text edits if the mobile surface supports it.
+- Allow final confirmation when the user is comfortable doing so on mobile.
 
 ### Project pages
 
@@ -108,6 +133,15 @@ pending_remote_processing
 - Support reindexing.
 - Track model id, model version, vector dimension, and distance metric.
 
+### Outbox semantic workbench
+
+- Move notes from Inbox to Outbox.
+- Build Outbox vector space.
+- Calculate note similarity with cosine similarity.
+- Generate candidate semantic links.
+- Persist confirmed and rejected links.
+- Display vectorized notes, links, and cluster membership.
+
 ### Semantic search
 
 - Full semantic search.
@@ -121,6 +155,23 @@ pending_remote_processing
 - Merge/split clusters.
 - Track confidence.
 - Store user decisions as correction events.
+
+### Draft and Knowledge Documents
+
+- Generate a coherent Draft Document from a selected Note Cluster.
+- Support manual editing before finalization.
+- Save confirmed drafts as Knowledge Documents.
+- Embed Knowledge Documents.
+- Search similar Knowledge Documents.
+- Link Knowledge Documents to Project Clusters.
+
+### Semantic Map
+
+- Provide the MVP 2D map.
+- Render notes as points.
+- Render semantic links as lines.
+- Render note clusters as groups.
+- Use color or size for status, review state, or cluster density.
 
 ### Project pages
 
@@ -153,9 +204,16 @@ Source
 RawNote
 CleanedNote
 EmbeddingRecord
+InboxNote
+OutboxNote
+SemanticLink
+NoteCluster
+DraftDocument
+KnowledgeDocument
 SearchResult
 SuggestedCluster
 Project
+ProjectCluster
 CorrectionEvent
 Device
 SyncEvent
@@ -199,6 +257,13 @@ Do not include in first MVP:
 - knowledge graph;
 - custom vector DB fork;
 - custom model training;
+- full 3D semantic globe;
+- automatic large project creation without user confirmation;
+- complex document hierarchy;
+- multi-agent processing;
+- device sync;
+- collaboration;
+- automatic file import;
 - full iOS + Android + macOS + Windows + Linux launch at once.
 
 ## Design rule
