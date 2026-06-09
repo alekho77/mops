@@ -1,4 +1,4 @@
-# ADR-0004: Use FP16 for vector DB storage
+# ADR-0009: Use FP16 for vector DB storage
 
 ## Status: Accepted
 

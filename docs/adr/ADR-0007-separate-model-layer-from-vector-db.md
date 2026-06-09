@@ -1,4 +1,4 @@
-# ADR-0001: Separate Model Layer from Vector DB Layer
+# ADR-0007: Separate Model Layer from Vector DB Layer
 
 ## Status: Accepted
 

@@ -1,4 +1,4 @@
-# ADR-0002: Noncommercial source-available license
+# ADR-0008: Noncommercial source-available license
 
 ## Status: Accepted
 
