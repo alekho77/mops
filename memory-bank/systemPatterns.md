@@ -37,7 +37,7 @@ Desktop app, desktop-owned embedding pipeline, desktop-owned vector index, deskt
 
 ## Incremental private mobile release train pattern
 
-ADR-0010 supersedes the old v0.1 scope from ADR-0005 and ADR-0006. ADR-0011 classifies the whole `v0.x` train as private pre-1.0 alpha/beta builds.
+ADR-0010 supersedes the old v0.1 scope from ADR-0005 and ADR-0006. ADR-0011 classifies the whole `v0.x` train as private pre-1.0 alpha/beta builds. ADR-0013 keeps early Outbox and Knowledge Base surfaces list/card-first and makes the first Semantic Map read-only experimental visualization.
 
 Every `v0.x` milestone must be:
 
@@ -147,7 +147,7 @@ Outbox = SemanticSketch workbench
 Vector DB = long-term KnowledgeItem memory
 ```
 
-Outbox is user-visible working space, not a passive queue. It contains SemanticSketch records, candidate semantic links, editable Bundles, and the source material for Draft generation once those milestones exist.
+Outbox is user-visible working space, not a passive queue. Early Outbox is list/card-first: processed `SemanticSketch` records, details, similar Sketch references, and suggested Bundle cards. It must not start as a map-first graph editor with multi-select, Bundle areas, merged document editing, or bulk merge.
 
 Fixed target terms:
 
@@ -159,6 +159,32 @@ Fixed target terms:
 - KnowledgeItem: finalized document in the main semantic DB and vector space.
 - KnowledgeArea: large cluster of KnowledgeItems.
 - Semantic Map: visualization of Outbox or long-term memory.
+
+## Early semantic mobile surface pattern
+
+First Outbox:
+
+- list processed `SemanticSketch` records;
+- open processed Sketch details;
+- show embedding/status metadata;
+- show similar Sketch references;
+- show suggested Bundle cards;
+- exclude graph editor behavior, map-first UI, Bundle area editing, merged document editing, and bulk merge.
+
+First Knowledge Base:
+
+- list `KnowledgeItem` records;
+- search;
+- open;
+- edit;
+- delete with confirmation;
+- exclude KnowledgeArea editing, map-first UI, visual graph editing, bulk operations, and complex delete propagation.
+
+First Semantic Map:
+
+- read-only experimental visualization;
+- not the primary editor for Outbox, Bundles, KnowledgeItems, or KnowledgeAreas;
+- no create/edit/delete/link/merge operations from the map.
 
 ## Flutter mobile pattern
 

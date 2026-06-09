@@ -1,8 +1,8 @@
 # ADR-0005: Sketch, SemanticSketch, and Semantic Workbench MVP
 
-## Status: Accepted, release scope superseded by ADR-0010 and release maturity superseded by ADR-0011
+## Status: Accepted, release scope superseded by ADR-0010, release maturity superseded by ADR-0011, early Outbox and Knowledge Base scope superseded by ADR-0013
 
-ADR-0010 supersedes the v0.1 release scope in this ADR. ADR-0011 clarifies that `v0.x` milestones are private pre-1.0 alpha/beta builds, not MVP releases. The terminology and target semantic workbench model remain accepted, but the full Sketch-to-Semantic-Map loop is delivered incrementally across the mobile train.
+ADR-0010 supersedes the v0.1 release scope in this ADR. ADR-0011 clarifies that `v0.x` milestones are private pre-1.0 alpha/beta builds, not MVP releases. ADR-0013 narrows the first mobile Outbox and Knowledge Base surfaces to list/card workflows and makes the first Semantic Map read-only experimental visualization. The terminology and target semantic workbench model remain accepted, but the full Sketch-to-Semantic-Map loop is delivered incrementally across the mobile train.
 
 ## Context
 
@@ -121,13 +121,13 @@ v0.1 is limited to Mobile Capture + Inbox:
 
 The remaining semantic workbench capabilities are staged after v0.1:
 
-- v0.2 introduces `SemanticSketch`, local embeddings, cosine similarity, and Outbox list/detail views;
+- v0.2 introduces `SemanticSketch`, local embeddings, cosine similarity, Outbox list/detail views, and suggested Bundle cards without graph editing;
 - v0.3 introduces semantic links, link confirmation/deletion, correction events, and basic graph persistence;
-- v0.4 introduces Bundles and Bundle editing;
+- v0.4 introduces Bundles and list/card membership adjustment;
 - v0.5 introduces Draft generation and editing;
-- v0.6 introduces KnowledgeItems and Knowledge Base search;
+- v0.6 introduces KnowledgeItems, Knowledge Base list/search/detail, edit, and delete;
 - v0.7 introduces KnowledgeAreas;
-- v0.8 introduces the 2D Semantic Map.
+- v0.8 introduces the 2D Semantic Map as a read-only experiment.
 
 ## Former Oversized v0.1 Scope
 

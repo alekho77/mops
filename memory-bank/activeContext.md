@@ -16,6 +16,7 @@ MOPS is in architecture, private pre-1.0 mobile alpha/beta, and v1.0 mobile MVP 
 - Vector DB is not semantic source of truth; it is searchable infrastructure over source-linked memory records.
 - ADR-0010 supersedes the v0.1 release scope from ADR-0005 and ADR-0006.
 - ADR-0011 supersedes release-maturity interpretation from ADR-0010 and desktop-scope portions of ADR-0002.
+- ADR-0013 narrows first Outbox and Knowledge Base surfaces: Outbox is list/card-first with suggested Bundle cards, Knowledge Base is list/search/open/edit/delete, and the first Semantic Map is read-only experimental visualization.
 - Version ladder is fixed: `v0.x` = private mobile-only pre-1.0 alpha/beta builds; `v1.0` = first public mobile-only MVP/product baseline; `v1.x` = mobile-only public iteration line; `v2.0+` = desktop expansion.
 - `v0.x` builds are not MVPs and are not public releases.
 - Desktop app, desktop-owned embedding pipeline, desktop-owned vector index, desktop-owned reindexing, desktop semantic workbench, and cross-device desktop workflows are not allowed in `v0.x` or `v1.x`.
@@ -29,13 +30,13 @@ MOPS is in architecture, private pre-1.0 mobile alpha/beta, and v1.0 mobile MVP 
 - v0.1 requires local-only/accountless startup, `ActiveSketchBuffer` autosave, `Sketch` CRUD, Inbox, Settings, one-tap Send to Inbox with Undo, destructive/reset/batch confirmations, local persistence, and phone build paths.
 - ADR-0012 supersedes the old Send to Inbox confirmation rule: capture sends are fast and reversible with Undo, while clear/delete/reset/batch operations still require confirmation.
 - v0.1 explicitly excludes embeddings, cosine similarity, Outbox, SemanticSketch, semantic links, graph persistence, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, semantic search, sync, desktop dependency, and Semantic Map.
-- v0.2 introduces Semantic Outbox: manual Sketch-to-SemanticSketch processing, local embeddings, embedding metadata, similar sketches by cosine similarity, and Outbox list/detail views.
+- v0.2 introduces Semantic Outbox: manual Sketch-to-SemanticSketch processing, local embeddings, embedding metadata, similar sketches by cosine similarity, Outbox list/detail views, and suggested Bundle cards without graph editing.
 - v0.3 introduces Semantic Links: candidate links, manual confirm/delete, correction events, and basic graph persistence without Bundle editing.
-- v0.4 introduces Bundles: build Bundles from confirmed links, inspect/merge/split Bundles, and manual SemanticSketch-to-Bundle assignment.
+- v0.4 introduces Bundles: build Bundles from confirmed links, inspect Bundle cards, and adjust membership through list/card workflows without map-based editing, merged document editing, or bulk merge.
 - v0.5 introduces Drafts: generate editable Drafts from selected Bundles, edit Drafts, and confirm Draft as a KnowledgeItem candidate.
-- v0.6 introduces Knowledge Base: persist KnowledgeItems, embed/search KnowledgeItems, and basic Knowledge Base list/detail/search.
+- v0.6 introduces Knowledge Base: persist KnowledgeItems and support list/search/open/edit/delete with delete confirmation.
 - v0.7 introduces KnowledgeAreas: manual and suggested KnowledgeArea assignment, create/rename/delete areas, and correction events for area changes.
-- v0.8 introduces a phone-testable 2D Semantic Map.
+- v0.8 introduces a phone-testable read-only 2D Semantic Map experiment.
 - Mobile product framework accepted: Flutter with Dart.
 - `apps/mobile` should be one shared Flutter codebase for iOS and Android.
 - Native iOS/Android code is limited to narrow platform adapters for permissions, file access, speech integration, background limits, local notifications, and secure storage.

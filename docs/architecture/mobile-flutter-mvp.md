@@ -44,7 +44,13 @@ Non-goals for the first private mobile build:
 
 Desktop semantic processing is deferred until v2.0 or later. It must not be required by private `v0.x` builds, the public `v1.0` mobile MVP/product baseline, or any `v1.x` mobile release.
 
-Later mobile milestones add Semantic Outbox, links, Bundles, Drafts, Knowledge Base, KnowledgeAreas, and the 2D Semantic Map as defined by ADR-0010.
+Later mobile milestones add Semantic Outbox, links, Bundles, Drafts, Knowledge Base, KnowledgeAreas, and the 2D Semantic Map as defined by ADR-0010 and narrowed by ADR-0013.
+
+Early semantic mobile surfaces must stay list/card-first:
+
+- first Outbox: processed Sketch list, details, similar sketches, and suggested Bundle cards;
+- first Knowledge Base: KnowledgeItem list, search, open, edit, and delete;
+- first Semantic Map: read-only experimental visualization, not an editor.
 
 ## Code boundaries
 

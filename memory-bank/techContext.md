@@ -36,13 +36,13 @@ Each `v0.x` build must be buildable as Android APK or iOS/Xcode build and testab
 | Version | Milestone | Technical boundary |
 | --- | --- | --- |
 | v0.1 | Mobile Capture + Inbox | Flutter app shell, local storage, `ActiveSketchBuffer`, `Sketch`, Inbox, Settings, Send to Inbox Undo, destructive/reset/batch confirmations. |
-| v0.2 | Semantic Outbox | Embedding provider contract, embedding metadata, `SemanticSketch`, cosine similarity, Outbox list/detail. |
+| v0.2 | Semantic Outbox | Embedding provider contract, embedding metadata, `SemanticSketch`, cosine similarity, Outbox list/detail, suggested Bundle cards. |
 | v0.3 | Semantic Links | `SemanticLink`, confirmed/rejected link persistence, correction events, basic graph persistence. |
-| v0.4 | Bundles | Bundle builder, Bundle persistence, merge/split/manual assignment. |
+| v0.4 | Bundles | Bundle builder, Bundle persistence, list/card membership adjustment. |
 | v0.5 | Drafts | Draft generation contract, editable Draft persistence, KnowledgeItem candidate confirmation. |
-| v0.6 | Knowledge Base | KnowledgeItem persistence, KnowledgeItem embeddings/search, Knowledge Base list/detail/search. |
+| v0.6 | Knowledge Base | KnowledgeItem persistence, KnowledgeItem search, Knowledge Base list/detail/edit/delete. |
 | v0.7 | KnowledgeAreas | KnowledgeArea persistence, assignment suggestions, manual correction events. |
-| v0.8 | 2D Semantic Map | Phone map projection/view state over semantic records, links, Bundles, items, and areas. |
+| v0.8 | 2D Semantic Map | Read-only phone map projection/view state over semantic records, links, Bundles, items, and areas. |
 
 ## v0.1 scope
 
@@ -148,7 +148,7 @@ Only the packages needed for the active milestone should be implemented. v0.1 do
 - Flutter/Dart application.
 - Shared iOS and Android codebase.
 - v0.1 capture, Inbox, Settings, local persistence UI, Send to Inbox Undo, and destructive-action confirmations.
-- Later milestones add Outbox, semantic search, Bundle review, Draft review, Knowledge Base, KnowledgeAreas, and Semantic Map.
+- Later milestones add Outbox, semantic search, Bundle review, Draft review, Knowledge Base, KnowledgeAreas, and read-only experimental Semantic Map.
 - Narrow native platform adapters only where required.
 
 ### apps/desktop
@@ -205,7 +205,7 @@ Candidate v2.0+ responsibilities:
 - deferred until v0.4;
 - Bundle suggestion generation;
 - semantic link graph clustering into Bundles;
-- Bundle merge/split operations;
+- list/card Bundle membership adjustment;
 - confidence scoring;
 - user correction application.
 
@@ -392,6 +392,8 @@ Sync is not part of v0.1.
 - Vector dimension and distance metric must match the selected model and index.
 - Raw transcription and cleaned note must be stored separately once voice/transcription exists.
 - Automatic Bundle/KnowledgeArea assignment must remain editable once introduced.
+- First Outbox and Knowledge Base mobile surfaces must stay list/card-first.
+- First Semantic Map must be read-only experimental visualization, not a graph editor.
 - User corrections must be stored as first-class events once introduced.
 - Flutter UI code must not become the semantic engine boundary.
 - Platform-specific mobile code must stay behind narrow Dart-facing adapters.

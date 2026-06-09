@@ -34,13 +34,13 @@ Each `v0.x` build must be buildable as an Android APK or iOS/Xcode build and tes
 | Version | Milestone | Scope |
 | --- | --- | --- |
 | v0.1 | Mobile Capture + Inbox | Flutter app shell, local-only startup, `ActiveSketchBuffer`, autosave, `Sketch` CRUD, Inbox, Settings, Undo for Send to Inbox, confirmations for destructive/reset/batch actions, local persistence. |
-| v0.2 | Semantic Outbox | Manual `Sketch` to `SemanticSketch` processing, local embeddings, embedding metadata, similar sketches by cosine similarity, Outbox list/details. |
+| v0.2 | Semantic Outbox | Manual `Sketch` to `SemanticSketch` processing, local embeddings, embedding metadata, similar sketches by cosine similarity, Outbox list/details, suggested Bundle cards. |
 | v0.3 | Semantic Links | Candidate links, manual confirm/delete, correction events, basic graph persistence without Bundle editing. |
-| v0.4 | Bundles | Build Bundles from confirmed links, inspect/merge/split Bundles, manual `SemanticSketch` to Bundle assignment. |
+| v0.4 | Bundles | Build Bundles from confirmed links, inspect Bundle cards, adjust membership through list/card workflows. |
 | v0.5 | Drafts | Generate editable Drafts from selected Bundles, edit Drafts, confirm Draft as a `KnowledgeItem` candidate. |
-| v0.6 | Knowledge Base | Persist KnowledgeItems, embed/search KnowledgeItems, basic Knowledge Base list/detail/search. |
+| v0.6 | Knowledge Base | Persist KnowledgeItems, list/search/open/edit/delete KnowledgeItems. |
 | v0.7 | KnowledgeAreas | Manual and suggested KnowledgeArea assignment, create/rename/delete areas, correction events for area changes. |
-| v0.8 | 2D Semantic Map | Phone-testable 2D map for SemanticSketch records, links, Bundles, KnowledgeItems, and KnowledgeAreas. |
+| v0.8 | 2D Semantic Map | Phone-testable read-only experimental map for SemanticSketch records, links, Bundles, KnowledgeItems, and KnowledgeAreas. |
 
 ## User scope
 
