@@ -35,7 +35,7 @@ Each `v0.x` build must be buildable as Android APK or iOS/Xcode build and testab
 
 | Version | Milestone | Technical boundary |
 | --- | --- | --- |
-| v0.1 | Mobile Capture + Inbox | Flutter app shell, local storage, `ActiveSketchBuffer`, `Sketch`, Inbox, Settings, confirmations. |
+| v0.1 | Mobile Capture + Inbox | Flutter app shell, local storage, `ActiveSketchBuffer`, `Sketch`, Inbox, Settings, Send to Inbox Undo, destructive/reset/batch confirmations. |
 | v0.2 | Semantic Outbox | Embedding provider contract, embedding metadata, `SemanticSketch`, cosine similarity, Outbox list/detail. |
 | v0.3 | Semantic Links | `SemanticLink`, confirmed/rejected link persistence, correction events, basic graph persistence. |
 | v0.4 | Bundles | Bundle builder, Bundle persistence, merge/split/manual assignment. |
@@ -68,7 +68,8 @@ Required v0.1 implementation:
 - `Sketch` create/list/edit/delete/status tracking;
 - monotonic local Sketch title/counter support;
 - local persistence;
-- confirmation dialogs for clear, send to Inbox, delete, clear Inbox, and full local reset;
+- one-tap Send to Inbox with Undo;
+- confirmation dialogs for clear, delete, clear Inbox, full local reset, and other destructive or batch actions;
 - Android APK and iOS/Xcode build path.
 
 Excluded from v0.1:
@@ -146,7 +147,7 @@ Only the packages needed for the active milestone should be implemented. v0.1 do
 
 - Flutter/Dart application.
 - Shared iOS and Android codebase.
-- v0.1 capture, Inbox, Settings, local persistence UI, and confirmations.
+- v0.1 capture, Inbox, Settings, local persistence UI, Send to Inbox Undo, and destructive-action confirmations.
 - Later milestones add Outbox, semantic search, Bundle review, Draft review, Knowledge Base, KnowledgeAreas, and Semantic Map.
 - Narrow native platform adapters only where required.
 

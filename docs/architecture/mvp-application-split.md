@@ -71,10 +71,11 @@ Shared core = common domain and processing contracts
 - Start on Sketch Editor.
 - Autosave all input.
 - Persist `ActiveSketchBuffer` independently from Inbox records.
-- Create `Sketch` records only after explicit confirmation.
+- Create `Sketch` records only after an explicit Send to Inbox action.
+- Send to Inbox without confirmation and provide Undo.
 - Support Sketch create, list, edit, delete, and status tracking.
 - Provide Inbox and Settings screens.
-- Confirm destructive capture and Inbox actions.
+- Confirm destructive, reset, and batch capture/Inbox actions.
 - Build and install on Android or iOS for phone testing.
 
 v0.1 does not include Outbox, embeddings, cosine similarity, semantic links, graph persistence, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, semantic search, or Semantic Map.
@@ -121,7 +122,7 @@ packages/sync
 packages/shared-types
 ```
 
-For v0.1, only the shared contracts needed by `ActiveSketchBuffer`, `Sketch`, local storage, confirmations, and Settings are required. Later packages can be introduced when their release milestone requires them.
+For v0.1, only the shared contracts needed by `ActiveSketchBuffer`, `Sketch`, local storage, Send to Inbox Undo, destructive-action confirmations, and Settings are required. Later packages can be introduced when their release milestone requires them.
 
 ## Monorepo boundary
 

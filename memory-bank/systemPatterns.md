@@ -80,7 +80,7 @@ Sketch Editor
   -> Settings
 ```
 
-The app starts on Sketch Editor. New input is stored in `ActiveSketchBuffer`, autosaved after every change, restored after restart, and only converted into a `Sketch` after explicit user confirmation.
+The app starts on Sketch Editor. New input is stored in `ActiveSketchBuffer`, autosaved after every change, restored after restart, and converted into a `Sketch` only after an explicit Send to Inbox action.
 
 v0.1 includes:
 
@@ -90,7 +90,8 @@ v0.1 includes:
 - Sketch create/list/edit/delete/status tracking;
 - Inbox;
 - Settings;
-- confirmations for clear, delete, send to Inbox, and full local reset.
+- one-tap Send to Inbox with Undo;
+- confirmations for clear, delete, clear Inbox, full local reset, and other destructive or batch actions.
 
 v0.1 excludes:
 
@@ -226,17 +227,23 @@ User actions are first-class events once the relevant milestone exists:
 
 Corrections become training/adaptation signals.
 
-## Destructive action confirmation pattern
+## Capture undo and destructive action confirmation pattern
+
+v0.1 treats capture send as a fast, reversible action:
+
+- Send `ActiveSketchBuffer` to Inbox without confirmation;
+- create a `Sketch` and clear the editor buffer;
+- show Undo immediately after send;
+- Undo restores the sent text to `ActiveSketchBuffer` and removes the just-created `Sketch`, unless rollback is unsafe because of a later conflicting edit/action.
 
 v0.1 requires confirmation for:
 
 - clear `ActiveSketchBuffer`;
-- send `ActiveSketchBuffer` to Inbox;
 - clear Inbox;
 - delete Sketch;
 - full local reset.
 
-Later milestones must add confirmations for their own destructive and state-moving actions, including Outbox clear, link deletion, Bundle merge/split, Draft deletion, KnowledgeItem deletion, KnowledgeArea deletion, and saving to the Knowledge Base.
+Later milestones must add confirmations for their own destructive, reset, and batch actions, including Outbox clear, link deletion, Bundle merge/split, Draft deletion, KnowledgeItem deletion, KnowledgeArea deletion, and saving to the Knowledge Base.
 
 ## Raw and interpreted memory separation pattern
 

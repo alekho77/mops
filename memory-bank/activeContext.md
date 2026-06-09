@@ -26,7 +26,8 @@ MOPS is in architecture, private pre-1.0 mobile alpha/beta, and v1.0 mobile MVP 
 - v0.1 is **Mobile Capture + Inbox** only.
 - v0.1 object chain is `ActiveSketchBuffer -> Sketch`.
 - v0.1 main screens are Sketch Editor, Inbox, and Settings.
-- v0.1 requires local-only/accountless startup, `ActiveSketchBuffer` autosave, `Sketch` CRUD, Inbox, Settings, confirmations, local persistence, and phone build paths.
+- v0.1 requires local-only/accountless startup, `ActiveSketchBuffer` autosave, `Sketch` CRUD, Inbox, Settings, one-tap Send to Inbox with Undo, destructive/reset/batch confirmations, local persistence, and phone build paths.
+- ADR-0012 supersedes the old Send to Inbox confirmation rule: capture sends are fast and reversible with Undo, while clear/delete/reset/batch operations still require confirmation.
 - v0.1 explicitly excludes embeddings, cosine similarity, Outbox, SemanticSketch, semantic links, graph persistence, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, semantic search, sync, desktop dependency, and Semantic Map.
 - v0.2 introduces Semantic Outbox: manual Sketch-to-SemanticSketch processing, local embeddings, embedding metadata, similar sketches by cosine similarity, and Outbox list/detail views.
 - v0.3 introduces Semantic Links: candidate links, manual confirm/delete, correction events, and basic graph persistence without Bundle editing.

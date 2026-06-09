@@ -34,8 +34,9 @@ Excluded from v0.1:
 4. Local device storage only.
 5. The app always starts on the new Sketch Editor.
 6. Any input is autosaved.
-7. Destructive capture and Inbox actions require confirmation.
-8. The private build must be buildable as Android APK or iOS/Xcode build for phone testing.
+7. Send to Inbox is one-tap and recoverable with Undo.
+8. Destructive, reset, and batch capture/Inbox actions require confirmation.
+9. The private build must be buildable as Android APK or iOS/Xcode build for phone testing.
 
 ## Main Screens
 
@@ -74,9 +75,11 @@ Behavior:
 1. Text is saved in the background after every change.
 2. App restart opens the same text.
 3. Navigation to other screens does not clear the text.
-4. Sending to Inbox requires confirmation.
+4. Sending to Inbox is a one-tap explicit action without confirmation.
 5. Sending to Inbox creates a `Sketch` and clears the input field.
-6. Manual clear requires confirmation.
+6. After sending to Inbox, the app shows Undo.
+7. Undo restores the sent text to `ActiveSketchBuffer` and removes the just-created `Sketch`, unless rollback is unsafe because of a later conflicting edit/action.
+8. Manual clear requires confirmation.
 
 Minimum UI:
 
@@ -92,7 +95,7 @@ Actions:
 | Action | Behavior |
 | --- | --- |
 | Clear | confirmation -> clear `ActiveSketchBuffer` |
-| Send to Inbox | confirmation -> create `Sketch` -> clear editor buffer |
+| Send to Inbox | create `Sketch` -> clear editor buffer -> show Undo |
 | Inbox | open sketch list |
 | Settings | open settings |
 
@@ -140,7 +143,7 @@ Required actions:
 
 | Action | Behavior |
 | --- | --- |
-| Create from Sketch Editor | confirmation -> persist `Sketch` |
+| Create from Sketch Editor | persist `Sketch` -> clear `ActiveSketchBuffer` -> show Undo |
 | Open | show full sketch text |
 | Edit | update existing `Sketch` |
 | Delete | confirmation -> delete `Sketch` |
@@ -164,7 +167,6 @@ Important settings:
 | Setting | Meaning |
 | --- | --- |
 | Confirm clear | always enabled in v0.1 |
-| Confirm send to Inbox | enabled |
 | Confirm deletion | enabled |
 | Clear all data | confirmation -> full local reset |
 
@@ -178,10 +180,11 @@ The v0.1 private build is acceptable when this scenario passes on a real Android
 2. Open the app and land on Sketch Editor without login or registration.
 3. Type text into the editor.
 4. Restart the app and verify the text is restored from `ActiveSketchBuffer`.
-5. Confirm Send to Inbox and verify a `Sketch` appears in Inbox.
-6. Edit the `Sketch`, restart, and verify the edit persists.
-7. Delete the `Sketch` only after confirmation.
-8. Clear all local data only after confirmation.
+5. Tap Send to Inbox without a confirmation dialog and verify a `Sketch` appears in Inbox.
+6. Use Undo after send and verify the text returns to `ActiveSketchBuffer` and the just-created `Sketch` is removed.
+7. Send again, edit the `Sketch`, restart, and verify the edit persists.
+8. Delete the `Sketch` only after confirmation.
+9. Clear all local data only after confirmation.
 
 ## Final v0.1 Chain
 

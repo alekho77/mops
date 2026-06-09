@@ -1,8 +1,10 @@
 # ADR-0006: Mobile-only local UX v0.1
 
-## Status: Accepted, release scope superseded by ADR-0010
+## Status: Accepted, release scope superseded by ADR-0010, Send to Inbox confirmation superseded by ADR-0012
 
 ADR-0010 supersedes the v0.1 release scope in this ADR. The mobile-only, local-only, accountless UX principles remain accepted. The full semantic chain is delivered incrementally after v0.1.
+
+ADR-0012 supersedes the v0.1 rule that sending `ActiveSketchBuffer` to Inbox requires confirmation. Send to Inbox is now a one-tap explicit action with Undo.
 
 ## Context
 
@@ -84,10 +86,11 @@ Outbox, SemanticSketch records, Bundles, Drafts, KnowledgeItems, KnowledgeAreas,
 - Persist `ActiveSketchBuffer` separately from Inbox `Sketch` records.
 - Autosave `ActiveSketchBuffer` after edits.
 - Restore `ActiveSketchBuffer` after app restart.
-- Create a `Sketch` only after explicit user confirmation.
-- Clear `ActiveSketchBuffer` only after confirmed submission to Inbox or confirmed manual clear.
+- Create a `Sketch` only after an explicit user Send to Inbox action.
+- Clear `ActiveSketchBuffer` only after successful Send to Inbox or confirmed manual clear.
 - Support create, list, edit, delete, and status-track operations for `Sketch` records.
-- Require confirmation for deletion, clearing, sending to Inbox, and full local reset.
+- Send to Inbox without confirmation and provide Undo.
+- Require confirmation for deletion, clearing, full local reset, and batch destructive actions.
 - Keep local storage as the only v0.1 persistence layer.
 - Provide Android APK and iOS/Xcode build paths for phone testing.
 

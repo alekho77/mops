@@ -1,8 +1,10 @@
 # ADR-0010: Incremental private mobile pre-1.0 release train
 
-## Status: Accepted, release maturity superseded by ADR-0011
+## Status: Accepted, release maturity superseded by ADR-0011, Send to Inbox confirmation superseded by ADR-0012
 
 ADR-0011 supersedes the release-maturity interpretation of this ADR. The `v0.1` through `v0.8` sequence remains accepted as a private mobile pre-1.0 alpha/beta train, not as MVP or public release scope.
+
+ADR-0012 supersedes the v0.1 rule that `Send to Inbox` requires confirmation. `Send to Inbox` is now a one-tap explicit action with Undo; confirmations remain required for destructive, reset, and batch operations.
 
 ## Supersedes
 
@@ -36,7 +38,7 @@ The first pre-1.0 build is intentionally limited to capture and Inbox.
 
 | Version | Name | Scope | Phone acceptance scenario |
 | --- | --- | --- | --- |
-| v0.1 | Mobile Capture + Inbox | Flutter app shell, local-only startup, `ActiveSketchBuffer`, autosave, `Sketch` CRUD, Inbox, Settings, confirmations, local persistence. No embeddings, Outbox, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, or Semantic Map. | Install on a phone, write a sketch, restart the app, confirm the buffer is restored, send it to Inbox, edit/delete it, and verify data remains local. |
+| v0.1 | Mobile Capture + Inbox | Flutter app shell, local-only startup, `ActiveSketchBuffer`, autosave, `Sketch` CRUD, Inbox, Settings, confirmations for destructive/reset/batch actions, Undo for Send to Inbox, local persistence. No embeddings, Outbox, Bundles, Drafts, KnowledgeItems, KnowledgeAreas, or Semantic Map. | Install on a phone, write a sketch, restart the app, confirm the buffer is restored, send it to Inbox without confirmation, verify Undo restores the buffer, edit/delete it, and verify data remains local. |
 | v0.2 | Semantic Outbox | Manual `Sketch` to `SemanticSketch` processing, local embeddings, embedding metadata, similar sketches by cosine similarity, Outbox list/detail views. | Install on a phone, process sketches into Outbox, inspect similar sketches, and verify embedding status is visible. |
 | v0.3 | Semantic Links | Candidate links, manual confirm/delete, rejected and confirmed link persistence, correction events, basic graph persistence without Bundle editing. | Install on a phone, review candidate links, confirm one, reject one, restart, and verify both decisions persist. |
 | v0.4 | Bundles | Build Bundles from confirmed links, inspect/merge/split Bundles, manual `SemanticSketch` to Bundle assignment. | Install on a phone, create or adjust a Bundle, split or merge it, restart, and verify membership persists. |
@@ -56,7 +58,8 @@ Required in v0.1:
 - create, list, edit, delete, and status-track `Sketch` records;
 - Inbox screen;
 - Settings screen for local storage, confirmations, data reset, and app information;
-- confirmation for clear, delete, send to Inbox, and full local reset;
+- one-tap explicit Send to Inbox with Undo;
+- confirmation for clear, delete, clear Inbox, full local reset, and other destructive or batch actions;
 - Android APK and iOS/Xcode build path.
 
 Excluded from v0.1:
