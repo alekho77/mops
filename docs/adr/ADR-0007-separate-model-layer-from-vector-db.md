@@ -38,7 +38,7 @@ MOPS architecture must distinguish three responsibilities:
    - Does not own semantic interpretation.
 
 3. MOPS Semantic Engine
-   - Decides what to parse, chunk, embed, store, search, and restore.
+   - Decides what to parse, chunk, embed, store, search, and reconstruct as context.
    - Connects vectors to source references.
    - Builds context from search results.
    - Coordinates model selection and vector store usage.

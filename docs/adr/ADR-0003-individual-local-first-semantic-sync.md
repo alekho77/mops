@@ -24,7 +24,7 @@ MOPS will use an individual local-first architecture:
 - personal cloud storage is used as encrypted transport and backup, not as the master database;
 - sync uses encrypted append-only changelogs, snapshots, and device manifests;
 - live SQLite files, SQLite WAL files, ANN/HNSW/Faiss indexes, and temporary caches are not synchronized as source of truth;
-- Source Resolver is responsible for checking and recovering broken source links;
+- Source Link Checker is responsible for checking source availability and asking for user decisions on broken links;
 - semantic cleanup, deduplication, compaction, and old cluster compression are required parts of the long-term design.
 
 The initial sizing target is approximately:
@@ -66,7 +66,7 @@ Trade-offs and obligations:
 - Conflict handling is still required even for a single-user product, because multiple devices may edit offline.
 - Embedding model metadata and vector compatibility must be stored explicitly.
 - Reindexing must support lazy or batched migration after embedding model changes.
-- Source recovery requires a dedicated resolver using path, hash, partial hash, file metadata, and semantic fingerprinting.
+- Source link checking must not automatically search, infer, relink, or repair missing sources.
 - The system must prevent uncontrolled growth through semantic budget, deduplication, compaction, and cleanup.
 
 Risks:

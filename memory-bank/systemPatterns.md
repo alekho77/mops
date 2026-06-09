@@ -304,7 +304,7 @@ Stored memory units include:
 - source references;
 - model metadata.
 
-Source Resolver remains responsible for restoring access to original files.
+Source Link Checker remains responsible for checking source availability and asking the user for decisions on broken links.
 
 ## Model and vector store separation pattern
 
@@ -502,9 +502,11 @@ Required quality controls:
 - changelog compaction;
 - periodic snapshots.
 
-## Source Resolver recovery pattern
+## Source Link Checker pattern
 
-Source Resolver restores access from semantic records to original files.
+Source Link Checker validates whether semantic/vector records still point to real user-owned files.
+
+It does not automatically resolve, search, infer, or relink sources.
 
 Tracked fields:
 
@@ -522,24 +524,31 @@ Tracked fields:
 Expected states:
 
 - available;
-- moved;
 - modified;
 - missing;
-- device_offline;
 - permission_denied;
-- duplicate_found;
-- needs_manual_resolution.
+- needs_user_decision.
 
-Recovery order:
+Check flow:
 
-1. Check exact path.
-2. Check content hash.
-3. Check partial hash and file size.
-4. Search watched folders.
-5. Match semantic fingerprint by title, key phrases, entities, chunk hashes, and embedding similarity.
-6. Ask user only for unresolved ambiguous cases.
+1. Check whether `path` exists.
+2. If the file exists, verify size and hashes.
+3. If size and hashes match, keep the source link `available`.
+4. If the file exists but hashes do not match, mark the source link `modified` and ask the user to refresh semantic/vector information for that file.
+5. If the file is missing, mark the source link `missing` and ask the user to either delete the related vector record from the vector DB or provide the new file path manually.
+6. If the file cannot be read because of permissions, mark it `permission_denied` and ask the user to fix access or remove the source link.
 
-Broken source links do not invalidate semantic memory.
+Forbidden behavior:
+
+- no automatic filesystem search;
+- no watched-folder scan for moved files;
+- no content-hash based relocation;
+- no partial-hash based relocation;
+- no semantic fingerprint matching;
+- no embedding-similarity based source matching;
+- no silent vector update or deletion.
+
+Broken source links do not get repaired automatically and do not invalidate semantic memory.
 
 ## Repository licensing boundary
 
