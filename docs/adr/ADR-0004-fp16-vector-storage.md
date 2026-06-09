@@ -37,15 +37,15 @@ FP16 stored vectors
 Five-year raw vector estimate:
 
 ```text
-100 chunks/day × 365 × 5 = 182,500 chunks
-182,500 × 384 × 2 bytes = 140,160,000 bytes ≈ 140 MB
+100 chunks/day x 365 x 5 = 182,500 chunks
+182,500 x 384 x 2 bytes = 140,160,000 bytes approx 140 MB
 ```
 
 ## Consequences
 
 Positive:
 
-- Raw vector storage is reduced by 50% compared with FP32.
+- Raw vector storage is reduced by 50 percent compared with FP32.
 - The semantic DB budget is more suitable for local-first mobile and desktop use.
 - FP32 can still be used inside model/runtime computation where needed.
 
